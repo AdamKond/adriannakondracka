@@ -73,8 +73,16 @@
 
     .nav-logo {
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
+      align-items: center;
+      gap: 10px;
       text-decoration: none;
+      line-height: 1;
+    }
+
+    .nav-logo-text {
+      display: flex;
+      flex-direction: column;
       line-height: 1;
     }
 
@@ -82,8 +90,23 @@
       font-family: var(--font-display);
       font-size: clamp(18px, 2vw, 26px);
       letter-spacing: 0.08em;
-      color: var(--dark2);
+      color: #5c4d82;
       line-height: 1;
+    }
+
+    /* animowana ikona matki z dzieckiem */
+    .nav-baby-icon { color: #8a79ab; flex-shrink: 0; }
+    @keyframes babyPulse {
+      0%, 100% { transform: scale(1); opacity: 0.65; }
+      50% { transform: scale(1.22); opacity: 1; }
+    }
+    .nav-baby-inner {
+      animation: babyPulse 2.8s ease-in-out infinite;
+      transform-origin: 50% 50%;
+    }
+    .nav-baby-dot {
+      animation: babyPulse 2.8s ease-in-out infinite 0.55s;
+      transform-origin: 50% 50%;
     }
 
     .nav-logo-sub {
@@ -261,10 +284,38 @@
       font-size: clamp(1.85rem, 4vw, 4.8rem);
       font-weight: 800;
       line-height: 1.07;
-      color: #111111;
+      color: #2a2838;
       letter-spacing: -0.025em;
       max-width: 640px;
     }
+
+    /* trust bar pod nagłówkiem hero */
+    .hero-trust-bar {
+      display: flex; align-items: center; gap: 1.5rem;
+      margin-top: 2.5rem; flex-wrap: wrap;
+    }
+    .hero-trust-item {
+      display: flex; align-items: center; gap: 0.65rem;
+      font-size: 12px; font-weight: 600;
+      color: rgba(61,60,79,0.6); letter-spacing: 0.03em;
+    }
+    .hero-trust-icon {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: rgba(138,121,171,0.1);
+      border: 1px solid rgba(138,121,171,0.22);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; color: var(--blue);
+    }
+    .hero-trust-icon svg { width: 15px; height: 15px; }
+    .hero-trust-sep { width: 1px; height: 22px; background: rgba(138,121,171,0.2); }
+
+    /* grafika dekoracyjna w sekcji doświadczenia */
+    .exp-deco-art {
+      position: absolute; right: -40px; top: 50%;
+      transform: translateY(-50%);
+      width: 280px; pointer-events: none; z-index: 0; opacity: 0.9;
+    }
+    @media (max-width: 1100px) { .exp-deco-art { display: none; } }
 
     .hero-split-photo {
       width: 42%;
@@ -447,7 +498,7 @@
       font-family: var(--font-display);
       font-size: clamp(2rem, 5vw, 3.5rem);
       letter-spacing: 0.14em;
-      color: #111111;
+      color: #2a2838;
     }
     .loader-name-last {
       font-family: var(--font-body);
@@ -1819,8 +1870,16 @@
 <!-- ── NAV ── -->
 <nav id="navbar">
   <a class="nav-logo" href="#home">
-    <span class="nav-logo-main">Kondracka</span>
-    <span class="nav-logo-sub">Adrianna</span>
+    <svg class="nav-baby-icon" width="26" height="34" viewBox="0 0 26 34" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <circle cx="13" cy="6" r="4" stroke="currentColor" stroke-width="1.4"/>
+      <path d="M7.5 12 C5 16.5 5.5 24 8 27.5 C10 30 16 30 18 27.5 C20.5 24 21 16.5 18.5 12 C16.5 10.2 14.5 9.5 13 9.5 C11.5 9.5 9.5 10.2 7.5 12Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+      <circle cx="13" cy="21" r="3.5" stroke="currentColor" stroke-width="1.1" class="nav-baby-inner"/>
+      <circle cx="13" cy="21" r="1.6" fill="currentColor" opacity="0.45" class="nav-baby-dot"/>
+    </svg>
+    <div class="nav-logo-text">
+      <span class="nav-logo-main">Kondracka</span>
+      <span class="nav-logo-sub">Adrianna</span>
+    </div>
   </a>
   <div class="nav-links-wrap">
     <ul class="nav-links" id="navLinks">
@@ -1849,6 +1908,22 @@
     <div class="hero-split-text">
       <p class="hero-split-label">Ginekolog · Perinatolog · Genetyk Kliniczny</p>
       <h1 class="hero-split-headline">Prowadzę ciążę, diagnozuję wady płodu i specjalizuję się w perinatologii oraz genetyce klinicznej.</h1>
+      <div class="hero-trust-bar">
+        <div class="hero-trust-item">
+          <div class="hero-trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="2,12 6,8 10,15 14,5 18,10 22,12"/></svg></div>
+          <span>20+ lat&nbsp;doświadczenia</span>
+        </div>
+        <div class="hero-trust-sep"></div>
+        <div class="hero-trust-item">
+          <div class="hero-trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="3"/><path d="M12 11 Q8 13 7 18 Q12 20 17 18 Q16 13 12 11Z"/></svg></div>
+          <span>Certyfikat&nbsp;FMF</span>
+        </div>
+        <div class="hero-trust-sep"></div>
+        <div class="hero-trust-item">
+          <div class="hero-trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="3" width="16" height="18" rx="2"/><line x1="8" y1="9" x2="16" y2="9"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="12" y2="17"/></svg></div>
+          <span>100+&nbsp;publikacji</span>
+        </div>
+      </div>
     </div>
     <div class="hero-split-photo">
       <img src="brand_assets/Dr Kondracka (14 z 19).jpg" alt="dr hab. Adrianna Kondracka" />
@@ -1875,7 +1950,7 @@
 <!-- ══════════════════════════════════
      02 DOŚWIADCZENIE
 ══════════════════════════════════ -->
-<div id="experience" class="exp-white-section">
+<div id="experience" class="exp-white-section" style="position:relative;overflow:hidden">
   <div class="section-inner">
     <p class="section-eyebrow reveal">02</p>
     <h2 class="section-heading reveal">Doświadczenie</h2>
@@ -1916,6 +1991,66 @@
         <div class="exp-bento-desc">Szkolenie lekarzy z zakresu perinatologii, ultrasonografii i diagnostyki prenatalnej na kursach krajowych i konferencjach międzynarodowych.</div>
       </div>
 
+    </div>
+  </div>
+  <div class="exp-deco-art" aria-hidden="true">
+    <svg viewBox="0 0 220 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="110" cy="110" r="104" stroke="#8a79ab" stroke-width="0.8" opacity="0.1"/>
+      <circle cx="110" cy="110" r="82" stroke="#8a79ab" stroke-width="1.2" opacity="0.14"/>
+      <circle cx="110" cy="110" r="60" stroke="#e6a5b8" stroke-width="1.5" opacity="0.18"/>
+      <circle cx="110" cy="68" r="14" fill="#8a79ab" opacity="0.14"/>
+      <path d="M90 84 C82 98 84 118 88 128 C98 138 122 138 132 128 C136 118 138 98 130 84 C124 78 116 75 110 75 C104 75 96 78 90 84Z" fill="#8a79ab" opacity="0.11"/>
+      <circle cx="110" cy="113" r="13" fill="#e6a5b8" opacity="0.2"/>
+      <circle cx="110" cy="113" r="6" fill="#e6a5b8" opacity="0.28"/>
+      <circle cx="32" cy="46" r="4" fill="#8a79ab" opacity="0.12"/>
+      <circle cx="188" cy="46" r="4" fill="#e6a5b8" opacity="0.12"/>
+      <circle cx="32" cy="174" r="3" fill="#e6a5b8" opacity="0.1"/>
+      <circle cx="188" cy="174" r="3" fill="#8a79ab" opacity="0.1"/>
+      <circle cx="58" cy="168" r="7" stroke="#8a79ab" stroke-width="1" opacity="0.1"/>
+      <circle cx="162" cy="52" r="7" stroke="#e6a5b8" stroke-width="1" opacity="0.1"/>
+    </svg>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     OPINIE PACJENTEK — po doświadczeniu
+══════════════════════════════════ -->
+<div class="testimonials-section">
+  <div class="section-inner">
+    <div class="testimonials-header reveal">
+      <span class="testimonials-badge">Opinie pacjentek</span>
+      <h2 class="section-heading" style="margin-bottom:0.5rem">Co mówią pacjentki</h2>
+      <p style="font-size:15px;color:var(--muted);line-height:1.7">Prawdziwe opinie ze ZnanyLekarz.pl — doświadczenia kobiet, które powierzyły nam swoją opiekę.</p>
+    </div>
+    <div class="testimonials-columns reveal">
+      <div class="testimonials-col">
+        <div class="t-scroll t-scroll-1">
+          <div class="t-card"><div class="t-stars"><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span></div><p class="t-text">„Wspaniała Pani Doktor. Słucha, dokładnie tłumaczy oraz jest bardzo zaangażowana. Czuję się w jej rękach bezpiecznie."</p><div class="t-author"><div class="t-avatar">J</div><div><div class="t-name">J.</div><div class="t-role">ZnanyLekarz.pl · luty 2026</div></div></div></div>
+          <div class="t-card"><div class="t-stars"><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span></div><p class="t-text">„Nie ma skali oceny, którą mogłabym przydzielić Pani Profesor za jej zaangażowanie. To lekarz z prawdziwego powołania."</p><div class="t-author"><div class="t-avatar">A</div><div><div class="t-name">A.S.</div><div class="t-role">ZnanyLekarz.pl · listopad 2024</div></div></div></div>
+          <div class="t-card"><div class="t-stars"><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span></div><p class="t-text">„Niesamowita Pani doktor, wspaniałe podejście i ogromna wiedza. Polecam każdej kobiecie szukającej rzetelnej opieki."</p><div class="t-author"><div class="t-avatar">K</div><div><div class="t-name">K.W.</div><div class="t-role">ZnanyLekarz.pl · marzec 2023</div></div></div></div>
+          <div class="t-card"><div class="t-stars"><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span></div><p class="t-text">„Wspaniała Pani Doktor. Słucha, dokładnie tłumaczy oraz jest bardzo zaangażowana. Czuję się w jej rękach bezpiecznie."</p><div class="t-author"><div class="t-avatar">J</div><div><div class="t-name">J.</div><div class="t-role">ZnanyLekarz.pl · luty 2026</div></div></div></div>
+          <div class="t-card"><div class="t-stars"><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span></div><p class="t-text">„Nie ma skali oceny, którą mogłabym przydzielić Pani Profesor za jej zaangażowanie. To lekarz z prawdziwego powołania."</p><div class="t-author"><div class="t-avatar">A</div><div><div class="t-name">A.S.</div><div class="t-role">ZnanyLekarz.pl · listopad 2024</div></div></div></div>
+          <div class="t-card"><div class="t-stars"><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span></div><p class="t-text">„Niesamowita Pani doktor, wspaniałe podejście i ogromna wiedza. Polecam każdej kobiecie szukającej rzetelnej opieki."</p><div class="t-author"><div class="t-avatar">K</div><div><div class="t-name">K.W.</div><div class="t-role">ZnanyLekarz.pl · marzec 2023</div></div></div></div>
+        </div>
+      </div>
+      <div class="testimonials-col" style="display:none" id="tCol2">
+        <div class="t-scroll t-scroll-2">
+          <div class="t-card"><div class="t-stars"><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span></div><p class="t-text">„Każdą wizytę traktuje z pełnym zaangażowaniem, a pacjentkę indywidualnie. Rzadkość wśród specjalistów."</p><div class="t-author"><div class="t-avatar">A</div><div><div class="t-name">A.L.</div><div class="t-role">ZnanyLekarz.pl · październik 2025</div></div></div></div>
+          <div class="t-card"><div class="t-stars"><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span></div><p class="t-text">„Pani Doktor jest bardzo miła, zaangażowana w swoją pracę i profesjonalna. Zawsze czuję, że moje pytania są ważne."</p><div class="t-author"><div class="t-avatar">E</div><div><div class="t-name">E.</div><div class="t-role">ZnanyLekarz.pl · listopad 2024</div></div></div></div>
+          <div class="t-card"><div class="t-stars"><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span></div><p class="t-text">„Ogrom wiedzy, profesjonalizm i empatia. Polecam każdej kobiecie — szczególnie w ciąży wymagającej specjalistycznej opieki."</p><div class="t-author"><div class="t-avatar">E</div><div><div class="t-name">E.K.</div><div class="t-role">ZnanyLekarz.pl · czerwiec 2024</div></div></div></div>
+          <div class="t-card"><div class="t-stars"><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span></div><p class="t-text">„Każdą wizytę traktuje z pełnym zaangażowaniem, a pacjentkę indywidualnie. Rzadkość wśród specjalistów."</p><div class="t-author"><div class="t-avatar">A</div><div><div class="t-name">A.L.</div><div class="t-role">ZnanyLekarz.pl · październik 2025</div></div></div></div>
+          <div class="t-card"><div class="t-stars"><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span></div><p class="t-text">„Pani Doktor jest bardzo miła, zaangażowana w swoją pracę i profesjonalna. Zawsze czuję, że moje pytania są ważne."</p><div class="t-author"><div class="t-avatar">E</div><div><div class="t-name">E.</div><div class="t-role">ZnanyLekarz.pl · listopad 2024</div></div></div></div>
+          <div class="t-card"><div class="t-stars"><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span></div><p class="t-text">„Ogrom wiedzy, profesjonalizm i empatia. Polecam każdej kobiecie — szczególnie w ciąży wymagającej specjalistycznej opieki."</p><div class="t-author"><div class="t-avatar">E</div><div><div class="t-name">E.K.</div><div class="t-role">ZnanyLekarz.pl · czerwiec 2024</div></div></div></div>
+        </div>
+      </div>
+      <div class="testimonials-col" style="display:none" id="tCol3">
+        <div class="t-scroll t-scroll-3">
+          <div class="t-card"><div class="t-stars"><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span></div><p class="t-text">„Wszystkie niedopowiedzenia innych specjalistów zostawały rozwiane podczas wizyt. Czuję się zaopiekowana na każdym etapie ciąży."</p><div class="t-author"><div class="t-avatar">N</div><div><div class="t-name">N.K.</div><div class="t-role">ZnanyLekarz.pl · październik 2025</div></div></div></div>
+          <div class="t-card"><div class="t-stars"><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span></div><p class="t-text">„Empatia, zaangażowanie, niesamowity talent — wizyta u Pani Doktor Kondracka to nie tylko badanie, to rozmowa z ekspertem, który naprawdę rozumie."</p><div class="t-author"><div class="t-avatar">K</div><div><div class="t-name">K.Z.</div><div class="t-role">ZnanyLekarz.pl · lipiec 2024</div></div></div></div>
+          <div class="t-card"><div class="t-stars"><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span></div><p class="t-text">„Wszystkie niedopowiedzenia innych specjalistów zostawały rozwiane podczas wizyt. Czuję się zaopiekowana na każdym etapie ciąży."</p><div class="t-author"><div class="t-avatar">N</div><div><div class="t-name">N.K.</div><div class="t-role">ZnanyLekarz.pl · październik 2025</div></div></div></div>
+          <div class="t-card"><div class="t-stars"><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span></div><p class="t-text">„Empatia, zaangażowanie, niesamowity talent — wizyta u Pani Doktor Kondracka to nie tylko badanie, to rozmowa z ekspertem, który naprawdę rozumie."</p><div class="t-author"><div class="t-avatar">K</div><div><div class="t-name">K.Z.</div><div class="t-role">ZnanyLekarz.pl · lipiec 2024</div></div></div></div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -2267,10 +2402,8 @@
   </div>
 </div>
 
-<!-- ══════════════════════════════════
-     TESTIMONIALS
-══════════════════════════════════ -->
-<div class="testimonials-section">
+<!-- TESTIMONIALS przeniesione pod doświadczenie — stare miejsce puste -->
+<div class="testimonials-section" style="display:none">
   <div class="section-inner">
 
     <div class="testimonials-header reveal">
