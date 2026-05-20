@@ -209,10 +209,81 @@
       position: relative;
       height: 100svh;
       min-height: 600px;
-      background: #8e8e8e;
+      background: linear-gradient(155deg, #d8e6ee 0%, #eaf1f6 48%, #dde8f0 100%);
       overflow: hidden;
       display: flex;
       flex-direction: column;
+    }
+
+    /* ── HERO SPLIT LAYOUT ── */
+    .hero-name-tag {
+      position: absolute;
+      top: calc(var(--nav-h) + clamp(14px, 2.5vh, 28px));
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      color: rgba(26,26,26,0.48);
+      white-space: nowrap;
+      z-index: 3;
+      font-weight: 500;
+      animation: heroCTAIn 0.7s var(--ease) both;
+      animation-delay: 0.2s;
+    }
+
+    .hero-split {
+      display: flex;
+      align-items: center;
+      flex: 1;
+      padding-top: var(--nav-h);
+      min-height: 0;
+    }
+
+    .hero-split-text {
+      flex: 1;
+      padding: clamp(24px, 4vw, 56px) clamp(28px, 6.5vw, 96px);
+      z-index: 2;
+      animation: heroCTAIn 0.9s var(--ease) both;
+      animation-delay: 0.35s;
+    }
+
+    .hero-split-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(26,26,26,0.42);
+      margin-bottom: 1.75rem;
+    }
+
+    .hero-split-headline {
+      font-family: var(--font-tight);
+      font-size: clamp(1.85rem, 4vw, 4.8rem);
+      font-weight: 800;
+      line-height: 1.07;
+      color: #111111;
+      letter-spacing: -0.025em;
+      max-width: 640px;
+    }
+
+    .hero-split-photo {
+      width: 42%;
+      height: calc(100svh - var(--nav-h));
+      flex-shrink: 0;
+      overflow: hidden;
+      align-self: flex-end;
+      animation: heroPhotoIn 1.2s var(--ease) both;
+      animation-delay: 0.1s;
+    }
+
+    .hero-split-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+      filter: grayscale(18%) contrast(1.04);
+      will-change: transform;
     }
 
     /* fixed vertical title — appears after hero */
@@ -316,7 +387,7 @@
       font-family: var(--font-display);
       font-size: clamp(3.5rem, 8.5vw, 8rem);
       line-height: 1;
-      color: #ffffff;
+      color: rgba(26,26,26,0.1);
       white-space: nowrap;
       padding-right: 0.35em;
       letter-spacing: 0.015em;
@@ -1471,22 +1542,10 @@
       /* contact: stack */
       .contact-layout { grid-template-columns: 1fr; gap: 2rem; }
 
-      /* hero overlay on tablet — white text for readability on photo */
-      .hero-overlay-tr { max-width: 260px; }
-      .hero-tagline { font-size: clamp(1.2rem,2.5vw,1.8rem); color: #ffffff; text-shadow: 0 2px 18px rgba(0,0,0,0.7), 0 1px 8px rgba(0,0,0,0.55); }
-      .hero-role-label { text-shadow: 0 1px 8px rgba(0,0,0,0.5); }
-
-      /* dark gradient at hero bottom for text/marquee legibility */
-      #home::after {
-        content: '';
-        position: absolute;
-        bottom: 0; left: 0; right: 0;
-        height: 62%;
-        background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.22) 52%, transparent 100%);
-        z-index: 1;
-        pointer-events: none;
-      }
-      /* marquee higher on tablet */
+      /* hero split — tablet */
+      .hero-split-photo { width: 40%; }
+      .hero-split-headline { font-size: clamp(1.6rem, 3.5vw, 3.5rem); }
+      .hero-split-text { padding: clamp(20px,3vw,40px) clamp(20px,4vw,56px); }
       .hero-marquee-wrap { padding-bottom: clamp(44px,6vw,64px); }
 
       /* consult intro: 1 col */
@@ -1513,25 +1572,15 @@
       .nav-links a .num { display: none; }
       .nav-toggle { display: flex; }
 
-      /* ── HERO ── */
+      /* ── HERO (split — stacked on mobile) ── */
       #home { height: 100svh; min-height: 520px; }
-      /* zdjęcie leciutko w prawo — twarz na środku */
-      .hero-photo-bg img { object-position: 76% 42%; }
-
-      /* tylko etykieta roli widoczna na mobile — bez tagline */
-      .hero-overlay-tr {
-        display: block;
-        top: auto; bottom: 98px;
-        right: 0; left: 0;
-        transform: none;
-        text-align: center;
-        max-width: 100%;
-        padding: 0 20px;
-        animation: heroCTAIn 0.7s var(--ease) both;
-        animation-delay: 0.7s;
-      }
-      .hero-tagline { display: none; }
-      .hero-arrow { display: none; }
+      .hero-split { flex-direction: column; padding-top: 60px; align-items: stretch; }
+      .hero-split-photo { width: 100%; height: 52svh; align-self: auto; order: -1; }
+      .hero-split-photo img { object-position: 76% top; }
+      .hero-split-text { padding: 1.4rem 18px 0; flex: none; }
+      .hero-split-label { margin-bottom: 0.75rem; font-size: 10px; }
+      .hero-split-headline { font-size: clamp(1.2rem,4.8vw,1.75rem); letter-spacing: -0.015em; max-width: 100%; }
+      .hero-name-tag { display: none; }
 
       /* marquee wyżej na mobile */
       .hero-marquee-text { font-size: clamp(2.2rem,8vw,4rem); }
@@ -1778,20 +1827,22 @@
 </nav>
 
 <!-- ══════════════════════════════════
-     01 HERO
+     01 HERO — split layout
 ══════════════════════════════════ -->
 <section id="home">
 
-  <!-- full-height photo -->
-  <div class="hero-photo-bg">
-    <img src="brand_assets/Dr Kondracka (5 z 19).jpg" alt="dr hab. Adrianna Kondracka" />
-  </div>
+  <!-- imię małe u góry środek -->
+  <div class="hero-name-tag">dr hab. n. med. Adrianna Kondracka</div>
 
-  <!-- top-right text overlay -->
-  <div class="hero-overlay-tr">
-    <span class="hero-arrow">↘</span>
-    <div class="hero-role-label">Ginekolog · Perinatolog · Genetyk Kliniczny</div>
-    <div class="hero-tagline">Specjalistyczna<br>Opieka<br>Perinatologiczna</div>
+  <!-- split: tekst lewo, zdjęcie prawo -->
+  <div class="hero-split">
+    <div class="hero-split-text">
+      <p class="hero-split-label">Ginekolog · Perinatolog · Genetyk Kliniczny</p>
+      <h1 class="hero-split-headline">Prowadzę ciążę, diagnozuję wady płodu i specjalizuję się w perinatologii oraz genetyce klinicznej.</h1>
+    </div>
+    <div class="hero-split-photo">
+      <img src="brand_assets/Dr Kondracka (14 z 19).jpg" alt="dr hab. Adrianna Kondracka" />
+    </div>
   </div>
 
   <!-- scrolling name marquee -->
