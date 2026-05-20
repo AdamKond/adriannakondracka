@@ -46,6 +46,7 @@
       font-size: 16px;
       line-height: 1.6;
       overflow-x: hidden;
+      overscroll-behavior-y: contain;
     }
 
     ::-webkit-scrollbar { width: 5px; }
@@ -1510,8 +1511,8 @@
 
       /* ── HERO ── */
       #home { height: 100svh; min-height: 520px; }
-      /* przesunięcie zdjęcia — pokazuje twarz osoby */
-      .hero-photo-bg img { object-position: center 42%; }
+      /* zdjęcie totalnie w prawo — pokazuje twarz osoby */
+      .hero-photo-bg img { object-position: right 42%; }
 
       /* tylko etykieta roli widoczna na mobile — bez tagline */
       .hero-overlay-tr {
@@ -1624,12 +1625,41 @@
       .loader-name-first { font-size: clamp(1.8rem,9vw,2.8rem); }
       .gooey-wrap { font-size: 0.8em; }
 
-      /* ── ANIMATIONS: simpler on mobile ── */
-      .reveal { transform: translateY(14px); }
+      /* ── ANIMATIONS: dramatic reveal for "wow" on mobile ── */
+      .reveal {
+        transform: translateY(44px) scale(0.95);
+        transition: opacity 0.65s cubic-bezier(0.16,1,0.3,1),
+                    transform 0.65s cubic-bezier(0.16,1,0.3,1);
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+      }
+      .reveal.visible { transform: none; }
+
+      .section-heading.reveal { transform: translateY(30px); }
+      .section-eyebrow.reveal { transform: translateY(18px); }
+
       .exp-bento-card.reveal,
       .cert-card.reveal,
       .pub-card.reveal,
-      .spec-panel.reveal { transform: translateY(12px) scale(0.99); }
+      .spec-panel.reveal { transform: translateY(38px) scale(0.96); }
+
+      /* touch feedback — "pressed" feel on tap */
+      .exp-bento-card:active,
+      .cert-card:active,
+      .pub-card:active,
+      .spec-panel:active,
+      .carousel-slide:active,
+      .t-card:active {
+        transform: scale(0.975) !important;
+        transition: transform 0.1s ease !important;
+      }
+
+      .btn-blue:active,
+      .btn-resume:active,
+      #float-cta:active {
+        transform: scale(0.95) !important;
+        transition: transform 0.1s ease !important;
+      }
     }
 
     /* ══════════════════════════════════
