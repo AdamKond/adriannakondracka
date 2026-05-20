@@ -13,21 +13,21 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --blue:     #455CE9;
-      --blue-dim: rgba(69,92,233,0.10);
-      --blue-dim2:rgba(69,92,233,0.18);
-      --dark:     #0a0a0c;
-      --dark2:    #1a1a1a;
-      --body-bg:  #f9f9f9;
+      --blue:     #8a79ab;
+      --blue-dim: rgba(138,121,171,0.10);
+      --blue-dim2:rgba(138,121,171,0.18);
+      --dark:     #2a2838;
+      --dark2:    #3d3c4f;
+      --body-bg:  #ffffff;
       --white:    #ffffff;
-      --text:     #1a1a1a;
-      --muted:    #666666;
-      --muted2:   #999999;
-      --border:   #e8e8e8;
-      --border2:  #ebebeb;
-      --card-bg:  #fcfcfc;
-      --card-shadow: 0 4px 24px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04);
-      --card-shadow-hover: 0 8px 40px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.06);
+      --text:     #3d3c4f;
+      --muted:    #6b6880;
+      --muted2:   #a09aad;
+      --border:   #cec9d9;
+      --border2:  #dcd9e3;
+      --card-bg:  #ffffff;
+      --card-shadow: 0 4px 24px rgba(138,121,171,0.09), 0 1px 4px rgba(138,121,171,0.06);
+      --card-shadow-hover: 0 8px 40px rgba(138,121,171,0.16), 0 2px 8px rgba(138,121,171,0.10);
       --radius:   16px;
       --font-display: 'Bebas Neue', sans-serif;
       --font-serif:   'Playfair Display', Georgia, serif;
@@ -65,10 +65,10 @@
       align-items: center;
       justify-content: space-between;
       padding: 0 clamp(20px, 4vw, 56px);
-      background: rgba(249,249,249,0.82);
+      background: rgba(255,255,255,0.88);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(0,0,0,0.07);
+      border-bottom: 1px solid rgba(138,121,171,0.12);
     }
 
     .nav-logo {
@@ -209,7 +209,7 @@
       position: relative;
       height: 100svh;
       min-height: 600px;
-      background: linear-gradient(155deg, #d8e6ee 0%, #eaf1f6 48%, #dde8f0 100%);
+      background: linear-gradient(155deg, #f1eff6 0%, #ffffff 52%, #faf5f7 100%);
       overflow: hidden;
       display: flex;
       flex-direction: column;
@@ -490,7 +490,7 @@
       background: var(--blue);
       z-index: 200; width: 0%;
       transition: width 0.08s linear;
-      box-shadow: 0 0 8px rgba(69,92,233,0.6);
+      box-shadow: 0 0 8px rgba(138,121,171,0.5);
     }
 
     /* ══════════════════════════════════
@@ -942,7 +942,7 @@
     }
 
     .spec-accent-blue  { background: var(--blue); }
-    .spec-accent-dark  { background: #1a1a1a; }
+    .spec-accent-dark  { background: var(--dark2); }
 
     /* watermark number */
     .spec-accent::before {
@@ -1322,7 +1322,7 @@
     }
 
     .t-star {
-      color: #f59e0b;
+      color: #e6a5b8;
       font-size: 13px;
     }
 
@@ -2200,10 +2200,10 @@
     <div class="cert-grid">
 
       <div class="cert-card reveal">
-        <div class="cert-top-bar" style="background:#455CE9"></div>
+        <div class="cert-top-bar" style="background:#8a79ab"></div>
         <div class="cert-body" data-abbr="FMF">
           <div class="cert-name">Certyfikat FMF — Fetal Medicine Foundation</div>
-          <div class="cert-issuer" style="color:#455CE9">Fetal Medicine Foundation · Londyn</div>
+          <div class="cert-issuer" style="color:#8a79ab">Fetal Medicine Foundation · Londyn</div>
           <div class="cert-desc">Uprawnienie do wykonywania badań prenatalnych wg standardów FMF: przesiew I trymestru, ocena ryzyka preeklampsji i porodu przedwczesnego. Jeden z najbardziej prestiżowych certyfikatów w perinatologii.</div>
         </div>
       </div>
