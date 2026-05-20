@@ -1510,41 +1510,38 @@
 
       /* ── HERO ── */
       #home { height: 100svh; min-height: 520px; }
-      .hero-photo-bg img { object-position: center 18%; }
+      /* przesunięcie zdjęcia — pokazuje twarz osoby */
+      .hero-photo-bg img { object-position: center 42%; }
 
-      /* show overlay text on mobile, repositioned to center-bottom */
+      /* tylko etykieta roli widoczna na mobile — bez tagline */
       .hero-overlay-tr {
         display: block;
-        top: auto; bottom: 115px;
+        top: auto; bottom: 98px;
         right: 0; left: 0;
         transform: none;
         text-align: center;
         max-width: 100%;
-        padding: 0 24px;
+        padding: 0 20px;
         animation: heroCTAIn 0.7s var(--ease) both;
         animation-delay: 0.7s;
       }
-      .hero-tagline {
-        font-size: clamp(1.5rem,5.5vw,2.1rem);
-        color: #ffffff;
-        text-shadow: 0 2px 20px rgba(0,0,0,0.82), 0 1px 8px rgba(0,0,0,0.7);
-      }
+      .hero-tagline { display: none; }
       .hero-arrow { display: none; }
 
-      /* marquee higher on mobile */
+      /* marquee wyżej na mobile */
       .hero-marquee-text { font-size: clamp(2.2rem,8vw,4rem); }
       .hero-marquee-wrap { padding-bottom: clamp(54px,10vw,74px); }
       .hero-cta-br { bottom: 14px; right: 14px; }
       .btn-resume { font-size: 10px; padding: 0.55rem 1rem; letter-spacing: 0.1em; }
 
-      /* ── SECTIONS — padding ── */
+      /* ── SECTIONS — więcej oddechu ── */
       .light-section,
       .exp-white-section,
       .skills-dark-section,
       .testimonials-section {
-        padding: clamp(44px,9vw,64px) 16px;
+        padding: clamp(56px,11vw,76px) 18px;
       }
-      #contact { padding: clamp(44px,9vw,64px) 16px; }
+      #contact { padding: clamp(56px,11vw,76px) 18px; }
       .section-heading { font-size: clamp(1.6rem,6vw,2.2rem); }
       .section-sub { font-size: 14px; margin-bottom: 2rem; }
 
