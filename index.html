@@ -100,8 +100,8 @@
     .nav-links-wrap {
       display: flex;
       align-items: center;
-      background: rgba(229,231,233,0.75);
-      border: 1px solid rgba(0,0,0,0.07);
+      background: rgba(138,121,171,0.07);
+      border: 1px solid rgba(138,121,171,0.14);
       border-radius: 999px;
       padding: 4px 5px;
     }
@@ -209,7 +209,7 @@
       position: relative;
       height: 100svh;
       min-height: 600px;
-      background: linear-gradient(155deg, #f1eff6 0%, #ffffff 52%, #faf5f7 100%);
+      background: linear-gradient(155deg, #f5eef8 0%, #ffffff 50%, #fef2f6 100%);
       overflow: hidden;
       display: flex;
       flex-direction: column;
@@ -375,6 +375,7 @@
       overflow: hidden;
       pointer-events: none;
       padding-bottom: clamp(14px, 2vw, 26px);
+      display: none; /* tymczasowo ukryty */
     }
 
     .hero-marquee-track {
@@ -475,7 +476,7 @@
     .gooey-wrap::after {
       content: ''; position: absolute; border-radius: 50%;
       width: 16em; height: 12em;
-      background: #7b8ef0;
+      background: #e6a5b8;
       left: -4em; bottom: -12em;
       animation: gooeyWee2 2s linear infinite 0.75s;
     }
@@ -601,7 +602,7 @@
     }
 
     .light-section.alt {
-      background: var(--body-bg);
+      background: #faf8fc;
     }
 
     .section-inner {
@@ -1426,10 +1427,10 @@
     }
 
     .contact-cta-card {
-      background: var(--dark2);
+      background: linear-gradient(135deg, #8a79ab 0%, #b09ac8 100%);
       border-radius: var(--radius);
       padding: 2.5rem;
-      box-shadow: var(--card-shadow);
+      box-shadow: 0 8px 32px rgba(138,121,171,0.28);
     }
 
     .contact-cta-card h3 {
@@ -1443,9 +1444,18 @@
 
     .contact-cta-card p {
       font-size: 14px;
-      color: rgba(255,255,255,0.55);
+      color: rgba(255,255,255,0.75);
       line-height: 1.75;
       margin-bottom: 1.75rem;
+    }
+
+    .contact-cta-card .btn-blue {
+      background: #ffffff;
+      color: var(--blue);
+    }
+    .contact-cta-card .btn-blue:hover {
+      background: rgba(255,255,255,0.92);
+      opacity: 1;
     }
 
     .btn-blue {
@@ -1471,8 +1481,8 @@
        FOOTER
     ══════════════════════════════════ */
     footer {
-      background: var(--dark2);
-      color: rgba(255,255,255,0.4);
+      background: #2e2b3e;
+      color: rgba(255,255,255,0.45);
       padding: 2rem clamp(20px,5vw,60px);
       padding-right: clamp(60px, 8vw, 100px); /* room for fixed float CTA */
       display: flex;
