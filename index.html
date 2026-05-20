@@ -245,13 +245,13 @@
     }
 
     .hero-photo-bg img {
+      width: 100%;
       height: 100%;
-      width: auto;
-      max-width: 100%;
       object-fit: cover;
-      object-position: top center;
+      object-position: center 18%;
       display: block;
       user-select: none;
+      will-change: transform;
     }
 
     /* top-right text block */
@@ -1217,6 +1217,7 @@
       flex-direction: column;
       gap: 1.25rem;
       animation: tScrollUp linear infinite;
+      will-change: transform;
     }
 
     .t-scroll-1 { animation-duration: 28s; }
@@ -1466,9 +1467,23 @@
       /* contact: stack */
       .contact-layout { grid-template-columns: 1fr; gap: 2rem; }
 
-      /* hero overlay hidden on smaller screens */
-      .hero-overlay-tr { max-width: 220px; }
-      .hero-tagline { font-size: clamp(1.2rem,2.5vw,1.8rem); }
+      /* hero overlay on tablet — white text for readability on photo */
+      .hero-overlay-tr { max-width: 260px; }
+      .hero-tagline { font-size: clamp(1.2rem,2.5vw,1.8rem); color: #ffffff; text-shadow: 0 2px 18px rgba(0,0,0,0.7), 0 1px 8px rgba(0,0,0,0.55); }
+      .hero-role-label { text-shadow: 0 1px 8px rgba(0,0,0,0.5); }
+
+      /* dark gradient at hero bottom for text/marquee legibility */
+      #home::after {
+        content: '';
+        position: absolute;
+        bottom: 0; left: 0; right: 0;
+        height: 62%;
+        background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.22) 52%, transparent 100%);
+        z-index: 1;
+        pointer-events: none;
+      }
+      /* marquee higher on tablet */
+      .hero-marquee-wrap { padding-bottom: clamp(44px,6vw,64px); }
 
       /* consult intro: 1 col */
       .consult-intro { grid-template-columns: 1fr; gap: 2rem; }
@@ -1495,9 +1510,30 @@
 
       /* ── HERO ── */
       #home { height: 100svh; min-height: 520px; }
-      .hero-photo-bg img { object-position: center top; }
-      .hero-overlay-tr { display: none; }
+      .hero-photo-bg img { object-position: center 18%; }
+
+      /* show overlay text on mobile, repositioned to center-bottom */
+      .hero-overlay-tr {
+        display: block;
+        top: auto; bottom: 115px;
+        right: 0; left: 0;
+        transform: none;
+        text-align: center;
+        max-width: 100%;
+        padding: 0 24px;
+        animation: heroCTAIn 0.7s var(--ease) both;
+        animation-delay: 0.7s;
+      }
+      .hero-tagline {
+        font-size: clamp(1.5rem,5.5vw,2.1rem);
+        color: #ffffff;
+        text-shadow: 0 2px 20px rgba(0,0,0,0.82), 0 1px 8px rgba(0,0,0,0.7);
+      }
+      .hero-arrow { display: none; }
+
+      /* marquee higher on mobile */
       .hero-marquee-text { font-size: clamp(2.2rem,8vw,4rem); }
+      .hero-marquee-wrap { padding-bottom: clamp(54px,10vw,74px); }
       .hero-cta-br { bottom: 14px; right: 14px; }
       .btn-resume { font-size: 10px; padding: 0.55rem 1rem; letter-spacing: 0.1em; }
 
@@ -1561,6 +1597,27 @@
         flex-direction: column; gap: 0.35rem;
         text-align: center; padding: 1.5rem 16px;
       }
+
+      /* ── MORE TEXT SPACING ON MOBILE ── */
+      .section-eyebrow { margin-bottom: 1.1rem; }
+      .section-heading { margin-bottom: 1.1rem; line-height: 1.18; }
+      .section-sub { margin-bottom: 2.75rem; line-height: 1.88; }
+      .exp-bento-card { gap: 0.9rem; }
+      .exp-bento-desc { line-height: 1.88; margin-top: 0.4rem; }
+      .spec-content { gap: 2rem; padding: 1.75rem 1.5rem; }
+      .spec-content-desc { line-height: 1.92; }
+      .pub-title { margin-bottom: 0.55rem; line-height: 1.5; }
+      .pub-meta { line-height: 1.75; margin-top: 0.2rem; }
+      .cert-desc { line-height: 1.88; }
+      .t-text { margin-bottom: 1.45rem; line-height: 1.85; }
+      .consult-intro-body { line-height: 2; margin-top: 0.75rem; }
+      .consult-intro-title { margin-bottom: 1.2rem; line-height: 1.3; }
+      .consult-intro-text { line-height: 1.65; }
+      .carousel-slide-body { padding: 1.5rem 1.5rem 1.75rem; }
+      .carousel-slide-desc { line-height: 1.9; }
+      .carousel-slide-title { margin-bottom: 0.75rem; }
+      .contact-items { gap: 1.6rem; }
+      .contact-val { font-size: 15px; line-height: 1.7; margin-top: 2px; }
 
       /* ── FIXED ELEMENTS ── */
       #float-cta { right: 12px; bottom: 20px; }
@@ -2346,13 +2403,6 @@
   const NAV_IDS = ['home','experience','consultations','skills','publications','certificates','contact'];
   const sections = NAV_IDS.map(id => document.getElementById(id)).filter(Boolean);
   const links = document.querySelectorAll('.nav-links a');
-  function updateActiveNav() {
-    let cur = 'home';
-    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 90) cur = s.id; });
-    links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + cur));
-  }
-  window.addEventListener('scroll', updateActiveNav, { passive: true });
-  updateActiveNav();
 
   /* ── Animated stat counters ── */
   (function () {
@@ -2432,35 +2482,45 @@
   window.addEventListener('load', () => setTimeout(() => loader?.classList.add('loaded'), 2800));
   setTimeout(() => loader?.classList.add('loaded'), 4500); // fallback
 
-  /* ── Scroll progress bar ── */
+  /* ── Consolidated scroll handler (RAF-throttled for smooth performance) ── */
   const progressBar = document.getElementById('scroll-progress');
-  window.addEventListener('scroll', () => {
-    const pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100;
-    if (progressBar) progressBar.style.width = pct + '%';
-  }, { passive: true });
-
-  /* ── Floating CTA + vertical name (appear after hero) ── */
   const floatCTA    = document.getElementById('float-cta');
   const nameVert    = document.getElementById('pageNameVert');
   const heroEl      = document.getElementById('home');
-  function toggleAfterHero() {
-    const threshold = (heroEl?.offsetHeight || window.innerHeight) * 0.75;
-    const past = window.scrollY > threshold;
-    floatCTA?.classList.toggle('visible', past);
-    nameVert?.classList.toggle('visible', past);
-  }
-  window.addEventListener('scroll', toggleAfterHero, { passive: true });
-  toggleAfterHero();
+  const heroImg     = document.querySelector('.hero-photo-bg img');
+  const isMobile    = () => window.innerWidth <= 768;
 
-  /* ── Hero parallax ── */
-  const heroImg = document.querySelector('.hero-photo-bg img');
-  if (heroImg) {
-    window.addEventListener('scroll', () => {
-      if (window.scrollY < window.innerHeight) {
-        heroImg.style.transform = `translateY(${window.scrollY * 0.2}px) scale(1.04)`;
+  let _rafPending = false;
+  function onScroll() {
+    if (_rafPending) return;
+    _rafPending = true;
+    requestAnimationFrame(() => {
+      _rafPending = false;
+      const sy = window.scrollY;
+      const totalH = document.documentElement.scrollHeight - window.innerHeight;
+
+      /* progress bar */
+      if (progressBar) progressBar.style.width = (sy / totalH * 100) + '%';
+
+      /* active nav */
+      let cur = 'home';
+      sections.forEach(s => { if (sy >= s.offsetTop - 90) cur = s.id; });
+      links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + cur));
+
+      /* float CTA + vertical name */
+      const threshold = (heroEl?.offsetHeight || window.innerHeight) * 0.75;
+      const past = sy > threshold;
+      floatCTA?.classList.toggle('visible', past);
+      nameVert?.classList.toggle('visible', past);
+
+      /* parallax — desktop only to avoid mobile jank */
+      if (heroImg && !isMobile() && sy < window.innerHeight) {
+        heroImg.style.transform = `translateY(${sy * 0.18}px) scale(1.03)`;
       }
-    }, { passive: true });
+    });
   }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
 
   /* ── Mobile toggle ── */
   const navWrap = document.querySelector('.nav-links-wrap');
