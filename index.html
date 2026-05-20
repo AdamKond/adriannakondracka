@@ -1505,14 +1505,15 @@
         z-index: 99;
       }
       .nav-links-wrap.open { display: flex; }
-      .nav-links { flex-direction: column; gap: 2px; }
-      .nav-links a { font-size: 13px; padding: 0.6rem 0.9rem; width: 100%; }
+      .nav-links { flex-direction: column; gap: 2px; width: 100%; }
+      .nav-links a { font-size: 13px; padding: 0.65rem 1rem; width: 100%; text-align: center; justify-content: center; }
+      .nav-links a .num { display: none; }
       .nav-toggle { display: flex; }
 
       /* ── HERO ── */
       #home { height: 100svh; min-height: 520px; }
-      /* zdjęcie totalnie w prawo — pokazuje twarz osoby */
-      .hero-photo-bg img { object-position: right 42%; }
+      /* zdjęcie nieco w prawo od środka — twarz na środku */
+      .hero-photo-bg img { object-position: 72% 42%; }
 
       /* tylko etykieta roli widoczna na mobile — bez tagline */
       .hero-overlay-tr {
@@ -1540,11 +1541,12 @@
       .exp-white-section,
       .skills-dark-section,
       .testimonials-section {
-        padding: clamp(56px,11vw,76px) 18px;
+        padding: clamp(72px,13vw,90px) 18px;
       }
-      #contact { padding: clamp(56px,11vw,76px) 18px; }
-      .section-heading { font-size: clamp(1.6rem,6vw,2.2rem); }
-      .section-sub { font-size: 14px; margin-bottom: 2rem; }
+      #contact { padding: clamp(72px,13vw,90px) 18px; }
+      .section-heading { font-size: clamp(1.6rem,6vw,2.2rem); margin-bottom: 1.2rem; }
+      .section-eyebrow { margin-bottom: 1rem; }
+      .section-sub { font-size: 14px; margin-bottom: 2.5rem; }
 
       /* ── EXPERIENCE ── */
       .exp-bento { grid-template-columns: 1fr; gap: 1rem; }
