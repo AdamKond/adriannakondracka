@@ -1868,6 +1868,132 @@
       .exp-bento-card:hover .exp-bento-role { color: var(--blue); }
     }
 
+    /* ══ KONSULTACJE — nowy layout ══ */
+    @keyframes floatArt {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-12px); }
+    }
+    @keyframes pulseRingA {
+      0%, 100% { transform: scale(1);    opacity: 0.18; }
+      50%       { transform: scale(1.07); opacity: 0.32; }
+    }
+    @keyframes pulseRingB {
+      0%, 100% { transform: scale(1);    opacity: 0.22; }
+      50%       { transform: scale(1.09); opacity: 0.38; }
+    }
+    @keyframes babyHeart {
+      0%, 100% { transform: scale(1); }
+      30%       { transform: scale(1.14); }
+      60%       { transform: scale(1); }
+      80%       { transform: scale(1.07); }
+    }
+    .c-anim-r1 { animation: pulseRingA 3.6s ease-in-out infinite;      transform-origin: 50% 50%; }
+    .c-anim-r2 { animation: pulseRingB 3.6s ease-in-out infinite 0.6s; transform-origin: 50% 50%; }
+    .c-anim-h  { animation: babyHeart  1.9s ease-in-out infinite;       transform-origin: 50% 50%; }
+
+    .consult-new-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+      margin-top: 4rem;
+    }
+    .consult-anim-art {
+      display: flex; justify-content: center; align-items: center;
+    }
+    .consult-anim-art svg {
+      width: 100%; max-width: 400px;
+      animation: floatArt 4.2s ease-in-out infinite;
+    }
+
+    /* ZnanyLekarz CTA card */
+    .zl-cta-card {
+      background: linear-gradient(145deg, #8a79ab 0%, #b09ac8 55%, #d4a0bf 100%);
+      border-radius: 28px;
+      padding: 3rem 2.5rem;
+      text-align: center;
+      color: white;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 18px 52px rgba(138,121,171,0.38);
+      text-decoration: none;
+      display: block;
+      transition: transform 0.35s var(--ease), box-shadow 0.35s;
+    }
+    .zl-cta-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 28px 70px rgba(138,121,171,0.48);
+    }
+    .zl-cta-card::before {
+      content: '';
+      position: absolute; top: -60%; left: -40%;
+      width: 220%; height: 220%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 55%);
+      pointer-events: none;
+    }
+    .zl-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.32);
+      border-radius: 999px;
+      padding: 0.35rem 1.1rem;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: rgba(255,255,255,0.92);
+      margin-bottom: 1.75rem;
+    }
+    .zl-stars { display: flex; justify-content: center; gap: 5px; margin-bottom: 0.45rem; }
+    .zl-star  { font-size: 20px; color: #fce4ee; }
+    .zl-rating {
+      font-size: 13px; color: rgba(255,255,255,0.72);
+      margin-bottom: 2rem;
+    }
+    .zl-rating strong { color: #fff; font-size: 15px; }
+    .zl-cta-card h3 {
+      font-family: var(--font-serif);
+      font-size: clamp(1.6rem, 2.4vw, 2.2rem);
+      font-weight: 700; color: #fff;
+      margin-bottom: 0.65rem; line-height: 1.15;
+    }
+    .zl-cta-card p {
+      font-size: 14px; color: rgba(255,255,255,0.72);
+      margin-bottom: 2.25rem; line-height: 1.75;
+    }
+    .zl-btn {
+      display: inline-flex; align-items: center;
+      justify-content: center; gap: 0.55rem;
+      padding: 1rem 2.25rem;
+      background: #ffffff; color: #8a79ab;
+      font-family: var(--font-body);
+      font-size: 15px; font-weight: 700;
+      letter-spacing: 0.02em;
+      text-decoration: none; border-radius: 999px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.14);
+      transition: transform 0.25s var(--ease), box-shadow 0.25s;
+      width: 100%;
+    }
+    .zl-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,0,0,0.2); }
+    .zl-avail {
+      margin-top: 1.3rem;
+      font-size: 12px; color: rgba(255,255,255,0.55);
+      display: flex; align-items: center; justify-content: center; gap: 0.45rem;
+    }
+    .zl-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #a8f0c4; flex-shrink: 0;
+      box-shadow: 0 0 7px rgba(168,240,196,0.9);
+      animation: ctaPulse 2.4s ease-in-out infinite;
+    }
+    @media (max-width: 1024px) {
+      .consult-new-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+      .consult-anim-art svg { max-width: 300px; }
+    }
+    @media (max-width: 640px) {
+      .consult-new-layout { gap: 2rem; margin-top: 2.5rem; }
+      .zl-cta-card { padding: 2.25rem 1.75rem; border-radius: 22px; }
+      .zl-cta-card h3 { font-size: 1.5rem; }
+    }
+
     /* ── Reduce motion for accessibility ── */
     @media (prefers-reduced-motion: reduce) {
       .reveal, .reveal.visible { transition: opacity 0.3s ease !important; transform: none !important; }
@@ -2231,73 +2357,74 @@
       </div>
     </div>
 
-    <div class="consult-carousel-wrap reveal">
-      <div class="carousel-header-row">
-        <p>Przewiń, aby zobaczyć wszystkie usługi</p>
-        <div class="carousel-arrows">
-          <button class="carousel-btn" id="cPrev" aria-label="Poprzedni">←</button>
-          <button class="carousel-btn" id="cNext" aria-label="Następny">→</button>
+    <div class="consult-new-layout reveal">
+
+      <!-- Animowana grafika SVG -->
+      <div class="consult-anim-art">
+        <svg viewBox="0 0 380 380" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <radialGradient id="cg1" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#f5eef8"/>
+              <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="cg2" cx="50%" cy="46%" r="44%">
+              <stop offset="0%" stop-color="#e6a5b8" stop-opacity="0.55"/>
+              <stop offset="100%" stop-color="#8a79ab" stop-opacity="0.08"/>
+            </radialGradient>
+          </defs>
+          <circle cx="190" cy="190" r="178" fill="url(#cg1)"/>
+          <circle cx="190" cy="190" r="162" stroke="#8a79ab" stroke-width="1"   opacity="0.14" class="c-anim-r1"/>
+          <circle cx="190" cy="190" r="138" stroke="#e6a5b8" stroke-width="1.4" opacity="0.2"  class="c-anim-r2"/>
+          <circle cx="190" cy="190" r="114" stroke="#8a79ab" stroke-width="1"   opacity="0.15" class="c-anim-r1"/>
+          <circle cx="190" cy="190" r="88"  fill="url(#cg2)"/>
+          <!-- głowa matki -->
+          <circle cx="190" cy="136" r="23" fill="#8a79ab" opacity="0.38"/>
+          <!-- sylwetka brzucha -->
+          <path d="M163 162 C154 183 157 215 163 230 C175 247 205 247 217 230 C223 215 226 183 217 162 C210 153 200 149 190 149 C180 149 170 153 163 162Z" fill="#8a79ab" opacity="0.27"/>
+          <!-- dziecko — bijące serce -->
+          <circle cx="190" cy="208" r="25" fill="#e6a5b8" opacity="0.28" class="c-anim-h"/>
+          <circle cx="190" cy="208" r="15" fill="#e6a5b8" opacity="0.42" class="c-anim-h"/>
+          <circle cx="190" cy="208" r="7"  fill="#8a79ab" opacity="0.58" class="c-anim-h"/>
+          <!-- linia bicia serca -->
+          <path d="M55 190 L100 190 L116 162 L132 218 L148 175 L164 196 L178 190 L325 190" stroke="#e6a5b8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.42"/>
+          <!-- dekoracyjne elementy -->
+          <path d="M190 10 Q198 26 190 42 Q182 26 190 10Z" fill="#e6a5b8" opacity="0.22"/>
+          <path d="M370 190 Q354 198 338 190 Q354 182 370 190Z" fill="#8a79ab" opacity="0.18"/>
+          <path d="M190 370 Q182 354 190 338 Q198 354 190 370Z" fill="#e6a5b8" opacity="0.22"/>
+          <path d="M10 190 Q26 182 42 190 Q26 198 10 190Z" fill="#8a79ab" opacity="0.18"/>
+          <circle cx="52"  cy="100" r="5" fill="#8a79ab"  opacity="0.18"/>
+          <circle cx="328" cy="100" r="5" fill="#e6a5b8"  opacity="0.18"/>
+          <circle cx="52"  cy="280" r="4" fill="#e6a5b8"  opacity="0.15"/>
+          <circle cx="328" cy="280" r="4" fill="#8a79ab"  opacity="0.15"/>
+          <circle cx="110" cy="60"  r="3" fill="#e6a5b8"  opacity="0.15"/>
+          <circle cx="270" cy="60"  r="3" fill="#8a79ab"  opacity="0.15"/>
+          <circle cx="110" cy="320" r="4" fill="#8a79ab"  opacity="0.15"/>
+          <circle cx="270" cy="320" r="4" fill="#e6a5b8"  opacity="0.15"/>
+          <!-- iskierki -->
+          <path d="M318 82 L320 77 L322 82 L327 84 L322 86 L320 91 L318 86 L313 84Z" fill="#e6a5b8" opacity="0.32"/>
+          <path d="M58 296 L60 291 L62 296 L67 298 L62 300 L60 305 L58 300 L53 298Z" fill="#8a79ab" opacity="0.26"/>
+        </svg>
+      </div>
+
+      <!-- Karta ZnanyLekarz -->
+      <a href="https://www.znanylekarz.pl/adrianna-kondracka/ginekolog-genetyk/lublin" target="_blank" rel="noopener" class="zl-cta-card">
+        <div class="zl-badge">ZnanyLekarz.pl</div>
+        <div class="zl-stars">
+          <span class="zl-star">★</span><span class="zl-star">★</span><span class="zl-star">★</span><span class="zl-star">★</span><span class="zl-star">★</span>
         </div>
-      </div>
-
-      <div class="carousel-viewport">
-        <div class="carousel-track" id="cTrack">
-
-          <div class="carousel-slide">
-            <img class="carousel-slide-img" src="brand_assets/Karuzela/slide-4.png" alt="Prowadzenie Ciąży" />
-            <div class="carousel-slide-body">
-              <div class="carousel-slide-num">01 / 05 — Zakres Konsultacji</div>
-              <h3 class="carousel-slide-title">Prowadzenie Ciąży</h3>
-              <p class="carousel-slide-desc">Kompleksowa opieka nad ciążą fizjologiczną i wysokiego ryzyka — od pierwszego trymestru do porodu. Nadciśnienie, cukrzyca ciążowa, niedomoga szyjki macicy, ciąża wielopłodowa.</p>
-            </div>
-          </div>
-
-          <div class="carousel-slide">
-            <img class="carousel-slide-img" src="brand_assets/Karuzela/slide-1.png" alt="Ultrasonografia i Echo Serca Płodu" />
-            <div class="carousel-slide-body">
-              <div class="carousel-slide-num">02 / 05 — Zakres Konsultacji</div>
-              <h3 class="carousel-slide-title">Ultrasonografia i Echo Serca Płodu</h3>
-              <p class="carousel-slide-desc">Badania USG na każdym etapie ciąży zgodnie ze standardami FMF. Specjalistyczna echokardiografia płodowa — wykrywanie wad i nieprawidłowości strukturalnych serca.</p>
-            </div>
-          </div>
-
-          <div class="carousel-slide">
-            <img class="carousel-slide-img" src="brand_assets/Karuzela/slide-5.png" alt="Diagnostyka Wad Wrodzonych Płodu" />
-            <div class="carousel-slide-body">
-              <div class="carousel-slide-num">03 / 05 — Zakres Konsultacji</div>
-              <h3 class="carousel-slide-title">Diagnostyka Wad Wrodzonych Płodu</h3>
-              <p class="carousel-slide-desc">Kompleksowa ocena anatomii płodu, diagnostyka chromosomopatii i wad strukturalnych płodu. Badania przesiewowe I trymestru według protokołu FMF.</p>
-            </div>
-          </div>
-
-          <div class="carousel-slide">
-            <img class="carousel-slide-img" src="brand_assets/Karuzela/slide-3.png" alt="Inwazyjne Badania Prenatalne" />
-            <div class="carousel-slide-body">
-              <div class="carousel-slide-num">04 / 05 — Zakres Konsultacji</div>
-              <h3 class="carousel-slide-title">Inwazyjne Badania Prenatalne</h3>
-              <p class="carousel-slide-desc">Biopsja kosmówki (CVS) i amniopunkcja wykonywane pod kontrolą ultrasonografii przez doświadczonego operatora. Diagnostyka chromosomalna i genetyczna materiału płodowego.</p>
-            </div>
-          </div>
-
-          <div class="carousel-slide">
-            <img class="carousel-slide-img" src="brand_assets/Karuzela/slide-2.png" alt="Ginekologia i Genetyka Kliniczna" />
-            <div class="carousel-slide-body">
-              <div class="carousel-slide-num">05 / 05 — Zakres Konsultacji</div>
-              <h3 class="carousel-slide-title">Ginekologia i Genetyka Kliniczna</h3>
-              <p class="carousel-slide-desc">Diagnostyka i terapia zaburzeń ginekologicznych, dobór antykoncepcji, konsultacje genetyczne oraz interpretacja wyników badań chromosomalnych i prenatalnych.</p>
-            </div>
-          </div>
-
+        <p class="zl-rating"><strong>4.9 / 5</strong> · ponad 200 opinii pacjentek</p>
+        <h3>Umów wizytę online</h3>
+        <p>Szybka i wygodna rejestracja na konsultację ginekologiczną, perinatologiczną i prenatalną. Bez czekania na telefon — 24 godziny na dobę.</p>
+        <div class="zl-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Zarezerwuj termin
         </div>
-      </div>
+        <div class="zl-avail">
+          <div class="zl-dot"></div>
+          Dostępne wolne terminy
+        </div>
+      </a>
 
-      <div class="carousel-indicators" id="cDots">
-        <button class="carousel-dot active" data-idx="0" aria-label="Slajd 1"></button>
-        <button class="carousel-dot" data-idx="1" aria-label="Slajd 2"></button>
-        <button class="carousel-dot" data-idx="2" aria-label="Slajd 3"></button>
-        <button class="carousel-dot" data-idx="3" aria-label="Slajd 4"></button>
-        <button class="carousel-dot" data-idx="4" aria-label="Slajd 5"></button>
-      </div>
     </div>
   </div>
 </div>
