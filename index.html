@@ -268,7 +268,19 @@
       z-index: 2;
       animation: heroCTAIn 0.9s var(--ease) both;
       animation-delay: 0.35s;
+      position: relative;
     }
+    /* Subtelne zdjęcie w tle po stronie tekstu */
+    .hero-split-text::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url('brand_assets/ChatGPT Image 21 maj 2026, 09_14_00.png') center/cover no-repeat;
+      opacity: 0.055;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .hero-split-text > * { position: relative; z-index: 1; }
 
     .hero-split-label {
       font-size: 11px;
@@ -543,7 +555,7 @@
       font-family: var(--font-display);
       font-size: clamp(2rem, 5vw, 3.5rem);
       letter-spacing: 0.14em;
-      color: #2a2838;
+      color: #5c4d82;
     }
     .loader-name-last {
       font-family: var(--font-body);
@@ -1594,29 +1606,57 @@
        REVEAL ANIMATIONS — clean & "wow"
     ══════════════════════════════════ */
 
-    /* Base: wszystkie .reveal startują niewidoczne, przesunięte 22px w dół */
+    /* ══ REVEAL ANIMATIONS ══ */
     .reveal {
       opacity: 0;
-      transform: translateY(22px);
-      transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1),
-                  transform 0.7s cubic-bezier(0.16,1,0.3,1);
+      transform: translateY(28px);
+      transition: opacity 0.72s cubic-bezier(0.16,1,0.3,1),
+                  transform 0.72s cubic-bezier(0.16,1,0.3,1);
     }
     .reveal.visible { opacity: 1; transform: none; }
 
-    /* Karty dostają delikatny scale — bardziej "wow" */
-    .exp-bento-card.reveal,
-    .cert-card.reveal,
-    .pub-card.reveal,
-    .spec-panel.reveal,
-    .t-card {
-      transform: translateY(18px) scale(0.98);
+    /* Slide z lewej */
+    .reveal-l {
+      opacity: 0;
+      transform: translateX(-48px);
+      transition: opacity 0.72s cubic-bezier(0.16,1,0.3,1),
+                  transform 0.72s cubic-bezier(0.16,1,0.3,1);
     }
-    .exp-bento-card.reveal.visible,
-    .cert-card.reveal.visible,
-    .pub-card.reveal.visible,
-    .spec-panel.reveal.visible {
-      transform: none;
+    .reveal-l.visible { opacity: 1; transform: none; }
+
+    /* Slide z prawej */
+    .reveal-r {
+      opacity: 0;
+      transform: translateX(48px);
+      transition: opacity 0.72s cubic-bezier(0.16,1,0.3,1),
+                  transform 0.72s cubic-bezier(0.16,1,0.3,1);
     }
+    .reveal-r.visible { opacity: 1; transform: none; }
+
+    /* Rozwijanie od dołu ze skalowaniem */
+    .reveal-scale {
+      opacity: 0;
+      transform: translateY(20px) scale(0.94);
+      transition: opacity 0.65s cubic-bezier(0.16,1,0.3,1),
+                  transform 0.65s cubic-bezier(0.16,1,0.3,1);
+    }
+    .reveal-scale.visible { opacity: 1; transform: none; }
+
+    /* Karty — scale + translate */
+    .exp-bento-card.reveal, .cert-card.reveal,
+    .pub-card.reveal, .spec-panel.reveal { transform: translateY(18px) scale(0.97); }
+    .exp-bento-card.reveal.visible, .cert-card.reveal.visible,
+    .pub-card.reveal.visible, .spec-panel.reveal.visible { transform: none; }
+
+    /* reveal-l / reveal-r karty */
+    .exp-bento-card.reveal-l, .cert-card.reveal-l,
+    .pub-card.reveal-l, .visual-card.reveal-l { transform: translateX(-44px) scale(0.97); }
+    .exp-bento-card.reveal-r, .cert-card.reveal-r,
+    .pub-card.reveal-r, .visual-card.reveal-r { transform: translateX(44px) scale(0.97); }
+    .exp-bento-card.reveal-l.visible, .cert-card.reveal-l.visible,
+    .pub-card.reveal-l.visible, .visual-card.reveal-l.visible,
+    .exp-bento-card.reveal-r.visible, .cert-card.reveal-r.visible,
+    .pub-card.reveal-r.visible, .visual-card.reveal-r.visible { transform: none; }
 
     /* ══════════════════════════════════
        RESPONSIVE — TABLET (≤1024px)
@@ -1785,23 +1825,18 @@
       .loader-name-first { font-size: clamp(1.8rem,9vw,2.8rem); }
       .gooey-wrap { font-size: 0.8em; }
 
-      /* ── ANIMATIONS: dramatic reveal for "wow" on mobile ── */
-      .reveal {
-        transform: translateY(44px) scale(0.95);
-        transition: opacity 0.65s cubic-bezier(0.16,1,0.3,1),
-                    transform 0.65s cubic-bezier(0.16,1,0.3,1);
-        backface-visibility: hidden;
-        -webkit-backface-visibility: hidden;
-      }
+      /* ── ANIMATIONS: mobile — slide-in z boku uproszczony ── */
+      .reveal { transform: translateY(36px) scale(0.96); transition: opacity 0.65s cubic-bezier(0.16,1,0.3,1), transform 0.65s cubic-bezier(0.16,1,0.3,1); }
       .reveal.visible { transform: none; }
-
-      .section-heading.reveal { transform: translateY(30px); }
-      .section-eyebrow.reveal { transform: translateY(18px); }
-
-      .exp-bento-card.reveal,
-      .cert-card.reveal,
-      .pub-card.reveal,
-      .spec-panel.reveal { transform: translateY(38px) scale(0.96); }
+      .reveal-l { transform: translateX(-28px); transition: opacity 0.65s cubic-bezier(0.16,1,0.3,1), transform 0.65s cubic-bezier(0.16,1,0.3,1); }
+      .reveal-l.visible { transform: none; }
+      .reveal-r { transform: translateX(28px); transition: opacity 0.65s cubic-bezier(0.16,1,0.3,1), transform 0.65s cubic-bezier(0.16,1,0.3,1); }
+      .reveal-r.visible { transform: none; }
+      .section-heading.reveal { transform: translateY(26px); }
+      .section-eyebrow.reveal { transform: translateY(16px); }
+      .exp-bento-card.reveal-l, .exp-bento-card.reveal-r,
+      .cert-card.reveal, .pub-card.reveal,
+      .spec-panel.reveal { transform: translateY(28px) scale(0.97); }
 
       /* touch feedback — "pressed" feel on tap */
       .exp-bento-card:active,
@@ -1901,7 +1936,7 @@
     .cpi-photo img {
       width: 100%; height: 100%;
       object-fit: cover;
-      object-position: center 18%;
+      object-position: 72% 18%;
       display: block;
       filter: grayscale(6%) contrast(1.04);
     }
@@ -2250,25 +2285,25 @@
     <p class="section-sub reveal">Wieloletnia działalność kliniczna, naukowa i dydaktyczna w obszarze perinatologii, ginekologii i genetyki klinicznej.</p>
 
     <div class="exp-cards-only">
-      <div class="exp-bento-card reveal">
+      <div class="exp-bento-card reveal-l">
         <div class="exp-bento-num">01</div>
         <div class="exp-bento-role">Profesor Uczelni</div>
         <div class="exp-bento-place">Klinika Położnictwa i Patologii Ciąży · UM Lublin</div>
         <div class="exp-bento-desc">Działalność naukowa, dydaktyczna i kliniczna w zakresie perinatologii i ginekologii. Prowadzenie badań z obszaru diagnostyki prenatalnej i ultrasonografii płodowej.</div>
       </div>
-      <div class="exp-bento-card reveal">
+      <div class="exp-bento-card reveal-r">
         <div class="exp-bento-num">02</div>
         <div class="exp-bento-role">Lekarz Kierujący Oddziałem</div>
         <div class="exp-bento-place">Klinika Położnictwa i Patologii Ciąży · USK1 Lublin</div>
         <div class="exp-bento-desc">Nadzór kliniczny nad oddziałem, koordynacja opieki nad pacjentkami z ciążą wysokiego ryzyka, wdrażanie standardów diagnostyki prenatalnej.</div>
       </div>
-      <div class="exp-bento-card reveal">
+      <div class="exp-bento-card reveal-l">
         <div class="exp-bento-num">03</div>
         <div class="exp-bento-role">Konsultant Wojewódzki ds. Perinatologii</div>
         <div class="exp-bento-place">Województwo Lubelskie</div>
         <div class="exp-bento-desc">Merytoryczny nadzór nad organizacją opieki perinatalnej w regionie lubelskim, opiniowanie procedur i standardów opieki nad ciężarną.</div>
       </div>
-      <div class="exp-bento-card reveal">
+      <div class="exp-bento-card reveal-r">
         <div class="exp-bento-num">04</div>
         <div class="exp-bento-role">Wykładowca i Szkoleniowiec</div>
         <div class="exp-bento-place">Kursy specjalizacyjne · Ultrasonografia · Sympozja Naukowe</div>
@@ -2347,7 +2382,7 @@
     <h2 class="section-heading reveal">Troska i precyzja w każdym kroku</h2>
     <div class="visual-cards">
 
-      <div class="visual-card reveal">
+      <div class="visual-card reveal-l">
         <div class="visual-card-art">
           <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
             <defs>
@@ -2380,7 +2415,7 @@
         <p>Kompleksowe podejście łączące najnowszą wiedzę medyczną z troską i empatią wobec każdej pacjentki.</p>
       </div>
 
-      <div class="visual-card reveal">
+      <div class="visual-card reveal-r">
         <div class="visual-card-art">
           <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
             <defs>
@@ -3015,7 +3050,7 @@
     SECTION_SELECTORS.forEach(sel => {
       const container = document.querySelector(sel);
       if (!container) return;
-      container.querySelectorAll('.reveal').forEach((el, i) => {
+      container.querySelectorAll('.reveal, .reveal-l, .reveal-r, .reveal-scale').forEach((el, i) => {
         el.style.transitionDelay = `${i * 0.11}s`;
       });
     });
@@ -3031,7 +3066,7 @@
       { threshold: 0.05, rootMargin: '0px 0px 0px 0px' }
     );
 
-    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+    document.querySelectorAll('.reveal, .reveal-l, .reveal-r, .reveal-scale').forEach(el => obs.observe(el));
   })();
 
   /* active nav link on scroll — only real sections */
