@@ -1868,6 +1868,92 @@
       .exp-bento-card:hover .exp-bento-role { color: var(--blue); }
     }
 
+    /* ══ DOŚWIADCZENIE — split photo + cards ══ */
+    .exp-split {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 1.75rem;
+      margin-top: 3rem;
+      align-items: stretch;
+    }
+    .exp-split-photo {
+      border-radius: 20px;
+      overflow: hidden;
+      min-height: 430px;
+      box-shadow: var(--card-shadow);
+      position: relative;
+    }
+    .exp-split-photo img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center 18%;
+      display: block;
+      filter: grayscale(8%) contrast(1.05);
+    }
+    .exp-split-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      align-content: start;
+    }
+    @media (max-width: 960px) {
+      .exp-split { grid-template-columns: 1fr; }
+      .exp-split-photo { min-height: 260px; max-height: 340px; }
+    }
+
+    /* ══ CYTAT MIĘDZY PUBLIKACJAMI A CERTYFIKATAMI ══ */
+    .inter-quote-section {
+      background: linear-gradient(135deg, #2e2b3e 0%, #3d3c4f 55%, #3a2d46 100%);
+      padding: clamp(52px,8vw,80px) clamp(20px,5vw,60px);
+      position: relative; overflow: hidden;
+    }
+    .iq-art { position: absolute; top:0; bottom:0; width:260px; opacity:0.38; pointer-events:none; }
+    .iq-art-l { left:-20px; }
+    .iq-art-r { right:-20px; transform: scaleX(-1); }
+    .iq-inner { max-width:680px; margin:0 auto; text-align:center; position:relative; z-index:1; }
+    .iq-mark { font-size:5.5rem; line-height:0.65; color:rgba(230,165,184,0.22); font-family:Georgia,serif; display:block; margin-bottom:0.6rem; }
+    .iq-text {
+      font-family: var(--font-serif);
+      font-size: clamp(1.1rem, 2vw, 1.55rem);
+      font-style: italic; font-weight: 400;
+      color: rgba(255,255,255,0.88); line-height: 1.72;
+      margin-bottom: 1.75rem;
+    }
+    .iq-cite { font-size:11px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:#e6a5b8; }
+    @media (max-width:640px) { .iq-art { display:none; } }
+
+    /* ══ OPÓŹNIONY PASEK REZERWACJI ══ */
+    #appt-strip {
+      position: fixed; bottom:0; left:0; right:0; z-index:87;
+      background: linear-gradient(90deg, #8a79ab 0%, #b09ac8 50%, #d4a0bf 100%);
+      padding: 0.9rem 3rem 0.9rem 1.5rem;
+      display: flex; align-items:center; justify-content:center;
+      gap: clamp(0.75rem,3vw,2rem); flex-wrap: wrap;
+      transform: translateY(100%);
+      transition: transform 0.55s var(--ease);
+      box-shadow: 0 -4px 24px rgba(138,121,171,0.38);
+    }
+    #appt-strip.shown { transform: translateY(0); }
+    .appt-dot { width:8px; height:8px; border-radius:50%; background:#a8f0c4; flex-shrink:0; box-shadow:0 0 7px rgba(168,240,196,0.9); animation:ctaPulse 2.2s ease-in-out infinite; }
+    .appt-text { font-size:14px; font-weight:600; color:rgba(255,255,255,0.9); white-space:nowrap; }
+    .appt-btn {
+      display:inline-flex; align-items:center; gap:0.45rem;
+      padding:0.6rem 1.6rem;
+      background:#ffffff; color:#8a79ab;
+      font-family:var(--font-body); font-size:13px; font-weight:700;
+      letter-spacing:0.02em; text-decoration:none; border-radius:999px;
+      box-shadow:0 2px 10px rgba(0,0,0,0.12); white-space:nowrap;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .appt-btn:hover { transform:translateY(-1px); box-shadow:0 4px 16px rgba(0,0,0,0.18); }
+    #appt-close {
+      position:absolute; right:12px; top:50%; transform:translateY(-50%);
+      background:none; border:none; color:rgba(255,255,255,0.65);
+      cursor:pointer; font-size:18px; line-height:1; padding:4px 8px;
+      transition:color 0.2s;
+    }
+    #appt-close:hover { color:#fff; }
+
     /* ══ KONSULTACJE — nowy layout ══ */
     @keyframes floatArt {
       0%, 100% { transform: translateY(0px); }
@@ -2118,7 +2204,7 @@
 
   <!-- bottom-right CTA -->
   <div class="hero-cta-br">
-    <a href="#contact" class="btn-resume">UMÓW WIZYTĘ ↓</a>
+    <a href="https://www.znanylekarz.pl/adrianna-kondracka/ginekolog-genetyk/lublin" target="_blank" rel="noopener" class="btn-resume">UMÓW WIZYTĘ →</a>
   </div>
 
 </section>
@@ -2132,39 +2218,40 @@
     <h2 class="section-heading reveal">Doświadczenie</h2>
     <p class="section-sub reveal">Wieloletnia działalność kliniczna, naukowa i dydaktyczna w obszarze perinatologii, ginekologii i genetyki klinicznej.</p>
 
-    <div class="exp-bento">
+    <div class="exp-split">
 
-      <div class="exp-bento-card reveal">
-        <div class="exp-bento-num">01</div>
-        <div class="exp-bento-role">Profesor Uczelni</div>
-        <div class="exp-bento-place">Klinika Położnictwa i Patologii Ciąży · UM Lublin</div>
-        <div class="exp-bento-desc">Działalność naukowa, dydaktyczna i kliniczna w zakresie perinatologii i ginekologii. Prowadzenie badań z obszaru diagnostyki prenatalnej i ultrasonografii płodowej.</div>
+      <div class="exp-split-photo reveal">
+        <img src="brand_assets/Dr Kondracka (5 z 19).jpg" alt="dr hab. n. med. Adrianna Kondracka" />
       </div>
 
-      <div class="exp-bento-card reveal">
-        <div class="exp-bento-num">02</div>
-        <div class="exp-bento-role">Lekarz Kierujący Oddziałem</div>
-        <div class="exp-bento-place">Klinika Położnictwa i Patologii Ciąży · USK1 Lublin</div>
-        <div class="exp-bento-desc">Nadzór kliniczny nad oddziałem, koordynacja opieki nad pacjentkami z ciążą wysokiego ryzyka, wdrażanie standardów diagnostyki prenatalnej.</div>
-      </div>
+      <div class="exp-split-cards">
+        <div class="exp-bento-card reveal">
+          <div class="exp-bento-num">01</div>
+          <div class="exp-bento-role">Profesor Uczelni</div>
+          <div class="exp-bento-place">Klinika Położnictwa i Patologii Ciąży · UM Lublin</div>
+          <div class="exp-bento-desc">Działalność naukowa, dydaktyczna i kliniczna w zakresie perinatologii i ginekologii. Prowadzenie badań z obszaru diagnostyki prenatalnej i ultrasonografii płodowej.</div>
+        </div>
 
-      <!-- Photo spanning both rows -->
-      <div class="exp-bento-photo reveal">
-        <img src="brand_assets/Dr Kondracka (5 z 19).jpg" alt="dr hab. Adrianna Kondracka" />
-      </div>
+        <div class="exp-bento-card reveal">
+          <div class="exp-bento-num">02</div>
+          <div class="exp-bento-role">Lekarz Kierujący Oddziałem</div>
+          <div class="exp-bento-place">Klinika Położnictwa i Patologii Ciąży · USK1 Lublin</div>
+          <div class="exp-bento-desc">Nadzór kliniczny nad oddziałem, koordynacja opieki nad pacjentkami z ciążą wysokiego ryzyka, wdrażanie standardów diagnostyki prenatalnej.</div>
+        </div>
 
-      <div class="exp-bento-card reveal">
-        <div class="exp-bento-num">03</div>
-        <div class="exp-bento-role">Konsultant Wojewódzki ds. Perinatologii</div>
-        <div class="exp-bento-place">Województwo Lubelskie</div>
-        <div class="exp-bento-desc">Merytoryczny nadzór nad organizacją opieki perinatalnej w regionie lubelskim, opiniowanie procedur i standardów opieki nad ciężarną.</div>
-      </div>
+        <div class="exp-bento-card reveal">
+          <div class="exp-bento-num">03</div>
+          <div class="exp-bento-role">Konsultant Wojewódzki ds. Perinatologii</div>
+          <div class="exp-bento-place">Województwo Lubelskie</div>
+          <div class="exp-bento-desc">Merytoryczny nadzór nad organizacją opieki perinatalnej w regionie lubelskim, opiniowanie procedur i standardów opieki nad ciężarną.</div>
+        </div>
 
-      <div class="exp-bento-card reveal">
-        <div class="exp-bento-num">04</div>
-        <div class="exp-bento-role">Wykładowca i Szkoleniowiec</div>
-        <div class="exp-bento-place">Kursy specjalizacyjne · Ultrasonografia · Sympozja Naukowe</div>
-        <div class="exp-bento-desc">Szkolenie lekarzy z zakresu perinatologii, ultrasonografii i diagnostyki prenatalnej na kursach krajowych i konferencjach międzynarodowych.</div>
+        <div class="exp-bento-card reveal">
+          <div class="exp-bento-num">04</div>
+          <div class="exp-bento-role">Wykładowca i Szkoleniowiec</div>
+          <div class="exp-bento-place">Kursy specjalizacyjne · Ultrasonografia · Sympozja Naukowe</div>
+          <div class="exp-bento-desc">Szkolenie lekarzy z zakresu perinatologii, ultrasonografii i diagnostyki prenatalnej na kursach krajowych i konferencjach międzynarodowych.</div>
+        </div>
       </div>
 
     </div>
@@ -2236,7 +2323,7 @@
 ══════════════════════════════════ -->
 <div class="visual-strip">
   <div class="section-inner">
-    <p class="section-eyebrow reveal">Nasze podejście</p>
+    <p class="section-eyebrow reveal">Moje podejście</p>
     <h2 class="section-heading reveal">Troska i precyzja w każdym kroku</h2>
     <div class="visual-cards">
 
@@ -2581,6 +2668,41 @@
         </div>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     CYTAT — między pub. a certyfikatami
+══════════════════════════════════ -->
+<div class="inter-quote-section">
+  <div class="iq-art iq-art-l" aria-hidden="true">
+    <svg viewBox="0 0 200 400" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" width="100%" height="100%">
+      <path d="M200 20 Q118 100 158 200 Q198 300 116 382" stroke="#8a79ab" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M172 0 Q90 115 130 215 Q170 315 88 400" stroke="#e6a5b8" stroke-width="1.2" stroke-linecap="round"/>
+      <path d="M144 10 Q62 135 102 235 Q142 335 60 400" stroke="#8a79ab" stroke-width="0.8" stroke-linecap="round"/>
+      <circle cx="158" cy="200" r="4" fill="#e6a5b8" opacity="0.6"/>
+      <circle cx="130" cy="215" r="3" fill="#8a79ab" opacity="0.5"/>
+      <circle cx="170" cy="76" r="18" stroke="#e6a5b8" stroke-width="0.8" fill="none" opacity="0.25"/>
+      <circle cx="100" cy="308" r="22" stroke="#8a79ab" stroke-width="0.8" fill="none" opacity="0.22"/>
+      <circle cx="188" cy="342" r="4" fill="#e6a5b8" opacity="0.32"/>
+      <circle cx="136" cy="58" r="2.5" fill="#8a79ab" opacity="0.42"/>
+      <circle cx="122" cy="148" r="2" fill="#e6a5b8" opacity="0.38"/>
+    </svg>
+  </div>
+  <div class="iq-art iq-art-r" aria-hidden="true">
+    <svg viewBox="0 0 200 400" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" width="100%" height="100%">
+      <path d="M200 20 Q118 100 158 200 Q198 300 116 382" stroke="#8a79ab" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M172 0 Q90 115 130 215 Q170 315 88 400" stroke="#e6a5b8" stroke-width="1.2" stroke-linecap="round"/>
+      <path d="M144 10 Q62 135 102 235 Q142 335 60 400" stroke="#8a79ab" stroke-width="0.8" stroke-linecap="round"/>
+      <circle cx="158" cy="200" r="4" fill="#e6a5b8" opacity="0.6"/>
+      <circle cx="170" cy="76" r="18" stroke="#e6a5b8" stroke-width="0.8" fill="none" opacity="0.25"/>
+      <circle cx="100" cy="308" r="22" stroke="#8a79ab" stroke-width="0.8" fill="none" opacity="0.22"/>
+    </svg>
+  </div>
+  <div class="iq-inner reveal">
+    <span class="iq-mark">"</span>
+    <p class="iq-text">Każda ciąża jest wyjątkowa. Każda pacjentka zasługuje na opiekę dostosowaną do jej indywidualnych potrzeb — z pełnym zaangażowaniem i najwyższymi standardami medycznymi.</p>
+    <span class="iq-cite">dr hab. n. med. Adrianna Kondracka</span>
   </div>
 </div>
 
@@ -3003,6 +3125,32 @@
   const navWrap = document.querySelector('.nav-links-wrap');
   document.getElementById('navToggle').addEventListener('click', () => navWrap.classList.toggle('open'));
   document.querySelectorAll('.nav-links a').forEach(a => a.addEventListener('click', () => navWrap.classList.remove('open')));
+
+  /* ── Opóźniony pasek rezerwacji — pojawia się po 14s ── */
+  const apptStrip = document.getElementById('appt-strip');
+  let apptShown = false;
+  function showApptStrip() {
+    if (!apptShown && apptStrip) {
+      apptStrip.classList.add('shown');
+      apptShown = true;
+    }
+  }
+  setTimeout(showApptStrip, 14000);
+  document.getElementById('appt-close')?.addEventListener('click', () => {
+    apptStrip?.classList.remove('shown');
+    setTimeout(() => { if (apptStrip) apptStrip.style.display = 'none'; }, 600);
+  });
 </script>
+<!-- ── Opóźniony pasek rezerwacji ── -->
+<div id="appt-strip" role="complementary" aria-label="Umów wizytę">
+  <div class="appt-dot"></div>
+  <span class="appt-text">Wolne terminy dostępne — zarezerwuj online</span>
+  <a href="https://www.znanylekarz.pl/adrianna-kondracka/ginekolog-genetyk/lublin" target="_blank" rel="noopener" class="appt-btn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" width="15" height="15"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    Umów wizytę
+  </a>
+  <button id="appt-close" aria-label="Zamknij">✕</button>
+</div>
+
 </body>
 </html>
