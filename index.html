@@ -268,19 +268,33 @@
       z-index: 2;
       animation: heroCTAIn 0.9s var(--ease) both;
       animation-delay: 0.35s;
-      position: relative;
     }
-    /* Subtelne zdjęcie w tle po stronie tekstu */
-    .hero-split-text::before {
-      content: '';
+
+    /* Medyczna grafika w tle hero (lewa strona) */
+    .hero-med-bg {
       position: absolute;
-      inset: 0;
-      background: url('brand_assets/ChatGPT Image 21 maj 2026, 09_14_00.png') center/cover no-repeat;
-      opacity: 0.055;
+      left: 0; top: 0;
+      width: 58%; height: 100%;
+      z-index: 1;
       pointer-events: none;
-      z-index: 0;
+      overflow: hidden;
     }
-    .hero-split-text > * { position: relative; z-index: 1; }
+    .hero-med-bg svg { width: 100%; height: 100%; }
+
+    /* Małe serduszka dekoracyjne */
+    @keyframes heartFloat {
+      0%, 100% { transform: translateY(0) scale(1); opacity: 0.55; }
+      50%       { transform: translateY(-7px) scale(1.14); opacity: 0.88; }
+    }
+    .deco-heart {
+      display: inline-flex; animation: heartFloat 2.8s ease-in-out infinite;
+      color: #e6a5b8; vertical-align: middle;
+    }
+    .deco-heart svg { width: 13px; height: 13px; fill: currentColor; }
+    .deco-heart.d1 { animation-delay: 0s; }
+    .deco-heart.d2 { animation-delay: 0.55s; }
+    .deco-heart.d3 { animation-delay: 1.1s; }
+    .deco-hearts { display: flex; gap: 5px; align-items: center; margin-top: 1.25rem; }
 
     .hero-split-label {
       font-size: 11px;
@@ -607,22 +621,22 @@
     ══════════════════════════════════ */
     #float-cta {
       position: fixed; right: 24px; bottom: 36px; z-index: 89;
-      display: inline-flex; align-items: center; gap: 0.45rem;
-      padding: 0.6rem 1.15rem;
-      background: rgba(26,26,26,0.82); color: rgba(255,255,255,0.88);
-      font-family: var(--font-body); font-size: 11.5px;
-      font-weight: 600; letter-spacing: 0.06em;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.8rem 1.6rem;
+      background: var(--blue); color: #ffffff;
+      font-family: var(--font-body); font-size: 13px;
+      font-weight: 700; letter-spacing: 0.04em;
       text-decoration: none; border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.2);
       backdrop-filter: blur(10px);
-      box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+      box-shadow: 0 4px 22px rgba(138,121,171,0.5);
       transform: translateX(140%);
       transition: transform 0.5s var(--ease), box-shadow 0.25s, opacity 0.5s, background 0.25s;
       opacity: 0;
     }
     #float-cta.visible { transform: translateX(0); opacity: 1; }
-    #float-cta:hover { background: rgba(26,26,26,0.96); box-shadow: 0 4px 20px rgba(0,0,0,0.28); transform: translateX(0) translateY(-2px); }
-    #float-cta svg { width: 13px; height: 13px; stroke: rgba(255,255,255,0.75); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    #float-cta:hover { background: #7a6899; box-shadow: 0 6px 28px rgba(138,121,171,0.65); transform: translateX(0) translateY(-2px); }
+    #float-cta svg { width: 14px; height: 14px; stroke: rgba(255,255,255,0.95); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
     /* ══════════════════════════════════
        02 DOŚWIADCZENIE — white bento
@@ -2228,6 +2242,44 @@
 ══════════════════════════════════ -->
 <section id="home">
 
+  <!-- Medyczna grafika w tle (lewa strona) -->
+  <div class="hero-med-bg" aria-hidden="true">
+    <svg viewBox="0 0 600 500" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+      <!-- Linia EKG / puls -->
+      <path d="M-20 260 L80 260 L108 260 L132 148 L156 372 L178 198 L200 278 L226 260 L700 260" stroke="#8a79ab" stroke-width="2.2" stroke-linecap="round" opacity="0.36"/>
+      <!-- Drugie echo pulsu -->
+      <path d="M-20 295 L80 295 L105 295 L122 240 L144 348 L162 278 L182 308 L212 295 L700 295" stroke="#e6a5b8" stroke-width="1.2" stroke-linecap="round" opacity="0.17"/>
+      <!-- Krzyżyki medyczne -->
+      <rect x="52"  y="80"  width="7"  height="24" rx="3" fill="#8a79ab" opacity="0.14"/>
+      <rect x="44"  y="88"  width="22" height="7"  rx="3" fill="#8a79ab" opacity="0.14"/>
+      <rect x="468" y="338" width="6"  height="20" rx="3" fill="#8a79ab" opacity="0.12"/>
+      <rect x="461" y="345" width="18" height="6"  rx="3" fill="#8a79ab" opacity="0.12"/>
+      <rect x="238" y="50"  width="5"  height="18" rx="2.5" fill="#e6a5b8" opacity="0.14"/>
+      <rect x="232" y="56"  width="16" height="5"  rx="2.5" fill="#e6a5b8" opacity="0.14"/>
+      <!-- Okręgi cząsteczkowe -->
+      <circle cx="70"  cy="390" r="10" stroke="#8a79ab" stroke-width="1.5" opacity="0.14"/>
+      <circle cx="528" cy="118" r="8"  stroke="#e6a5b8" stroke-width="1.5" opacity="0.13"/>
+      <circle cx="178" cy="422" r="6"  stroke="#8a79ab" stroke-width="1.2" opacity="0.11"/>
+      <circle cx="408" cy="68"  r="10" stroke="#e6a5b8" stroke-width="1.5" opacity="0.13"/>
+      <!-- Połączenia cząsteczkowe -->
+      <line x1="70"  y1="390" x2="178" y2="422" stroke="#8a79ab" stroke-width="1"   opacity="0.09"/>
+      <line x1="408" y1="68"  x2="528" y2="118" stroke="#e6a5b8" stroke-width="1"   opacity="0.08"/>
+      <!-- Nić DNA (uproszczona) -->
+      <circle cx="504" cy="168" r="4.5" stroke="#8a79ab" stroke-width="1.3" opacity="0.15"/>
+      <circle cx="524" cy="190" r="3.5" stroke="#e6a5b8" stroke-width="1.1" opacity="0.13"/>
+      <circle cx="504" cy="212" r="4.5" stroke="#8a79ab" stroke-width="1.3" opacity="0.15"/>
+      <circle cx="524" cy="234" r="3.5" stroke="#e6a5b8" stroke-width="1.1" opacity="0.13"/>
+      <line x1="504" y1="168" x2="524" y2="190" stroke="#8a79ab" stroke-width="0.9" opacity="0.1"/>
+      <line x1="524" y1="190" x2="504" y2="212" stroke="#8a79ab" stroke-width="0.9" opacity="0.1"/>
+      <line x1="504" y1="212" x2="524" y2="234" stroke="#8a79ab" stroke-width="0.9" opacity="0.1"/>
+      <!-- Małe punkty -->
+      <circle cx="120" cy="58"  r="3.5" fill="#8a79ab" opacity="0.13"/>
+      <circle cx="318" cy="448" r="3"   fill="#e6a5b8" opacity="0.11"/>
+      <circle cx="498" cy="242" r="2.5" fill="#8a79ab" opacity="0.13"/>
+      <circle cx="368" cy="118" r="3"   fill="#e6a5b8" opacity="0.11"/>
+    </svg>
+  </div>
+
   <!-- imię małe u góry środek -->
   <div class="hero-name-tag">dr hab. n. med. Adrianna Kondracka</div>
 
@@ -2252,6 +2304,11 @@
           <span>100+&nbsp;publikacji</span>
         </div>
       </div>
+    </div>
+    <div class="deco-hearts" aria-hidden="true">
+      <span class="deco-heart d1"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></span>
+      <span class="deco-heart d2"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></span>
+      <span class="deco-heart d3"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></span>
     </div>
     <div class="hero-split-photo">
       <img src="brand_assets/ChatGPT Image 21 maj 2026, 09_14_00.png" alt="dr hab. Adrianna Kondracka" />
@@ -2852,6 +2909,11 @@
 
     <div class="testimonials-header reveal">
       <span class="testimonials-badge">Opinie pacjentek</span>
+      <div style="display:flex;justify-content:center;gap:5px;margin:0.75rem 0" aria-hidden="true">
+        <span class="deco-heart d1"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></span>
+        <span class="deco-heart d2"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></span>
+        <span class="deco-heart d3"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></span>
+      </div>
       <h2 class="section-heading" style="margin-bottom:0.5rem">Co mówią pacjentki</h2>
       <p style="font-size:15px;color:var(--muted);line-height:1.7">Prawdziwe opinie ze ZnanyLekarz.pl — doświadczenia kobiet, które powierzyły nam swoją opiekę.</p>
     </div>
@@ -3177,10 +3239,12 @@
       sections.forEach(s => { if (sy >= s.offsetTop - 90) cur = s.id; });
       links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + cur));
 
-      /* float CTA + vertical name */
+      /* float CTA — pojawia się po hero i zostaje na stałe */
       const threshold = (heroEl?.offsetHeight || window.innerHeight) * 0.75;
       const past = sy > threshold;
-      floatCTA?.classList.toggle('visible', past);
+      if (past && floatCTA && !floatCTA.classList.contains('visible')) {
+        floatCTA.classList.add('visible');
+      }
       nameVert?.classList.toggle('visible', past);
 
       /* parallax — desktop only to avoid mobile jank */
