@@ -1868,37 +1868,68 @@
       .exp-bento-card:hover .exp-bento-role { color: var(--blue); }
     }
 
-    /* ══ DOŚWIADCZENIE — split photo + cards ══ */
-    .exp-split {
+    /* ══ DOŚWIADCZENIE — same karty 2×2 ══ */
+    .exp-cards-only {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+      margin-top: 3rem;
+    }
+    @media (max-width: 640px) {
+      .exp-cards-only { grid-template-columns: 1fr; }
+    }
+
+    /* ══ KONSULTACJE — blok zdjęcia doktor ══ */
+    .consult-photo-intro {
       display: grid;
       grid-template-columns: 300px 1fr;
-      gap: 1.75rem;
-      margin-top: 3rem;
-      align-items: stretch;
+      gap: 3rem;
+      align-items: center;
+      margin-top: 3.5rem;
+      padding: 2.5rem;
+      background: linear-gradient(135deg, #faf8fc 0%, #fef5f8 100%);
+      border-radius: 24px;
+      border: 1px solid rgba(138,121,171,0.12);
+      box-shadow: 0 4px 28px rgba(138,121,171,0.07);
     }
-    .exp-split-photo {
-      border-radius: 20px;
+    .cpi-photo {
+      border-radius: 18px;
       overflow: hidden;
-      min-height: 430px;
+      height: 380px;
       box-shadow: var(--card-shadow);
-      position: relative;
     }
-    .exp-split-photo img {
+    .cpi-photo img {
       width: 100%; height: 100%;
       object-fit: cover;
       object-position: center 18%;
       display: block;
-      filter: grayscale(8%) contrast(1.05);
+      filter: grayscale(6%) contrast(1.04);
     }
-    .exp-split-cards {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.25rem;
-      align-content: start;
+    .cpi-text h3 {
+      font-family: var(--font-serif);
+      font-size: clamp(1.25rem, 1.9vw, 1.75rem);
+      font-weight: 700; color: #2a2838;
+      margin-bottom: 1rem; line-height: 1.25;
     }
-    @media (max-width: 960px) {
-      .exp-split { grid-template-columns: 1fr; }
-      .exp-split-photo { min-height: 260px; max-height: 340px; }
+    .cpi-text p {
+      font-size: 15px; color: var(--muted);
+      line-height: 1.85; margin-bottom: 2rem;
+    }
+    .cpi-stats {
+      display: flex; gap: 2rem; flex-wrap: wrap;
+    }
+    .cpi-stat { display: flex; flex-direction: column; gap: 0.2rem; }
+    .cpi-stat strong {
+      font-family: var(--font-display);
+      font-size: 2.2rem; color: var(--blue); line-height: 1;
+    }
+    .cpi-stat span { font-size: 12px; color: var(--muted); font-weight: 500; }
+    @media (max-width: 860px) {
+      .consult-photo-intro { grid-template-columns: 1fr; gap: 2rem; }
+      .cpi-photo { height: 260px; }
+    }
+    @media (max-width: 640px) {
+      .consult-photo-intro { padding: 1.75rem; border-radius: 18px; margin-top: 2.5rem; }
     }
 
     /* ══ CYTAT MIĘDZY PUBLIKACJAMI A CERTYFIKATAMI ══ */
@@ -2218,42 +2249,31 @@
     <h2 class="section-heading reveal">Doświadczenie</h2>
     <p class="section-sub reveal">Wieloletnia działalność kliniczna, naukowa i dydaktyczna w obszarze perinatologii, ginekologii i genetyki klinicznej.</p>
 
-    <div class="exp-split">
-
-      <div class="exp-split-photo reveal">
-        <img src="brand_assets/Dr Kondracka (5 z 19).jpg" alt="dr hab. n. med. Adrianna Kondracka" />
+    <div class="exp-cards-only">
+      <div class="exp-bento-card reveal">
+        <div class="exp-bento-num">01</div>
+        <div class="exp-bento-role">Profesor Uczelni</div>
+        <div class="exp-bento-place">Klinika Położnictwa i Patologii Ciąży · UM Lublin</div>
+        <div class="exp-bento-desc">Działalność naukowa, dydaktyczna i kliniczna w zakresie perinatologii i ginekologii. Prowadzenie badań z obszaru diagnostyki prenatalnej i ultrasonografii płodowej.</div>
       </div>
-
-      <div class="exp-split-cards">
-        <div class="exp-bento-card reveal">
-          <div class="exp-bento-num">01</div>
-          <div class="exp-bento-role">Profesor Uczelni</div>
-          <div class="exp-bento-place">Klinika Położnictwa i Patologii Ciąży · UM Lublin</div>
-          <div class="exp-bento-desc">Działalność naukowa, dydaktyczna i kliniczna w zakresie perinatologii i ginekologii. Prowadzenie badań z obszaru diagnostyki prenatalnej i ultrasonografii płodowej.</div>
-        </div>
-
-        <div class="exp-bento-card reveal">
-          <div class="exp-bento-num">02</div>
-          <div class="exp-bento-role">Lekarz Kierujący Oddziałem</div>
-          <div class="exp-bento-place">Klinika Położnictwa i Patologii Ciąży · USK1 Lublin</div>
-          <div class="exp-bento-desc">Nadzór kliniczny nad oddziałem, koordynacja opieki nad pacjentkami z ciążą wysokiego ryzyka, wdrażanie standardów diagnostyki prenatalnej.</div>
-        </div>
-
-        <div class="exp-bento-card reveal">
-          <div class="exp-bento-num">03</div>
-          <div class="exp-bento-role">Konsultant Wojewódzki ds. Perinatologii</div>
-          <div class="exp-bento-place">Województwo Lubelskie</div>
-          <div class="exp-bento-desc">Merytoryczny nadzór nad organizacją opieki perinatalnej w regionie lubelskim, opiniowanie procedur i standardów opieki nad ciężarną.</div>
-        </div>
-
-        <div class="exp-bento-card reveal">
-          <div class="exp-bento-num">04</div>
-          <div class="exp-bento-role">Wykładowca i Szkoleniowiec</div>
-          <div class="exp-bento-place">Kursy specjalizacyjne · Ultrasonografia · Sympozja Naukowe</div>
-          <div class="exp-bento-desc">Szkolenie lekarzy z zakresu perinatologii, ultrasonografii i diagnostyki prenatalnej na kursach krajowych i konferencjach międzynarodowych.</div>
-        </div>
+      <div class="exp-bento-card reveal">
+        <div class="exp-bento-num">02</div>
+        <div class="exp-bento-role">Lekarz Kierujący Oddziałem</div>
+        <div class="exp-bento-place">Klinika Położnictwa i Patologii Ciąży · USK1 Lublin</div>
+        <div class="exp-bento-desc">Nadzór kliniczny nad oddziałem, koordynacja opieki nad pacjentkami z ciążą wysokiego ryzyka, wdrażanie standardów diagnostyki prenatalnej.</div>
       </div>
-
+      <div class="exp-bento-card reveal">
+        <div class="exp-bento-num">03</div>
+        <div class="exp-bento-role">Konsultant Wojewódzki ds. Perinatologii</div>
+        <div class="exp-bento-place">Województwo Lubelskie</div>
+        <div class="exp-bento-desc">Merytoryczny nadzór nad organizacją opieki perinatalnej w regionie lubelskim, opiniowanie procedur i standardów opieki nad ciężarną.</div>
+      </div>
+      <div class="exp-bento-card reveal">
+        <div class="exp-bento-num">04</div>
+        <div class="exp-bento-role">Wykładowca i Szkoleniowiec</div>
+        <div class="exp-bento-place">Kursy specjalizacyjne · Ultrasonografia · Sympozja Naukowe</div>
+        <div class="exp-bento-desc">Szkolenie lekarzy z zakresu perinatologii, ultrasonografii i diagnostyki prenatalnej na kursach krajowych i konferencjach międzynarodowych.</div>
+      </div>
     </div>
   </div>
   <div class="exp-deco-art" aria-hidden="true">
@@ -2440,6 +2460,22 @@
         <div class="consult-intro-item">
           <span class="consult-intro-num">08</span>
           <span class="consult-intro-text">Konsultacje z zakresu genetyki klinicznej i poradnictwo genetyczne</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Zdjęcie doktor + krótkie intro osobiste -->
+    <div class="consult-photo-intro reveal">
+      <div class="cpi-photo">
+        <img src="brand_assets/Dr Kondracka (5 z 19).jpg" alt="dr hab. n. med. Adrianna Kondracka" />
+      </div>
+      <div class="cpi-text">
+        <h3>Indywidualna opieka — Twoje zdrowie na pierwszym miejscu</h3>
+        <p>Każdą pacjentkę przyjmuję z pełnym zaangażowaniem, poświęcając czas na dokładne wyjaśnienie wyników badań i odpowiedź na wszystkie pytania. Moim celem jest, abyś czuła się bezpiecznie i pewnie na każdym etapie opieki — od pierwszej wizyty po rozwiązanie.</p>
+        <div class="cpi-stats">
+          <div class="cpi-stat"><strong>20+</strong><span>lat doświadczenia</span></div>
+          <div class="cpi-stat"><strong>100+</strong><span>publikacji naukowych</span></div>
+          <div class="cpi-stat"><strong>FMF</strong><span>certyfikat międzynarodowy</span></div>
         </div>
       </div>
     </div>
