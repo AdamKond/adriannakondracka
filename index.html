@@ -2180,6 +2180,74 @@
       .zl-cta-card h3 { font-size: 1.5rem; }
     }
 
+    /* ══ SECTION MICRO-DEKORACJE (nie hero) ══ */
+    .testimonials-section { position: relative; }
+    .visual-strip         { position: relative; }
+
+    .s-deco {
+      position: absolute; inset: 0;
+      pointer-events: none; overflow: hidden; z-index: 0;
+    }
+    .sd {
+      position: absolute;
+      opacity: 0.15;
+      color: #e6a5b8;
+      animation: microFloat 7s ease-in-out infinite;
+    }
+    .sd.pu { color: #8a79ab; }
+    @media (max-width: 640px) { .s-deco { display: none; } }
+
+    /* fdl — płynne wygaszanie na hero */
+    .fdl { transition: opacity 0.6s ease; opacity: 0; }
+
+    /* ══ RESPONSYWNOŚĆ — LAPTOP ══ */
+    @media (min-width: 1025px) and (max-width: 1280px) {
+      .hero-split-headline { font-size: clamp(1.85rem, 3.5vw, 3.8rem); }
+      .hero-split-text { padding: clamp(24px,3.5vw,48px) clamp(28px,5.5vw,72px); }
+    }
+
+    /* ══ RESPONSYWNOŚĆ — TABLET POŚREDNI (641-900px) ══ */
+    @media (min-width: 641px) and (max-width: 900px) {
+      .hero-split-photo { width: 44%; }
+      .hero-name-tag { font-size: 11px; }
+      .hero-split-text { padding: 18px 24px; }
+      .hero-split-headline { font-size: clamp(1.35rem, 3vw, 2.2rem); }
+      .hero-trust-sep { display: none; }
+      .hero-trust-bar { gap: 0.75rem; flex-wrap: wrap; }
+    }
+
+    /* Visual strip — stack na tablecie i mniejszym */
+    @media (max-width: 860px) {
+      .visual-cards { grid-template-columns: 1fr; }
+      .visual-card  { padding: 2rem 1.5rem; gap: 1.25rem; }
+      .visual-card-art { width: 120px; height: 120px; }
+    }
+
+    /* Consult photo intro — pośredni tablet */
+    @media (min-width: 641px) and (max-width: 860px) {
+      .consult-photo-intro { grid-template-columns: 220px 1fr; gap: 1.75rem; }
+      .cpi-photo { height: 280px; }
+    }
+
+    /* Inter-quote — mobile */
+    @media (max-width: 640px) {
+      .iq-text { font-size: 1.05rem; }
+      .iq-mark { font-size: 3.6rem; }
+      .inter-quote-section { padding: clamp(40px,8vw,60px) 18px; }
+    }
+
+    /* Trust bar — mobile */
+    @media (max-width: 640px) {
+      .hero-trust-sep { display: none; }
+      .hero-trust-bar { gap: 0.8rem; margin-top: 1.5rem; }
+    }
+
+    /* Pub stats — bardzo małe ekrany */
+    @media (max-width: 400px) {
+      .pub-stats { grid-template-columns: 1fr 1fr; }
+      .pub-stat-num { font-size: 1.8rem; }
+    }
+
     /* ── Reduce motion for accessibility ── */
     @media (prefers-reduced-motion: reduce) {
       .reveal, .reveal.visible { transition: opacity 0.3s ease !important; transform: none !important; }
@@ -2368,6 +2436,14 @@
      OPINIE PACJENTEK — po doświadczeniu
 ══════════════════════════════════ -->
 <div class="testimonials-section">
+  <!-- Małe dekoracje sekcji -->
+  <div class="s-deco" aria-hidden="true">
+    <svg class="sd" style="top:30px;right:56px;animation-delay:0s"     width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+    <svg class="sd" style="top:48px;right:26px;animation-delay:1.0s"   width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+    <svg class="sd pu" style="top:55px;right:104px;animation-delay:1.8s" width="26" height="12" viewBox="0 0 28 13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M0 6.5L4 6.5L7 6.5L9 2L11.5 11L14 4L16 8L18 6.5L28 6.5"/></svg>
+    <svg class="sd pu" style="bottom:40px;left:44px;animation-delay:2.3s" width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><rect x="5.5" y="0" width="3" height="14" rx="1.5"/><rect x="0" y="5.5" width="14" height="3" rx="1.5"/></svg>
+    <svg class="sd" style="bottom:28px;left:82px;animation-delay:0.6s"  width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+  </div>
   <div class="section-inner">
     <div class="testimonials-header reveal">
       <span class="testimonials-badge">Opinie pacjentek</span>
@@ -2411,6 +2487,12 @@
      VISUAL STRIP — 2 grafiki
 ══════════════════════════════════ -->
 <div class="visual-strip">
+  <div class="s-deco" aria-hidden="true">
+    <svg class="sd pu" style="top:32px;left:28px;animation-delay:0.4s" width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><rect x="5.5" y="0" width="3" height="14" rx="1.5"/><rect x="0" y="5.5" width="14" height="3" rx="1.5"/></svg>
+    <svg class="sd" style="top:52px;left:62px;animation-delay:1.6s"   width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+    <svg class="sd pu" style="bottom:40px;right:52px;animation-delay:2.5s" width="26" height="12" viewBox="0 0 28 13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M0 6.5L4 6.5L7 6.5L9 2L11.5 11L14 4L16 8L18 6.5L28 6.5"/></svg>
+    <svg class="sd" style="bottom:28px;right:28px;animation-delay:0.8s" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+  </div>
   <div class="section-inner">
     <p class="section-eyebrow reveal">Moje podejście</p>
     <h2 class="section-heading reveal">Troska i precyzja w każdym kroku</h2>
@@ -3001,7 +3083,13 @@
 <!-- ══════════════════════════════════
      07 KONTAKT
 ══════════════════════════════════ -->
-<div id="contact" class="light-section">
+<div id="contact" class="light-section" style="position:relative;overflow:hidden">
+  <div class="s-deco" aria-hidden="true">
+    <svg class="sd" style="top:36px;right:44px;animation-delay:0s"   width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+    <svg class="sd pu" style="top:28px;right:80px;animation-delay:1.3s" width="26" height="12" viewBox="0 0 28 13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M0 6.5L4 6.5L7 6.5L9 2L11.5 11L14 4L16 8L18 6.5L28 6.5"/></svg>
+    <svg class="sd pu" style="bottom:44px;left:36px;animation-delay:2.0s" width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><rect x="5.5" y="0" width="3" height="14" rx="1.5"/><rect x="0" y="5.5" width="14" height="3" rx="1.5"/></svg>
+    <svg class="sd" style="bottom:32px;left:68px;animation-delay:0.7s"  width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+  </div>
   <div class="section-inner">
     <p class="section-eyebrow reveal">07</p>
     <h2 class="section-heading reveal">Kontakt</h2>
@@ -3218,6 +3306,12 @@
         floatCTA.classList.add('visible');
       }
       nameVert?.classList.toggle('visible', past);
+
+      /* fdl — niewidoczna na hero, widoczna po pierwszym ekranie */
+      const fdlEl = document.querySelector('.fdl');
+      if (fdlEl) {
+        fdlEl.style.opacity = sy < (heroEl?.offsetHeight || window.innerHeight) * 0.85 ? '0' : '1';
+      }
 
       /* parallax — desktop only to avoid mobile jank */
       if (heroImg && !isMobile() && sy < window.innerHeight) {
