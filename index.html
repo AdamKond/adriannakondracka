@@ -5,6 +5,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>dr hab. Adrianna Kondracka — Ginekolog, Perinatolog, Genetyk Kliniczny</title>
 
+  <!-- ══ SECURITY HEADERS (meta) ══ -->
+  <!-- Content Security Policy -->
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    style-src   'self' 'unsafe-inline' https://fonts.googleapis.com;
+    font-src    'self' https://fonts.gstatic.com;
+    img-src     'self' data: blob:;
+    script-src  'self' 'unsafe-inline';
+    connect-src 'none';
+    frame-src   'none';
+    object-src  'none';
+    base-uri    'self';
+    form-action 'self';
+    upgrade-insecure-requests;
+  ">
+  <!-- Referrer policy — nie przekazuje pełnego URL do zewnętrznych serwisów -->
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <!-- Zabezpieczenie przed wstrzyknięciem MIME-type -->
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <!-- Ograniczenie dostępu do API przeglądarki -->
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=()">
+  <!-- Blokada osadzania strony w iframe (clickjacking) -->
+  <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+  <!-- SEO podstawowe -->
+  <meta name="description" content="dr hab. n. med. Adrianna Kondracka — ginekolog, perinatolog i genetyk kliniczny. Konsultant Wojewódzki ds. Perinatologii, certyfikat FMF. Lublin.">
+  <meta name="robots" content="index, follow">
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=Inter+Tight:wght@700;800;900&display=swap" rel="stylesheet" />
@@ -2192,7 +2219,7 @@
 <div class="page-name-vert" id="pageNameVert">dr hab. n. med. Adrianna Kondracka</div>
 
 <!-- ── Floating CTA ── -->
-<a id="float-cta" href="https://www.znanylekarz.pl/adrianna-kondracka/ginekolog-genetyk/lublin" target="_blank" rel="noopener" aria-label="Umów wizytę online">
+<a id="float-cta" href="https://www.znanylekarz.pl/adrianna-kondracka/ginekolog-genetyk/lublin" target="_blank" rel="noopener noreferrer" aria-label="Umów wizytę online">
   <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
   Umów wizytę
 </a>
@@ -2277,7 +2304,7 @@
 
   <!-- bottom-right CTA -->
   <div class="hero-cta-br">
-    <a href="https://www.znanylekarz.pl/adrianna-kondracka/ginekolog-genetyk/lublin" target="_blank" rel="noopener" class="btn-resume">UMÓW WIZYTĘ →</a>
+    <a href="https://www.znanylekarz.pl/adrianna-kondracka/ginekolog-genetyk/lublin" target="_blank" rel="noopener noreferrer" class="btn-resume">UMÓW WIZYTĘ →</a>
   </div>
 
 </section>
@@ -2572,7 +2599,7 @@
       </div>
 
       <!-- Karta ZnanyLekarz -->
-      <a href="https://www.znanylekarz.pl/adrianna-kondracka/ginekolog-genetyk/lublin" target="_blank" rel="noopener" class="zl-cta-card">
+      <a href="https://www.znanylekarz.pl/adrianna-kondracka/ginekolog-genetyk/lublin" target="_blank" rel="noopener noreferrer" class="zl-cta-card">
         <div class="zl-badge">ZnanyLekarz.pl</div>
         <div class="zl-stars">
           <span class="zl-star">★</span><span class="zl-star">★</span><span class="zl-star">★</span><span class="zl-star">★</span><span class="zl-star">★</span>
@@ -3015,7 +3042,7 @@
           </div>
           <div>
             <div class="contact-lbl">Rejestracja online</div>
-            <div class="contact-val"><a href="https://www.znanylekarz.pl/adrianna-kondracka/ginekolog-genetyk/lublin" target="_blank" rel="noopener">ZnanyLekarz.pl →</a></div>
+            <div class="contact-val"><a href="https://www.znanylekarz.pl/adrianna-kondracka/ginekolog-genetyk/lublin" target="_blank" rel="noopener noreferrer">ZnanyLekarz.pl →</a></div>
           </div>
         </div>
         <div class="contact-row reveal">
@@ -3024,7 +3051,7 @@
           </div>
           <div>
             <div class="contact-lbl">Instagram</div>
-            <div class="contact-val"><a href="https://www.instagram.com/adrianna_kondracka/" target="_blank" rel="noopener">@adrianna_kondracka →</a></div>
+            <div class="contact-val"><a href="https://www.instagram.com/adrianna_kondracka/" target="_blank" rel="noopener noreferrer">@adrianna_kondracka →</a></div>
           </div>
         </div>
       </div>
@@ -3032,7 +3059,7 @@
       <div class="contact-cta-card reveal">
         <h3>Umów konsultację</h3>
         <p>Oferuję konsultacje z zakresu ginekologii, położnictwa, perinatologii i genetyki klinicznej. Zapraszam pacjentki prowadzące ciążę, wymagające diagnostyki prenatalnej lub konsultacji genetycznej.</p>
-        <a href="https://www.znanylekarz.pl/adrianna-kondracka/ginekolog-genetyk/lublin" target="_blank" rel="noopener" class="btn-blue">→ Zarejestruj się online</a>
+        <a href="https://www.znanylekarz.pl/adrianna-kondracka/ginekolog-genetyk/lublin" target="_blank" rel="noopener noreferrer" class="btn-blue">→ Zarejestruj się online</a>
       </div>
     </div>
   </div>
@@ -3283,7 +3310,7 @@
 <div id="appt-strip" role="complementary" aria-label="Umów wizytę">
   <div class="appt-dot"></div>
   <span class="appt-text">Wolne terminy dostępne — zarezerwuj online</span>
-  <a href="https://www.znanylekarz.pl/adrianna-kondracka/ginekolog-genetyk/lublin" target="_blank" rel="noopener" class="appt-btn">
+  <a href="https://www.znanylekarz.pl/adrianna-kondracka/ginekolog-genetyk/lublin" target="_blank" rel="noopener noreferrer" class="appt-btn">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" width="15" height="15"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
     Umów wizytę
   </a>
