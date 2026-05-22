@@ -64,7 +64,7 @@
       --ease:     cubic-bezier(.16,1,.3,1);
     }
 
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; scroll-padding-top: 74px; }
 
     body {
       background: var(--body-bg);
@@ -2411,12 +2411,12 @@
     .porady-card:nth-child(5){background:#f7f5fc;box-shadow:0 4px 30px rgba(138,121,171,0.09);transform:rotate(6.5deg) translateY(120px);z-index:1;transition-delay:0.40s}
     .porady-card:nth-child(6){background:#fffaf9;box-shadow:0 4px 26px rgba(230,165,184,0.10);transform:rotate(10deg)  translateY(120px);z-index:0;transition-delay:0.50s}
     /* final revealed positions */
-    .porady-sec.revealed .porady-card:nth-child(1){transform:rotate(-8deg)  translateY(-22px);opacity:1}
-    .porady-sec.revealed .porady-card:nth-child(2){transform:rotate(-4deg)  translateY(-10px);opacity:1}
-    .porady-sec.revealed .porady-card:nth-child(3){transform:rotate(-1deg)  translateY(-3px); opacity:1}
-    .porady-sec.revealed .porady-card:nth-child(4){transform:rotate(3deg)   translateY(10px); opacity:1}
-    .porady-sec.revealed .porady-card:nth-child(5){transform:rotate(6.5deg) translateY(22px); opacity:1}
-    .porady-sec.revealed .porady-card:nth-child(6){transform:rotate(10deg)  translateY(36px); opacity:1}
+    .porady-section.revealed .porady-card:nth-child(1){transform:rotate(-8deg)  translateY(-22px);opacity:1}
+    .porady-section.revealed .porady-card:nth-child(2){transform:rotate(-4deg)  translateY(-10px);opacity:1}
+    .porady-section.revealed .porady-card:nth-child(3){transform:rotate(-1deg)  translateY(-3px); opacity:1}
+    .porady-section.revealed .porady-card:nth-child(4){transform:rotate(3deg)   translateY(10px); opacity:1}
+    .porady-section.revealed .porady-card:nth-child(5){transform:rotate(6.5deg) translateY(22px); opacity:1}
+    .porady-section.revealed .porady-card:nth-child(6){transform:rotate(10deg)  translateY(36px); opacity:1}
     .pc-icon {
       width: 40px; height: 40px;
       border-radius: 10px;
@@ -3672,7 +3672,7 @@
         sec.classList.add('revealed');
         observer.disconnect();
       }
-    }, { threshold: 0.12 });
+    }, { threshold: 0.05 });
     observer.observe(sec);
 
     /* 2. Scroll — horizontal pan (desktop only) */
