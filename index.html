@@ -12,7 +12,7 @@
     style-src   'self' 'unsafe-inline' https://fonts.googleapis.com;
     font-src    'self' https://fonts.gstatic.com;
     img-src     'self' data: blob:;
-    script-src  'self' 'unsafe-inline';
+    script-src  'self' 'unsafe-inline' https://cdnjs.cloudflare.com;
     connect-src 'none';
     frame-src   'none';
     object-src  'none';
@@ -34,7 +34,9 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=Inter+Tight:wght@700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=Inter+Tight:wght@700;800;900&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -2701,6 +2703,35 @@
     }
 
     /* ══════════════════════════════════
+       S-HEADLINE — animowany nagłówek GSAP
+    ══════════════════════════════════ */
+    #s-headline {
+      background: #f4f1fc;
+      padding: clamp(64px, 9vw, 110px) clamp(20px, 6vw, 80px);
+    }
+    .headline {
+      font-family: 'Oswald', 'Bebas Neue', Impact, sans-serif;
+      font-weight: 700;
+      font-size: clamp(2.8rem, 8vw, 8rem);
+      line-height: 1.0;
+      letter-spacing: -.01em;
+      color: var(--dark);
+    }
+    .headline-line { overflow: hidden; display: block; }
+    .headline-line-inner { display: block; }
+    .headline .accent {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-style: italic;
+      font-weight: 400;
+      color: var(--blue);
+      font-size: .88em;
+    }
+    @media (max-width: 640px) {
+      #s-headline { padding: 48px 20px; }
+      .headline { font-size: clamp(2.2rem, 10vw, 3.8rem); }
+    }
+
+    /* ══════════════════════════════════
        PORADY CIĄŻOWE — scroll fan cards
     ══════════════════════════════════ */
     .porady-section {
@@ -2973,6 +3004,18 @@
     <a href="https://www.znanylekarz.pl/adrianna-kondracka/ginekolog-genetyk/lublin" target="_blank" rel="noopener noreferrer" class="btn-resume">UMÓW WIZYTĘ →</a>
   </div>
 
+</section>
+
+<!-- ══════════════════════════════════
+     S-HEADLINE — animowany nagłówek
+══════════════════════════════════ -->
+<section id="s-headline">
+  <h2 class="headline" aria-label="Ginekologia dla kobiet, które chcą czuć się zadbane i zdrowe.">
+    <span class="headline-line"><span class="headline-line-inner">GINEKOLOGIA DLA</span></span>
+    <span class="headline-line"><span class="headline-line-inner">KOBIET, KTÓRE</span></span>
+    <span class="headline-line"><span class="headline-line-inner">CHCĄ CZUĆ SIĘ</span></span>
+    <span class="headline-line"><span class="headline-line-inner"><em class="accent">zadbane</em>&nbsp;I ZDROWE.</span></span>
+  </h2>
 </section>
 
 <!-- ══════════════════════════════════
@@ -4279,5 +4322,33 @@
   <button id="appt-close" aria-label="Zamknij">✕</button>
 </div>
 
+<!-- ── GSAP headline animation ── -->
+<script>
+(function() {
+  function initHeadline() {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+    gsap.registerPlugin(ScrollTrigger);
+    gsap.utils.toArray('.headline-line-inner').forEach(function(el, i) {
+      gsap.fromTo(el,
+        { yPercent: 105 },
+        {
+          yPercent: 0,
+          duration: 1,
+          ease: 'power3.out',
+          delay: i * 0.08,
+          scrollTrigger: { trigger: el, start: 'top 90%' }
+        }
+      );
+    });
+  }
+  /* GSAP scripts mają defer — czekamy aż się załadują */
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initHeadline);
+  } else {
+    /* DOM gotowy, ale GSAP może jeszcze ładować (defer) */
+    window.addEventListener('load', initHeadline);
+  }
+})();
+</script>
 </body>
 </html>
