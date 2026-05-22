@@ -3550,63 +3550,7 @@ float vn(vec2 p){
   float d=fract(sin(dot(i+vec2(1.0,1.0),vec2(127.1,311.7)))*43758.5453);
   return mix(mix(a,b,f.x),mix(cc,d,f.x),f.y);
 }
-const vec3 cSk=vec3(0.970,0.820,0.800);
-const vec3 cSk2=vec3(0.870,0.640,0.670);
 float smst(float a,float b,float t){float x=clamp((t-a)/(b-a),0.0,1.0);return x*x*(3.0-2.0*x);}
-float smin(float a,float b,float k){float h=clamp(0.5+0.5*(b-a)/k,0.0,1.0);return mix(b,a,h)-k*h*(1.0-h);}
-vec3 rotY(vec3 p,float a){float c=cos(a),s=sin(a);return vec3(p.x*c+p.z*s,p.y,-p.x*s+p.z*c);}
-float sdBabyL(vec3 p,float t){
-  float bob=sin(t*0.65)*0.016,br=sin(t*0.90)*0.007;
-  p.y-=bob;
-  float hd=length(p-vec3(0.0,0.15+br,0.02))-(0.108+br*0.5);
-  vec3 bp=p-vec3(0.0,-0.02,0.01);
-  float bd=length(vec3(bp.x*1.15,bp.y*1.30,bp.z*0.88))-0.118;
-  float k1=length(p-vec3(-0.082,0.04,0.108))-0.058;
-  float k2=length(p-vec3( 0.082,0.04,0.108))-0.058;
-  float ba=smin(hd,bd,0.060);ba=smin(ba,k1,0.044);return smin(ba,k2,0.044);
-}
-float sdBaby(vec3 p,float t){return sdBabyL(rotY(p,-t*0.22),t);}
-vec3 nrmBaby(vec3 p,float t){
-  float e=0.0022;
-  return normalize(vec3(
-    sdBaby(p+vec3(e,0,0),t)-sdBaby(p-vec3(e,0,0),t),
-    sdBaby(p+vec3(0,e,0),t)-sdBaby(p-vec3(0,e,0),t),
-    sdBaby(p+vec3(0,0,e),t)-sdBaby(p-vec3(0,0,e),t)
-  ));
-}
-vec2 iEgg(vec3 ro,vec3 rd,float t){
-  vec3 ro2=rotY(ro,-t*0.22),rd2=rotY(rd,-t*0.22);
-  vec3 r=vec3(0.315,0.395,0.315);
-  vec3 av=ro2/r,bv2=rd2/r;
-  float bv=dot(av,bv2),cv=dot(av,av)-1.0,h=bv*bv-cv;
-  if(h<0.0)return vec2(-1.0);
-  h=sqrt(h);return vec2(-bv-h,-bv+h);
-}
-vec3 nrmEgg(vec3 p,float t){
-  vec3 r=vec3(0.315,0.395,0.315);
-  vec3 pL=rotY(p,-t*0.22);
-  return normalize(rotY(pL/(r*r),t*0.22));
-}
-float rmBaby(vec3 ro,vec3 rd,float t,float tMin,float tMax){
-  float d=tMin+0.008;
-  for(int i=0;i<52;i++){
-    float h=sdBaby(ro+rd*d,t);
-    if(h<0.0012)return d;
-    d+=h*0.72;if(d>tMax)break;
-  }
-  return -1.0;
-}
-vec3 shadeBaby(vec3 p,vec3 rd,float t){
-  vec3 N=nrmBaby(p,t),V=normalize(-rd);
-  vec3 L=normalize(vec3(0.55,0.45,0.80)),L2=normalize(vec3(-0.45,0.20,0.65));
-  float diff=max(0.0,dot(N,L)),diff2=max(0.0,dot(N,L2))*0.26;
-  float sp=pow(max(0.0,dot(normalize(L+V),N)),36.0)*0.40;
-  float rim=pow(1.0-max(0.0,dot(N,V)),3.0)*0.55;
-  float sss=max(0.0,dot(N,-L))*0.28;
-  float nx=vn(N.xy*7.0+t*0.07)*0.025;
-  vec3 base=mix(cSk2,cSk,clamp(diff+nx,0.0,1.0));
-  return base*(diff+diff2+0.22)+cW*sp+cK*rim+cSk*sss;
-}
 vec3 rings(vec2 uv,float t){
   float d=length(uv),g=0.0;
   for(int i=0;i<5;i++){
@@ -3615,47 +3559,28 @@ vec3 rings(vec2 uv,float t){
   }
   vec3 wc=mix(cP,cK,sin(d*7.0-t*2.5)*0.5+0.5);
   float cp=exp(-d*d*9.0)*(0.6+0.4*sin(t*5.0));
-  float bgr=exp(-d*d*1.2);
-  return cD+cP*0.15*bgr+cK*0.04*bgr*bgr+vn(uv*5.0+t*0.15)*0.025+wc*g*0.9+cK*cp*0.4;
+  float bg=exp(-d*d*1.2);
+  return cD+cP*0.15*bg+cK*0.04*bg*bg+vn(uv*5.0+t*0.15)*0.025+wc*g*0.9+cK*cp*0.4;
 }
-vec3 mainScene(vec2 uv,float t){
-  vec3 ro=vec3(0.0,0.10,1.55),rd=normalize(vec3(uv,-1.38));
-  float d=length(uv),bg=exp(-d*d*0.75);
-  vec3 back=cD+cP*0.28*bg+cK*0.09*bg*bg+vn(uv*2.2+t*0.04)*0.025;
-  vec2 eT=iEgg(ro,rd,t);
-  vec3 col=back;
-  if(eT.x>0.0){
-    float tN=max(eT.x,0.001),tF=eT.y;
-    vec3 eP=ro+rd*tN,eN=nrmEgg(eP,t),eV=normalize(-rd);
-    vec3 eL=normalize(vec3(0.55,0.45,0.80));
-    float fr=pow(1.0-max(0.0,dot(eN,eV)),3.5);
-    float eSp=pow(max(0.0,dot(normalize(eL+eV),eN)),72.0)*0.8;
-    vec3 eggS=cK*0.25*(0.08+0.92*fr)+cW*eSp*0.9+cP*fr*0.2;
-    float bT=rmBaby(ro,rd,t,tN+0.012,tF-0.008);
-    vec3 inner;
-    if(bT>0.0){
-      vec3 bP=ro+rd*bT;
-      inner=shadeBaby(bP,rd,t);
-      float atm=bT-tN;
-      inner=mix(inner,inner+cK*0.12+cP*0.08,clamp(atm*1.2,0.0,0.35));
-    }else{
-      float dep=tF-tN;
-      inner=(cK*0.38+cP*0.28)*(0.65+0.35*exp(-dep*3.5))+cW*0.06*exp(-dep*6.0);
-    }
-    col=mix(inner,eggS,clamp(fr*0.5+eSp*0.6,0.0,0.75));
-  }
+vec3 ambient(vec2 uv,float t){
+  float d=length(uv);
+  float cg=exp(-d*d*0.75),cg2=exp(-d*d*2.2);
+  float n1=vn(uv*1.4+t*0.035),n2=vn(uv*2.8-t*0.025+vec2(1.7,2.3));
+  float neb=mix(n1,n2,0.5)*0.07;
+  vec3 bg=cD+cP*0.32*cg+cK*0.13*cg2+cW*0.05*cg2*cg2+cP*0.05*neb+cK*0.03*neb;
   vec3 pc=vec3(0.0);
-  for(int i=0;i<20;i++){
+  for(int i=0;i<28;i++){
     float fi=float(i);
     vec2 sd=h2(fi*7.3+1.1);
-    float ang=sd.x*6.28318+t*(0.06+sd.y*0.10);
-    float rad=0.22+sd.y*0.88,yo=(sd.x*2.0-1.0)*0.50;
-    float drft=vn(vec2(fi*0.1,t*0.04))*0.14;
-    vec2 pp=vec2(cos(ang)*rad,sin(ang)*rad*0.50+yo+drft);
-    float ps=0.006+sd.x*0.007;
-    pc+=mix(cP,cK,sd.y)*exp(-dot(uv-pp,uv-pp)/(ps*ps*4.0))*(0.40+0.60*sin(fi*3.1+t*1.5))*0.65;
+    float ang=sd.x*6.28318+t*(0.07+sd.y*0.11);
+    float rad=0.15+sd.y*1.05,yo=(sd.x*2.0-1.0)*0.55;
+    float drft=vn(vec2(fi*0.1,t*0.04))*0.18;
+    vec2 pp=vec2(cos(ang)*rad,sin(ang)*rad*0.5+yo+drft);
+    float ps=0.006+sd.x*0.008;
+    float pulse=0.45+0.55*sin(fi*3.1+t*1.6);
+    pc+=mix(cP,cK,sd.y)*exp(-dot(uv-pp,uv-pp)/(ps*ps*4.0))*pulse*0.75;
   }
-  return col+pc;
+  return bg+pc;
 }
 void main(){
   vec2 uv=(gl_FragCoord.xy-0.5*uR)/min(uR.x,uR.y);
@@ -3665,9 +3590,9 @@ void main(){
     col=rings(uv,t);
   }else if(t<3.5){
     float p=smst(2.0,3.5,t),fp=(p-0.5)*8.0;
-    col=mix(rings(uv/(1.0+p*3.5),2.0+p*0.4),mainScene(uv,t-2.0),p)+cW*exp(-fp*fp)*0.42;
+    col=mix(rings(uv/(1.0+p*3.5),2.0+p*0.4),ambient(uv,t-2.0),p)+cW*exp(-fp*fp)*0.45;
   }else{
-    col=mainScene(uv,t-2.0);
+    col=ambient(uv,t-2.0);
     if(t>11.5)col=mix(col,cW,smst(11.5,13.0,t));
   }
   col=col/(col+0.75)*1.35;
@@ -3692,7 +3617,9 @@ void main(){
   window._hasIntro3D=true;
   var ld=document.getElementById('page-loader');
   var f2=document.getElementById('loader-gooey');
+  var egg=document.getElementById('intro-egg');
   if(f2)f2.style.display='none';
+  if(egg)egg.style.display='block';
   c.style.display='block';
   ld.classList.add('has-3d');
   ld.style.background='#13121a';
