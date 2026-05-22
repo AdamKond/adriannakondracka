@@ -68,6 +68,83 @@
 
 
     /* ══════════════════════════════════
+       LETTER SWAP — animacja tekstu
+    ══════════════════════════════════ */
+    .ls-block {
+      padding-top: 3.8rem;
+      margin-top: 3.5rem;
+      border-top: 1px solid rgba(138,121,171,0.13);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: clamp(0.45rem, 1.1vw, 0.9rem);
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 1s ease, transform 1s cubic-bezier(.16,1,.3,1);
+    }
+    .ls-block.ls-in { opacity: 1; transform: translateY(0); }
+    .ls-line {
+      display: flex;
+      align-items: center;
+      cursor: default;
+      user-select: none;
+      position: relative;
+    }
+    .ls-char {
+      position: relative;
+      display: inline-flex;
+      overflow: hidden;
+      line-height: 1.15;
+    }
+    .ls-a {
+      display: block;
+      transform: translateY(0);
+      transition: transform 0.55s cubic-bezier(.16,1,.3,1);
+      transition-delay: calc(var(--d) * 1ms);
+    }
+    .ls-b {
+      position: absolute;
+      inset: 0;
+      transform: translateY(-100%);
+      transition: transform 0.55s cubic-bezier(.16,1,.3,1);
+      transition-delay: calc(var(--d) * 1ms);
+      color: var(--blue);
+    }
+    .ls-line:hover .ls-a { transform: translateY(105%); }
+    .ls-line:hover .ls-b { transform: translateY(0); }
+    /* Style poszczególnych linii */
+    .ls-main  {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5.5vw, 4.4rem);
+      letter-spacing: 0.05em;
+      color: var(--dark);
+    }
+    .ls-curly {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: clamp(1.1rem, 2.4vw, 2rem);
+      color: var(--blue);
+    }
+    .ls-mid {
+      font-size: clamp(0.72rem, 1.1vw, 0.94rem);
+      letter-spacing: 0.30em;
+      color: var(--muted);
+      font-weight: 500;
+    }
+    .ls-small {
+      font-size: clamp(0.60rem, 0.82vw, 0.76rem);
+      letter-spacing: 0.22em;
+      color: var(--muted2);
+    }
+    @media (max-width: 768px) {
+      .ls-main  { font-size: clamp(1.6rem, 8vw, 2.4rem); }
+      .ls-curly { font-size: clamp(0.95rem, 4.5vw, 1.4rem); }
+      .ls-mid   { letter-spacing: 0.18em; font-size: 0.72rem; }
+      .ls-small { letter-spacing: 0.14em; font-size: 0.62rem; }
+    }
+
+    /* ══════════════════════════════════
        USG VIDEO — "Observatory" card
     ══════════════════════════════════ */
     .usg-section {
@@ -3206,6 +3283,15 @@
         </div>
       </a>
 
+
+    <!-- Letter-swap tagline -->
+    <div class="ls-block" id="ls-block">
+      <div class="ls-line ls-main"  data-ls>Opieka ginekologiczna</div>
+      <div class="ls-line ls-curly" data-ls>{na każdym etapie życia}</div>
+      <div class="ls-line ls-mid"   data-ls>Ciąża&nbsp;&#8226;&nbsp;USG&nbsp;&#8226;&nbsp;Profilaktyka</div>
+      <div class="ls-line ls-small" data-ls>Spokojnie.&nbsp;Bezpiecznie.&nbsp;Profesjonalnie.</div>
+    </div>
+
     </div>
   </div>
 </div>
@@ -3874,6 +3960,40 @@
     apptStrip?.classList.remove('shown');
     setTimeout(() => { if (apptStrip) apptStrip.style.display = 'none'; }, 600);
   });
+
+  /* ── Letter swap animation ── */
+  (function(){
+    // Owijamy każdą literę w .ls-char z .ls-a i .ls-b
+    document.querySelectorAll('[data-ls]').forEach(line => {
+      const text = line.textContent;
+      line.textContent = '';
+      line.setAttribute('aria-label', text);
+      [...text].forEach((ch, i) => {
+        const c = document.createElement('span');
+        c.className = 'ls-char';
+        c.style.setProperty('--d', i * 22);  // 22ms stagger per litera
+        const a = document.createElement('span');
+        a.className = 'ls-a';
+        a.textContent = ch;
+        const b = document.createElement('span');
+        b.className = 'ls-b';
+        b.setAttribute('aria-hidden', 'true');
+        b.textContent = ch;
+        c.appendChild(a);
+        c.appendChild(b);
+        line.appendChild(c);
+      });
+    });
+    // Reveal po wejściu w viewport
+    const block = document.getElementById('ls-block');
+    if (block) {
+      new IntersectionObserver(entries => {
+        if (entries[0].isIntersecting) {
+          setTimeout(() => block.classList.add('ls-in'), 150);
+        }
+      }, { threshold: 0.25 }).observe(block);
+    }
+  })();
 
   /* ── USG video card reveal ── */
   (function(){
