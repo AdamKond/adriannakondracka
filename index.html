@@ -66,6 +66,68 @@
 
     html { scroll-behavior: smooth; scroll-padding-top: 74px; }
 
+    /* ══════════════════════════════════
+       SEKCJA WIDEO — cinematic reveal
+    ══════════════════════════════════ */
+    .vid-section {
+      height: 240vh;
+      position: relative;
+      background: #0e0d14;
+    }
+    .vid-sticky {
+      position: sticky;
+      top: 0;
+      height: 100svh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: #0e0d14;
+    }
+    .vid-frame {
+      position: absolute;
+      inset: 0;
+      will-change: transform, opacity, border-radius;
+      overflow: hidden;
+      transform-origin: center center;
+      opacity: 0;
+      transform: scale(0.80);
+      border-radius: 22px;
+    }
+    .vid-frame video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .vid-vignette {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to bottom,
+          rgba(14,13,20,0.55) 0%,
+          rgba(14,13,20,0.0) 25%,
+          rgba(14,13,20,0.0) 75%,
+          rgba(14,13,20,0.6) 100%);
+      pointer-events: none;
+      z-index: 1;
+    }
+    /* progress bar na dole wideo */
+    .vid-progress {
+      position: absolute;
+      bottom: 0; left: 0;
+      height: 2px;
+      background: rgba(255,255,255,0.25);
+      width: 100%;
+      z-index: 2;
+    }
+    .vid-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #8a79ab, #e6a5b8);
+      width: 0%;
+      transition: width 0.1s linear;
+    }
+
     body {
       background: var(--body-bg);
       color: var(--text);
@@ -2589,6 +2651,26 @@
 </section>
 
 <!-- ══════════════════════════════════
+     SEKCJA WIDEO — cinematic reveal
+══════════════════════════════════ -->
+<section id="vid-sec" class="vid-section" aria-label="Film o podejściu do pacjentki">
+  <div class="vid-sticky">
+    <div class="vid-frame" id="vid-frame">
+      <video
+        src="brand_assets/Filmiki/hf_20260522_094816_b6ac2a45-c8a0-4909-bfa7-bb9c4b65355e%20%281%29.mp4"
+        autoplay muted loop playsinline
+        preload="auto"
+        aria-hidden="true"
+      ></video>
+      <div class="vid-vignette"></div>
+    </div>
+    <div class="vid-progress" aria-hidden="true">
+      <div class="vid-progress-fill" id="vid-fill"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
      02 DOŚWIADCZENIE
 ══════════════════════════════════ -->
 <div id="experience" class="exp-white-section" style="position:relative;overflow:hidden">
@@ -3638,6 +3720,53 @@
     apptStrip?.classList.remove('shown');
     setTimeout(() => { if (apptStrip) apptStrip.style.display = 'none'; }, 600);
   });
+
+  /* ── Cinematic video reveal ── */
+  (function(){
+    const sec   = document.getElementById('vid-sec');
+    const frame = document.getElementById('vid-frame');
+    const fill  = document.getElementById('vid-fill');
+    if (!sec || !frame) return;
+
+    function easeInOut(t) { return t < 0.5 ? 2*t*t : -1+(4-2*t)*t; }
+
+    function updateVid() {
+      const rect = sec.getBoundingClientRect();
+      const maxS = sec.offsetHeight - window.innerHeight;
+      if (maxS <= 0) return;
+      const prog = Math.max(0, Math.min(1, -rect.top / maxS));
+
+      let scale, opacity, radius;
+
+      if (prog < 0.22) {
+        // Wejście: pojawia się i rośnie od małego
+        const p = easeInOut(prog / 0.22);
+        scale   = 0.78 + p * 0.22;
+        opacity = p;
+        radius  = 22 * (1 - p);
+      } else if (prog > 0.78) {
+        // Wyjście: znika i maleje
+        const p = easeInOut((prog - 0.78) / 0.22);
+        scale   = 1.0 - p * 0.08;
+        opacity = 1 - p;
+        radius  = p * 22;
+      } else {
+        // Pełny widok
+        scale   = 1;
+        opacity = 1;
+        radius  = 0;
+      }
+
+      frame.style.transform    = `scale(${scale.toFixed(4)})`;
+      frame.style.opacity      = opacity.toFixed(4);
+      frame.style.borderRadius = `${radius.toFixed(1)}px`;
+
+      if (fill) fill.style.width = `${(prog * 100).toFixed(1)}%`;
+    }
+
+    updateVid();
+    window.addEventListener('scroll', updateVid, { passive: true });
+  })();
 
   /* ── Porady scroll fan cards ── */
   (function(){
