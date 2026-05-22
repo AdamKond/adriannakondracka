@@ -87,12 +87,12 @@
     .vid-frame {
       position: absolute;
       inset: 0;
-      will-change: transform, opacity, border-radius;
+      will-change: transform, opacity, clip-path;
       overflow: hidden;
       transform-origin: center center;
       opacity: 0;
-      transform: scale(0.80);
-      border-radius: 22px;
+      transform: scale(1.12);
+      clip-path: inset(48% 0% 48% 0%);
     }
     .vid-frame video {
       width: 100%;
@@ -2658,7 +2658,7 @@
     <div class="vid-frame" id="vid-frame">
       <video
         src="brand_assets/video-intro.mp4"
-        autoplay muted loop playsinline
+        autoplay muted playsinline
         preload="auto"
         aria-hidden="true"
       ></video>
@@ -3728,7 +3728,8 @@
     const fill  = document.getElementById('vid-fill');
     if (!sec || !frame) return;
 
-    function easeInOut(t) { return t < 0.5 ? 2*t*t : -1+(4-2*t)*t; }
+    /* cubic ease in-out */
+    function eio(t){ return t<0.5 ? 4*t*t*t : 1-Math.pow(-2*t+2,3)/2; }
 
     function updateVid() {
       const rect = sec.getBoundingClientRect();
@@ -3736,32 +3737,31 @@
       if (maxS <= 0) return;
       const prog = Math.max(0, Math.min(1, -rect.top / maxS));
 
-      let scale, opacity, radius;
+      let ct, cb, sc, op;
 
-      if (prog < 0.22) {
-        // Wejście: pojawia się i rośnie od małego
-        const p = easeInOut(prog / 0.22);
-        scale   = 0.78 + p * 0.22;
-        opacity = p;
-        radius  = 22 * (1 - p);
-      } else if (prog > 0.78) {
-        // Wyjście: znika i maleje
-        const p = easeInOut((prog - 0.78) / 0.22);
-        scale   = 1.0 - p * 0.08;
-        opacity = 1 - p;
-        radius  = p * 22;
+      if (prog < 0.30) {
+        /* ── WEJŚCIE: przesłona otwiera się ze środka + zoom out ── */
+        const p = eio(prog / 0.30);
+        ct = 48 * (1 - p);          // clip top:    48% → 0%
+        cb = 48 * (1 - p);          // clip bottom: 48% → 0%
+        sc = 1.14 - p * 0.14;       // scale:       1.14 → 1.0
+        op = Math.min(1, p * 1.6);  // opacity:     0 → 1 (szybko)
+      } else if (prog > 0.70) {
+        /* ── WYJŚCIE: lekki zoom in + zanikanie ── */
+        const p = eio((prog - 0.70) / 0.30);
+        ct = 0; cb = 0;
+        sc = 1.0 + p * 0.06;        // scale:   1.0 → 1.06 (przybliżenie)
+        op = 1 - eio(p);            // opacity: 1 → 0
       } else {
-        // Pełny widok
-        scale   = 1;
-        opacity = 1;
-        radius  = 0;
+        /* ── PEŁNY WIDOK ── */
+        ct = 0; cb = 0; sc = 1; op = 1;
       }
 
-      frame.style.transform    = `scale(${scale.toFixed(4)})`;
-      frame.style.opacity      = opacity.toFixed(4);
-      frame.style.borderRadius = `${radius.toFixed(1)}px`;
+      frame.style.clipPath  = `inset(${ct.toFixed(2)}% 0% ${cb.toFixed(2)}% 0%)`;
+      frame.style.transform = `scale(${sc.toFixed(4)})`;
+      frame.style.opacity   = op.toFixed(4);
 
-      if (fill) fill.style.width = `${(prog * 100).toFixed(1)}%`;
+      if (fill) fill.style.width = (prog * 100).toFixed(1) + '%';
     }
 
     updateVid();
