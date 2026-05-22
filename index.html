@@ -2646,7 +2646,8 @@
       .porady-bg-word, .porady-hint { display: none !important; }
 
       /* Video section */
-      .vid-section { height: 160vh; }
+      .vid-section { height: 115vh; }
+      .vid-sticky  { height: 100svh; }
       .vid-progress { display: none; }
 
       /* USG Observatory */
@@ -2706,8 +2707,26 @@
        S-HEADLINE — animowany nagłówek GSAP
     ══════════════════════════════════ */
     #s-headline {
-      background: #f4f1fc;
+      background: linear-gradient(155deg, #f5eef8 0%, #ffffff 50%, #fef2f6 100%);
       padding: clamp(64px, 9vw, 110px) clamp(20px, 6vw, 80px);
+    }
+    /* Gdy GSAP aktywny — wyłącz CSS animations hero żeby nie było konfliktów */
+    .gsap-hero .hero-name-tag,
+    .gsap-hero .hero-split-text,
+    .gsap-hero .hero-split-photo,
+    .gsap-hero .hero-cta-br,
+    .gsap-hero .hero-marquee-wrap { animation: none !important; opacity: 0; }
+    .gsap-hero .hero-split-label  { opacity: 0; }
+    .gsap-hero .hero-split-headline { opacity: 0; }
+    .gsap-hero .hero-trust-bar { opacity: 0; }
+    /* Kursor glow */
+    .cursor-glow {
+      position: fixed; pointer-events: none; z-index: 9990;
+      width: 320px; height: 320px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(138,121,171,0.10) 0%, transparent 70%);
+      transform: translate(-50%,-50%);
+      transition: opacity 0.4s;
+      will-change: left, top;
     }
     .headline {
       font-family: 'Oswald', 'Bebas Neue', Impact, sans-serif;
@@ -4322,33 +4341,141 @@
   <button id="appt-close" aria-label="Zamknij">✕</button>
 </div>
 
-<!-- ── GSAP headline animation ── -->
+<!-- ── GSAP animations ── -->
 <script>
-(function() {
-  function initHeadline() {
-    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
-    gsap.registerPlugin(ScrollTrigger);
-    gsap.utils.toArray('.headline-line-inner').forEach(function(el, i) {
-      gsap.fromTo(el,
-        { yPercent: 105 },
-        {
-          yPercent: 0,
-          duration: 1,
-          ease: 'power3.out',
-          delay: i * 0.08,
-          scrollTrigger: { trigger: el, start: 'top 90%' }
-        }
-      );
+window.addEventListener('load', function() {
+  if (typeof gsap === 'undefined') return;
+  gsap.registerPlugin(ScrollTrigger);
+
+  /* ── 1. S-HEADLINE: wolniejsze linie wlatują z dołu ── */
+  gsap.utils.toArray('.headline-line-inner').forEach(function(el, i) {
+    gsap.fromTo(el,
+      { yPercent: 108 },
+      {
+        yPercent: 0,
+        duration: 1.5,
+        ease: 'power4.out',
+        delay: i * 0.13,
+        scrollTrigger: { trigger: el, start: 'top 92%' }
+      }
+    );
+  });
+
+  /* ── 2. HERO ANIMATIONS ── */
+  var home = document.getElementById('home');
+  if (!home) return;
+  home.classList.add('gsap-hero');
+
+  var tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+  /* Zdjęcie wlatuje z prawej + skala */
+  tl.fromTo('.hero-split-photo',
+    { opacity: 0, x: 60, scale: 1.06 },
+    { opacity: 1, x: 0, scale: 1, duration: 1.4 },
+    0.1
+  );
+
+  /* Eyebrow label */
+  tl.fromTo('.hero-split-label',
+    { opacity: 0, y: 22 },
+    { opacity: 1, y: 0, duration: 0.75 },
+    0.5
+  );
+
+  /* Nagłówek — każde słowo osobno wlatuje */
+  var hl = document.querySelector('.hero-split-headline');
+  if (hl) {
+    var words = hl.textContent.trim().split(/\s+/);
+    hl.innerHTML = words.map(function(w) {
+      return '<span class="hw" style="display:inline-block;overflow:hidden;vertical-align:bottom;line-height:1.15">'
+           + '<span class="hwi" style="display:inline-block">' + w + '</span></span>';
+    }).join(' ');
+    hl.style.opacity = '1';
+    tl.fromTo('.hwi',
+      { yPercent: 115, opacity: 0 },
+      { yPercent: 0, opacity: 1, duration: 0.95, stagger: 0.055 },
+      0.7
+    );
+  }
+
+  /* Trust bar — stagger */
+  tl.fromTo('.hero-trust-bar',
+    { opacity: 0 },
+    { opacity: 1, duration: 0.1 },
+    1.05
+  );
+  tl.fromTo('.hero-trust-item',
+    { opacity: 0, y: 16 },
+    { opacity: 1, y: 0, duration: 0.55, stagger: 0.1 },
+    1.1
+  );
+
+  /* Marquee */
+  tl.fromTo('.hero-marquee-wrap',
+    { opacity: 0, y: 14 },
+    { opacity: 1, y: 0, duration: 0.7 },
+    1.3
+  );
+
+  /* CTA button */
+  tl.fromTo('.hero-cta-br',
+    { opacity: 0, y: 12 },
+    { opacity: 1, y: 0, duration: 0.6 },
+    1.25
+  );
+
+  /* Name tag */
+  tl.fromTo('.hero-name-tag',
+    { opacity: 0, y: -14 },
+    { opacity: 1, y: 0, duration: 0.6 },
+    0.35
+  );
+
+  /* ── 3. PARALLAX — zdjęcie delikatnie podąża za kursorem ── */
+  if (window.innerWidth > 768) {
+    home.addEventListener('mousemove', function(e) {
+      var rect = home.getBoundingClientRect();
+      var x = (e.clientX - rect.left) / rect.width  - 0.5;
+      var y = (e.clientY - rect.top)  / rect.height - 0.5;
+      gsap.to('.hero-split-photo img', {
+        x: x * 18, y: y * 10,
+        duration: 1.4, ease: 'power2.out'
+      });
+    });
+    home.addEventListener('mouseleave', function() {
+      gsap.to('.hero-split-photo img', {
+        x: 0, y: 0,
+        duration: 1.8, ease: 'elastic.out(1, 0.5)'
+      });
     });
   }
-  /* GSAP scripts mają defer — czekamy aż się załadują */
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initHeadline);
-  } else {
-    /* DOM gotowy, ale GSAP może jeszcze ładować (defer) */
-    window.addEventListener('load', initHeadline);
+
+  /* ── 4. MAGNETIC — przycisk Umów wizytę ── */
+  var floatBtn = document.getElementById('float-cta');
+  if (floatBtn && window.innerWidth > 768) {
+    floatBtn.addEventListener('mousemove', function(e) {
+      var r = floatBtn.getBoundingClientRect();
+      var dx = e.clientX - (r.left + r.width  / 2);
+      var dy = e.clientY - (r.top  + r.height / 2);
+      gsap.to(floatBtn, { x: dx * 0.35, y: dy * 0.35, duration: 0.4, ease: 'power2.out', overwrite: true });
+    });
+    floatBtn.addEventListener('mouseleave', function() {
+      gsap.to(floatBtn, { x: 0, y: 0, duration: 0.9, ease: 'elastic.out(1, 0.45)', overwrite: true });
+    });
   }
-})();
+
+  /* ── 5. CURSOR GLOW — fioletowa poświata za kursorem ── */
+  if (window.innerWidth > 768 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    var glow = document.createElement('div');
+    glow.className = 'cursor-glow';
+    document.body.appendChild(glow);
+    var mx = 0, my = 0;
+    document.addEventListener('mousemove', function(e) {
+      mx = e.clientX; my = e.clientY;
+      gsap.to(glow, { left: mx, top: my, duration: 0.55, ease: 'power2.out', overwrite: true });
+    });
+  }
+});
 </script>
 </body>
 </html>
