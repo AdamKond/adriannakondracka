@@ -2317,7 +2317,7 @@
        PORADY CIĄŻOWE — scroll fan cards
     ══════════════════════════════════ */
     .porady-section {
-      height: 270vh;
+      height: 180vh;
       position: relative;
       background: var(--body-bg);
     }
@@ -2380,43 +2380,39 @@
       z-index: 1;
       flex-shrink: 0;
     }
-    .porady-section { height: 300vh; }
     .porady-track {
       display: flex;
       align-items: flex-end;
-      gap: 36px;
-      padding: 12px 0 32px;
+      gap: 48px;
+      padding: 12px 0 36px;
       will-change: transform;
       width: max-content;
     }
     .porady-card {
       flex-shrink: 0;
-      width: clamp(210px, 21vw, 268px);
-      min-height: clamp(268px, 28vw, 340px);
-      border-radius: 20px;
-      padding: clamp(1.1rem, 1.8vw, 1.65rem);
+      width: clamp(290px, 28vw, 360px);
+      min-height: clamp(370px, 38vw, 460px);
+      border-radius: 22px;
+      padding: clamp(1.5rem, 2.2vw, 2rem);
       border: 1px solid rgba(138,121,171,0.10);
       display: flex;
       flex-direction: column;
-      gap: 0.9rem;
-      /* entrance animation — start from below */
+      gap: 1.1rem;
       opacity: 0;
       transition: transform 1s cubic-bezier(.16,1,.3,1), opacity 0.8s ease;
     }
-    /* initial positions (low — will rise on reveal) */
-    .porady-card:nth-child(1){background:#fff;   box-shadow:0 4px 36px rgba(138,121,171,0.11);transform:rotate(-8deg)  translateY(120px);z-index:1;transition-delay:0.00s}
-    .porady-card:nth-child(2){background:#f7f5fc;box-shadow:0 4px 30px rgba(138,121,171,0.09);transform:rotate(-4deg)  translateY(120px);z-index:2;transition-delay:0.10s}
-    .porady-card:nth-child(3){background:#fff;   box-shadow:0 4px 36px rgba(138,121,171,0.12);transform:rotate(-1deg)  translateY(120px);z-index:3;transition-delay:0.20s}
-    .porady-card:nth-child(4){background:#fdf5f8;box-shadow:0 4px 30px rgba(230,165,184,0.12);transform:rotate(3deg)   translateY(120px);z-index:2;transition-delay:0.30s}
-    .porady-card:nth-child(5){background:#f7f5fc;box-shadow:0 4px 30px rgba(138,121,171,0.09);transform:rotate(6.5deg) translateY(120px);z-index:1;transition-delay:0.40s}
-    .porady-card:nth-child(6){background:#fffaf9;box-shadow:0 4px 26px rgba(230,165,184,0.10);transform:rotate(10deg)  translateY(120px);z-index:0;transition-delay:0.50s}
-    /* final revealed positions */
-    .porady-section.revealed .porady-card:nth-child(1){transform:rotate(-8deg)  translateY(-22px);opacity:1}
-    .porady-section.revealed .porady-card:nth-child(2){transform:rotate(-4deg)  translateY(-10px);opacity:1}
-    .porady-section.revealed .porady-card:nth-child(3){transform:rotate(-1deg)  translateY(-3px); opacity:1}
-    .porady-section.revealed .porady-card:nth-child(4){transform:rotate(3deg)   translateY(10px); opacity:1}
-    .porady-section.revealed .porady-card:nth-child(5){transform:rotate(6.5deg) translateY(22px); opacity:1}
-    .porady-section.revealed .porady-card:nth-child(6){transform:rotate(10deg)  translateY(36px); opacity:1}
+    /* initial: start from below */
+    .porady-card:nth-child(1){background:#fff;   box-shadow:0 6px 44px rgba(138,121,171,0.12);transform:rotate(-7deg)  translateY(130px);z-index:1;transition-delay:0.00s}
+    .porady-card:nth-child(2){background:#f7f5fc;box-shadow:0 6px 36px rgba(138,121,171,0.10);transform:rotate(-3deg)  translateY(130px);z-index:2;transition-delay:0.12s}
+    .porady-card:nth-child(3){background:#fff;   box-shadow:0 6px 44px rgba(138,121,171,0.13);transform:rotate(0deg)   translateY(130px);z-index:3;transition-delay:0.24s}
+    .porady-card:nth-child(4){background:#fdf5f8;box-shadow:0 6px 36px rgba(230,165,184,0.13);transform:rotate(4deg)   translateY(130px);z-index:2;transition-delay:0.36s}
+    .porady-card:nth-child(5){background:#f7f5fc;box-shadow:0 6px 36px rgba(138,121,171,0.10);transform:rotate(8deg)   translateY(130px);z-index:1;transition-delay:0.48s}
+    /* revealed: final fanned positions */
+    .porady-section.revealed .porady-card:nth-child(1){transform:rotate(-7deg)  translateY(-24px);opacity:1}
+    .porady-section.revealed .porady-card:nth-child(2){transform:rotate(-3deg)  translateY(-10px);opacity:1}
+    .porady-section.revealed .porady-card:nth-child(3){transform:rotate(0deg)   translateY(0px);  opacity:1}
+    .porady-section.revealed .porady-card:nth-child(4){transform:rotate(4deg)   translateY(14px); opacity:1}
+    .porady-section.revealed .porady-card:nth-child(5){transform:rotate(8deg)   translateY(30px); opacity:1}
     .pc-icon {
       width: 40px; height: 40px;
       border-radius: 10px;
@@ -2684,20 +2680,6 @@
           </div>
           <p class="pc-title">Regularne<br>badania USG</p>
           <p class="pc-text">W ciąży fizjologicznej zalecane są minimum 3 badania USG. Pierwsze w 11–14&nbsp;tygodniu (genetyczne), drugie w 18–22&nbsp;tygodniu (anatomiczne). Nie pomijaj żadnego.</p>
-        </article>
-
-        <article class="porady-card">
-          <div class="pc-icon">
-            <!-- Sylwetka w ruchu -->
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8a79ab" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="13" cy="4" r="1.5"/>
-              <path d="M13 6 L11 13 L8 19"/>
-              <path d="M11 13 L14 19"/>
-              <path d="M13 6 L17 10 L14 13"/>
-            </svg>
-          </div>
-          <p class="pc-title">Ruch w ciąży<br>jest dobry</p>
-          <p class="pc-text">30 minut umiarkowanej aktywności dziennie jest bezpieczne i korzystne. Spacer, pływanie lub joga prenatalna łagodzą bóle pleców, poprawiają nastrój i przygotowują do porodu.</p>
         </article>
 
         <article class="porady-card">
@@ -3675,7 +3657,7 @@
     }, { threshold: 0.05 });
     observer.observe(sec);
 
-    /* 2. Scroll — horizontal pan (desktop only) */
+    /* 2. Scroll — horizontal pan szybki (desktop only) */
     function update() {
       if (isMob()) { track.style.transform = ''; return; }
       const rect  = sec.getBoundingClientRect();
@@ -3684,9 +3666,12 @@
       const prog  = Math.max(0, Math.min(1, -rect.top / maxS));
       const tw    = track.scrollWidth;
       const vw    = window.innerWidth;
-      const startX = Math.max(30, (vw - tw) / 2);
-      const travel = Math.max(0, tw - vw + 90);
-      track.style.transform = `translateX(${(startX - prog * (startX + travel)).toFixed(1)}px)`;
+      // startX: pierwsze karty widoczne po prawej stronie ekranu
+      const startX = vw * 0.18;
+      // travel: całkowita droga w lewo (karty całkowicie opuszczają lewy ekran)
+      const travel = tw - vw + vw * 0.12;
+      const x = startX - prog * (startX + travel);
+      track.style.transform = `translateX(${x.toFixed(1)}px)`;
       if (hint) hint.classList.toggle('visible', prog < 0.04);
     }
 
