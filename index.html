@@ -156,8 +156,8 @@
     .usg-section {
       background: linear-gradient(to bottom,
         #ffffff 0%,
-        #0c0b18 10%,
-        #0c0b18 90%,
+        #0c0b18 3%,
+        #0c0b18 92%,
         #ffffff 100%);
       padding: 5rem 1.5rem 5.5rem;
       display: flex;
@@ -298,12 +298,11 @@
     .vid-frame {
       position: absolute;
       inset: 0;
-      will-change: transform, opacity, clip-path;
+      will-change: transform, opacity;
       overflow: hidden;
       transform-origin: center center;
       opacity: 0;
-      transform: scale(1.12);
-      clip-path: inset(48% 0% 48% 0%);
+      transform: scale(1.04);
     }
     .vid-frame video {
       width: 100%;
@@ -913,7 +912,7 @@
        FLOATING CTA
     ══════════════════════════════════ */
     #float-cta {
-      position: fixed; right: 24px; bottom: 36px; z-index: 89;
+      position: fixed; right: 24px; bottom: 36px; z-index: 500;
       display: inline-flex; align-items: center; gap: 0.5rem;
       padding: 0.8rem 1.6rem;
       background: var(--blue); color: #ffffff;
@@ -3929,11 +3928,9 @@
       links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + cur));
 
       /* float CTA — pojawia się po hero i zostaje na stałe */
-      const threshold = (heroEl?.offsetHeight || window.innerHeight) * 0.75;
+      const threshold = (heroEl?.offsetHeight || window.innerHeight) * 0.40;
       const past = sy > threshold;
-      if (past && floatCTA && !floatCTA.classList.contains('visible')) {
-        floatCTA.classList.add('visible');
-      }
+      if (floatCTA) floatCTA.classList.toggle('visible', past);
       nameVert?.classList.toggle('visible', past);
 
       /* fdl — niewidoczna na hero, widoczna po pierwszym ekranie */
@@ -4021,8 +4018,8 @@
     const fill  = document.getElementById('vid-fill');
     if (!sec || !frame) return;
 
-    /* cubic ease in-out */
-    function eio(t){ return t<0.5 ? 4*t*t*t : 1-Math.pow(-2*t+2,3)/2; }
+    /* smooth ease */
+    function eio(t){ return t<0.5 ? 2*t*t : -1+(4-2*t)*t; }
 
     function updateVid() {
       const rect = sec.getBoundingClientRect();
@@ -4030,27 +4027,22 @@
       if (maxS <= 0) return;
       const prog = Math.max(0, Math.min(1, -rect.top / maxS));
 
-      let ct, cb, sc, op;
+      let sc, op;
 
-      if (prog < 0.30) {
-        /* ── WEJŚCIE: przesłona otwiera się ze środka + zoom out ── */
-        const p = eio(prog / 0.30);
-        ct = 48 * (1 - p);          // clip top:    48% → 0%
-        cb = 48 * (1 - p);          // clip bottom: 48% → 0%
-        sc = 1.14 - p * 0.14;       // scale:       1.14 → 1.0
-        op = Math.min(1, p * 1.6);  // opacity:     0 → 1 (szybko)
-      } else if (prog > 0.70) {
-        /* ── WYJŚCIE: lekki zoom in + zanikanie ── */
-        const p = eio((prog - 0.70) / 0.30);
-        ct = 0; cb = 0;
-        sc = 1.0 + p * 0.06;        // scale:   1.0 → 1.06 (przybliżenie)
-        op = 1 - eio(p);            // opacity: 1 → 0
+      if (prog < 0.25) {
+        /* Wejście: delikatny fade + lekki zoom out */
+        const p = eio(prog / 0.25);
+        sc = 1.04 - p * 0.04;   /* 1.04 → 1.0 */
+        op = p;
+      } else if (prog > 0.75) {
+        /* Wyjście: delikatne zanikanie */
+        const p = eio((prog - 0.75) / 0.25);
+        sc = 1.0 + p * 0.02;   /* 1.0 → 1.02 */
+        op = 1 - p;
       } else {
-        /* ── PEŁNY WIDOK ── */
-        ct = 0; cb = 0; sc = 1; op = 1;
+        sc = 1; op = 1;
       }
 
-      frame.style.clipPath  = `inset(${ct.toFixed(2)}% 0% ${cb.toFixed(2)}% 0%)`;
       frame.style.transform = `scale(${sc.toFixed(4)})`;
       frame.style.opacity   = op.toFixed(4);
 
