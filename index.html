@@ -70,23 +70,27 @@
     /* ══════════════════════════════════
        LETTER SWAP — animacja tekstu
     ══════════════════════════════════ */
+    .ls-section {
+      padding: clamp(4.5rem, 9vh, 7rem) clamp(1.5rem, 5vw, 4rem);
+      background: var(--body-bg);
+      display: flex;
+      justify-content: center;
+    }
     .ls-block {
-      padding-top: 3.8rem;
-      margin-top: 3.5rem;
-      border-top: 1px solid rgba(138,121,171,0.13);
-      text-align: center;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: clamp(0.45rem, 1.1vw, 0.9rem);
+      text-align: center;
+      gap: clamp(0.5rem, 1.4vw, 1.1rem);
       opacity: 0;
-      transform: translateY(30px);
+      transform: translateY(32px);
       transition: opacity 1s ease, transform 1s cubic-bezier(.16,1,.3,1);
     }
     .ls-block.ls-in { opacity: 1; transform: translateY(0); }
     .ls-line {
       display: flex;
       align-items: center;
+      justify-content: center;
       cursor: default;
       user-select: none;
       position: relative;
@@ -113,35 +117,37 @@
     }
     .ls-line:hover .ls-a { transform: translateY(105%); }
     .ls-line:hover .ls-b { transform: translateY(0); }
-    /* Style poszczególnych linii */
-    .ls-main  {
+    /* Podobne rozmiary dla wszystkich linii */
+    .ls-main {
       font-family: var(--font-display);
-      font-size: clamp(2rem, 5.5vw, 4.4rem);
-      letter-spacing: 0.05em;
+      font-size: clamp(2rem, 5vw, 4rem);
+      letter-spacing: 0.06em;
       color: var(--dark);
     }
     .ls-curly {
       font-family: var(--font-serif);
       font-style: italic;
-      font-size: clamp(1.1rem, 2.4vw, 2rem);
+      font-size: clamp(1.7rem, 4.2vw, 3.4rem);
       color: var(--blue);
     }
     .ls-mid {
-      font-size: clamp(0.72rem, 1.1vw, 0.94rem);
-      letter-spacing: 0.30em;
+      font-family: var(--font-display);
+      font-size: clamp(1.4rem, 3.5vw, 2.8rem);
+      letter-spacing: 0.12em;
       color: var(--muted);
-      font-weight: 500;
     }
     .ls-small {
-      font-size: clamp(0.60rem, 0.82vw, 0.76rem);
-      letter-spacing: 0.22em;
+      font-family: var(--font-serif);
+      font-size: clamp(1.1rem, 2.8vw, 2.2rem);
+      letter-spacing: 0.06em;
       color: var(--muted2);
+      font-style: italic;
     }
     @media (max-width: 768px) {
-      .ls-main  { font-size: clamp(1.6rem, 8vw, 2.4rem); }
-      .ls-curly { font-size: clamp(0.95rem, 4.5vw, 1.4rem); }
-      .ls-mid   { letter-spacing: 0.18em; font-size: 0.72rem; }
-      .ls-small { letter-spacing: 0.14em; font-size: 0.62rem; }
+      .ls-main  { font-size: clamp(1.7rem, 7.5vw, 2.6rem); }
+      .ls-curly { font-size: clamp(1.4rem, 6.5vw, 2.2rem); }
+      .ls-mid   { font-size: clamp(1.1rem, 5.5vw, 1.8rem); letter-spacing: 0.08em; }
+      .ls-small { font-size: clamp(0.95rem, 4.5vw, 1.5rem); }
     }
 
     /* ══════════════════════════════════
@@ -2931,6 +2937,18 @@
 </div>
 
 <!-- ══════════════════════════════════
+     LETTER SWAP — tagline
+══════════════════════════════════ -->
+<div class="ls-section">
+  <div class="ls-block" id="ls-block">
+    <div class="ls-line ls-main"  data-ls>Opieka ginekologiczna</div>
+    <div class="ls-line ls-curly" data-ls>{na każdym etapie życia}</div>
+    <div class="ls-line ls-mid"   data-ls>Ciąża&nbsp;&#8226;&nbsp;USG&nbsp;&#8226;&nbsp;Profilaktyka</div>
+    <div class="ls-line ls-small" data-ls>Spokojnie.&nbsp;Bezpiecznie.&nbsp;Profesjonalnie.</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
      PORADY CIĄŻOWE — scroll fan cards
 ══════════════════════════════════ -->
 <section id="porady-sec" class="porady-section" aria-label="Porady dotyczące bezpiecznej ciąży">
@@ -3283,14 +3301,6 @@
         </div>
       </a>
 
-
-    <!-- Letter-swap tagline -->
-    <div class="ls-block" id="ls-block">
-      <div class="ls-line ls-main"  data-ls>Opieka ginekologiczna</div>
-      <div class="ls-line ls-curly" data-ls>{na każdym etapie życia}</div>
-      <div class="ls-line ls-mid"   data-ls>Ciąża&nbsp;&#8226;&nbsp;USG&nbsp;&#8226;&nbsp;Profilaktyka</div>
-      <div class="ls-line ls-small" data-ls>Spokojnie.&nbsp;Bezpiecznie.&nbsp;Profesjonalnie.</div>
-    </div>
 
     </div>
   </div>
