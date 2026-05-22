@@ -1257,7 +1257,7 @@
 
     .carousel-slide-img {
       width: 100%;
-      height: clamp(260px, 38vw, 420px);
+      height: clamp(200px, 38vw, 420px);
       object-fit: contain;
       background: #f4f4f6;
       display: block;
@@ -1688,7 +1688,7 @@
     .testimonials-columns {
       display: flex;
       gap: 1.5rem;
-      max-height: 680px;
+      max-height: clamp(480px, 55vw, 680px);
       overflow: hidden;
       -webkit-mask-image: linear-gradient(to bottom, transparent, black 18%, black 82%, transparent);
       mask-image: linear-gradient(to bottom, transparent, black 18%, black 82%, transparent);
@@ -2574,6 +2574,121 @@
     @media (max-width: 400px) {
       .pub-stats { grid-template-columns: 1fr 1fr; }
       .pub-stat-num { font-size: 1.8rem; }
+    }
+
+    /* ══════════════════════════════════
+       RESPONSIVE TABLET (641–1024px)
+    ══════════════════════════════════ */
+    @media (min-width: 641px) and (max-width: 1024px) {
+      /* Hero */
+      #home { min-height: 560px; }
+      .hero-split { gap: 0; }
+      .hero-split-photo { width: 42%; }
+      .hero-split-text { padding: 24px 28px 24px 32px; gap: 1rem; }
+      .hero-split-headline { font-size: clamp(1.5rem, 3vw, 2.4rem); line-height: 1.2; }
+      .hero-trust-bar { gap: 0.5rem; flex-wrap: wrap; }
+      .hero-marquee-wrap { padding-bottom: 52px; }
+
+      /* Letter swap */
+      .ls-section { padding: 3.5rem 2rem; }
+      .ls-main  { font-size: clamp(1.6rem, 4.5vw, 3rem); }
+      .ls-curly { font-size: clamp(1.4rem, 4vw, 2.6rem); }
+      .ls-mid   { font-size: clamp(1.1rem, 3vw, 2rem); }
+      .ls-small { font-size: clamp(0.95rem, 2.5vw, 1.6rem); }
+
+      /* Porady cards */
+      .porady-section { height: 220vh; }
+      .porady-card { width: clamp(220px, 28vw, 300px); }
+      .porady-head { margin-bottom: 1.5rem; }
+
+      /* Video section */
+      .vid-section { height: 220vh; }
+
+      /* USG Observatory */
+      .usg-section { padding: 4rem 2rem; }
+      .usg-content { max-width: 700px; }
+      .usg-title { font-size: clamp(1.6rem, 4vw, 3rem); }
+
+      /* Testimonials */
+      .testimonials-columns { max-height: 600px; }
+
+      /* Consultations carousel */
+      .carousel-slide-img { height: clamp(220px, 30vw, 360px); }
+
+      /* ZL cta card */
+      .zl-cta-card { padding: 2rem; }
+    }
+
+    /* ══════════════════════════════════
+       RESPONSIVE MOBILE (≤640px) EXTRAS
+    ══════════════════════════════════ */
+    @media (max-width: 640px) {
+      /* Letter swap — stack vertically, readable size */
+      .ls-section { padding: 3rem 1.2rem 3.5rem; }
+      .ls-block { gap: 0.6rem; }
+      .ls-main  { font-size: clamp(1.5rem, 8.5vw, 2.4rem); }
+      .ls-curly { font-size: clamp(1.25rem, 7.5vw, 2rem); }
+      .ls-mid   { font-size: clamp(1rem, 6.5vw, 1.7rem); letter-spacing: 0.08em; }
+      .ls-small { font-size: clamp(0.85rem, 5.5vw, 1.4rem); letter-spacing: 0.06em; }
+
+      /* Porady cards — vertical na mobile (już zdefiniowane, wzmocnienie) */
+      .porady-section { height: auto !important; overflow: visible; }
+      .porady-sticky { position: relative !important; height: auto !important;
+        padding: 3rem 1.2rem 4rem; overflow: visible; }
+      .porady-track { flex-direction: column !important; align-items: center !important;
+        gap: 1.2rem !important; transform: none !important; padding-bottom: 0; width: 100% !important; }
+      .porady-card { width: 100% !important; max-width: 340px !important;
+        min-height: auto !important; transform: none !important;
+        transition: none !important; opacity: 1 !important; }
+      .porady-section.revealed .porady-card:nth-child(n) { transform: none !important; opacity: 1 !important; }
+      .porady-bg-word, .porady-hint { display: none !important; }
+
+      /* Video section */
+      .vid-section { height: 160vh; }
+      .vid-progress { display: none; }
+
+      /* USG Observatory */
+      .usg-section { padding: 3.5rem 1.2rem 4rem; }
+      .usg-title { font-size: clamp(1.5rem, 7vw, 2.4rem); margin-bottom: 1.4rem; }
+      .usg-eyebrow { margin-bottom: 0.4rem; }
+      .usg-card { border-radius: 12px; }
+
+      /* Testimonials */
+      .testimonials-columns { max-height: none; }
+
+      /* Carousel images */
+      .carousel-slide-img { height: clamp(180px, 52vw, 280px); }
+
+      /* Appt strip */
+      #appt-strip { flex-wrap: wrap; padding: 0.75rem 2.5rem 0.75rem 1rem; gap: 0.5rem; }
+      .appt-text { font-size: 12px; }
+
+      /* ZL cta */
+      .zl-cta-card { padding: 1.5rem; }
+      .zl-stars { gap: 2px; }
+    }
+
+    /* ══════════════════════════════════
+       RESPONSIVE LAPTOP (1025–1440px)
+    ══════════════════════════════════ */
+    @media (min-width: 1025px) and (max-width: 1440px) {
+      /* Hero */
+      .hero-split-headline { font-size: clamp(1.9rem, 3.2vw, 3.6rem); }
+      .hero-split-text { padding: clamp(28px,3.5vw,52px) clamp(32px,5vw,68px); }
+      .hero-split-photo { width: 44%; }
+
+      /* Letter swap */
+      .ls-main  { font-size: clamp(2rem, 4.2vw, 3.8rem); }
+      .ls-curly { font-size: clamp(1.7rem, 3.7vw, 3.2rem); }
+      .ls-mid   { font-size: clamp(1.4rem, 3vw, 2.6rem); }
+      .ls-small { font-size: clamp(1.1rem, 2.6vw, 2.1rem); }
+
+      /* Porady cards — constrain to avoid overflow */
+      .porady-card { width: clamp(250px, 22vw, 310px); }
+      .porady-section { height: 200vh; }
+
+      /* USG title */
+      .usg-title { font-size: clamp(1.8rem, 3.8vw, 3.4rem); }
     }
 
     /* ── Reduce motion for accessibility ── */
