@@ -581,12 +581,6 @@
     }
     #page-loader.loaded { opacity: 0; visibility: hidden; pointer-events: none; }
 
-    #intro-canvas {
-      position: absolute; inset: 0;
-      width: 100%; height: 100%;
-      display: none;
-    }
-
     .loader-logo {
       display: flex; flex-direction: column; align-items: center;
       line-height: 1; animation: loaderPulse 2s ease-in-out infinite;
@@ -2335,12 +2329,11 @@
 
 <!-- ── Page Loader ── -->
 <div id="page-loader" role="status" aria-label="Ładowanie strony">
-  <canvas id="intro-canvas" aria-hidden="true"></canvas>
-  <div class="loader-logo" id="loader-fallback">
+  <div class="loader-logo">
     <span class="loader-name-first">Kondracka</span>
     <span class="loader-name-last">Adrianna</span>
   </div>
-  <div class="gooey-wrap" id="loader-gooey"></div>
+  <div class="gooey-wrap"></div>
 </div>
 
 <!-- ── Scroll Progress ── -->
@@ -3334,8 +3327,8 @@
 
   /* ── Page loader ── */
   const loader = document.getElementById('page-loader');
-  window.addEventListener('load', () => setTimeout(() => { if (!window._hasIntro3D) loader?.classList.add('loaded'); }, 2800));
-  setTimeout(() => { if (!window._hasIntro3D) loader?.classList.add('loaded'); }, 4500); // fallback
+  window.addEventListener('load', () => setTimeout(() => loader?.classList.add('loaded'), 2800));
+  setTimeout(() => loader?.classList.add('loaded'), 4500); // fallback
 
   /* ── Consolidated scroll handler (RAF-throttled for smooth performance) ── */
   const progressBar = document.getElementById('scroll-progress');
@@ -3474,154 +3467,5 @@
   <button id="appt-close" aria-label="Zamknij">✕</button>
 </div>
 
-
-<script>
-/* ── 3D Intro — WebGL/GLSL fragment shader ── */
-(function(){
-  var c=document.getElementById('intro-canvas');
-  if(!c)return;
-  var gl=c.getContext('webgl')||c.getContext('experimental-webgl');
-  if(!gl)return;
-
-  var VS='attribute vec2 a;void main(){gl_Position=vec4(a,0.,1.);}';
-  var FS=`precision highp float;
-uniform float uT;
-uniform vec2 uR;
-const vec3 cP=vec3(0.541,0.475,0.671);
-const vec3 cK=vec3(0.902,0.647,0.722);
-const vec3 cW=vec3(0.990,0.960,0.980);
-const vec3 cD=vec3(0.120,0.110,0.170);
-vec2 h2(float n){return fract(sin(vec2(n,n+1.73))*vec2(43758.545,22578.146));}
-float vn(vec2 p){
-  vec2 i=floor(p),f=fract(p);f=f*f*(3.0-2.0*f);
-  float a=fract(sin(dot(i,vec2(127.1,311.7)))*43758.5453);
-  float b=fract(sin(dot(i+vec2(1.0,0.0),vec2(127.1,311.7)))*43758.5453);
-  float cc=fract(sin(dot(i+vec2(0.0,1.0),vec2(127.1,311.7)))*43758.5453);
-  float d=fract(sin(dot(i+vec2(1.0,1.0),vec2(127.1,311.7)))*43758.5453);
-  return mix(mix(a,b,f.x),mix(cc,d,f.x),f.y);
-}
-float iSp(vec3 ro,vec3 rd,float r){
-  float b=dot(ro,rd),c=dot(ro,ro)-r*r,h=b*b-c;
-  return h<0.0?-1.0:-b-sqrt(h);
-}
-float smst(float a,float b,float t){float x=clamp((t-a)/(b-a),0.0,1.0);return x*x*(3.0-2.0*x);}
-vec3 rings(vec2 uv,float t){
-  float d=length(uv),g=0.0;
-  for(int i=0;i<6;i++){
-    float r=mod(t*0.42+float(i)*0.23,1.5);
-    g+=exp(-abs(d-r)*13.0)*pow(1.0-r/1.5,2.0);
-  }
-  vec3 wc=mix(cP,cK,sin(d*7.0-t*2.0)*0.5+0.5);
-  float cp=exp(-d*d*9.0)*(0.7+0.3*sin(t*4.5));
-  float bg=exp(-d*d*1.2);
-  return cD+cP*0.15*bg+cK*0.04*bg*bg+vn(uv*5.0+t*0.12)*0.025+wc*g*0.9+cK*cp*0.4;
-}
-vec3 sph(vec2 uv,float t){
-  vec3 ro=vec3(0.0,0.0,2.2),rd=normalize(vec3(uv,-1.4));
-  float r=0.42+sin(t*0.75)*0.018+cos(t*1.3)*0.008;
-  float hit=iSp(ro,rd,r);
-  vec3 sc=vec3(0.0);
-  if(hit>0.0){
-    vec3 p=ro+rd*hit,N=normalize(p),V=normalize(-rd);
-    vec3 L=normalize(vec3(0.7,0.5,1.0)),L2=normalize(vec3(-0.5,0.3,0.8));
-    float d1=max(0.0,dot(N,L)),d2=max(0.0,dot(N,L2))*0.3;
-    float sp=pow(max(0.0,dot(normalize(L+V),N)),48.0)*0.65;
-    float rim=pow(1.0-max(0.0,dot(N,V)),3.5);
-    float nx=vn(N.xy*9.0+t*0.1)*0.035;
-    vec3 base=mix(mix(cP*0.55,cD+cP*0.2,0.45),mix(cW*0.9,cK*1.05,0.35),clamp(d1+nx,0.0,1.0));
-    sc=base*(d1+d2+0.18)+cW*sp+cK*rim*0.5;
-  }
-  vec3 pc=vec3(0.0);
-  for(int i=0;i<20;i++){
-    float fi=float(i);
-    vec2 sd=h2(fi*11.3+3.7);
-    float ang=sd.x*6.28318+t*(0.18+sd.y*0.22);
-    vec2 pp=vec2(cos(ang)*(0.52+sd.y*0.62),sin(ang)*(0.52+sd.y*0.62)*0.4+(sd.x*2.0-1.0)*0.42);
-    float ps=0.007+sd.x*0.005;
-    pc+=mix(cP*0.9,cK,sd.y)*exp(-dot(uv-pp,uv-pp)/(ps*ps*5.0))*(0.55+0.45*sin(fi*2.7+t*2.8));
-  }
-  float dl=length(uv),bgr=exp(-dl*dl*0.65);
-  vec3 back=cD+cP*0.22*bgr+cK*0.06*bgr*bgr+vn(uv*2.0+t*0.06)*0.03;
-  return mix(back,sc,step(0.001,hit))+pc;
-}
-void main(){
-  vec2 uv=(gl_FragCoord.xy-0.5*uR)/min(uR.x,uR.y);
-  float t=uT;
-  vec3 col;
-  if(t<5.0){
-    col=rings(uv,t);
-  }else if(t<7.0){
-    float p=smst(5.0,7.0,t),fp=(p-0.5)*8.0;
-    col=mix(rings(uv/(1.0+p*4.0),5.0+p*0.5),sph(uv,t-5.0),p)+cW*exp(-fp*fp)*0.55;
-  }else{
-    col=sph(uv,t-5.0);
-    if(t>13.5)col=mix(col,cW,smst(13.5,15.0,t));
-  }
-  col=col/(col+0.75)*1.35;
-  col=pow(max(col,vec3(0.0)),vec3(0.4545));
-  gl_FragColor=vec4(col,1.0);
-}`;
-
-  function mk(type,src){
-    var s=gl.createShader(type);
-    gl.shaderSource(s,src);gl.compileShader(s);
-    if(!gl.getShaderParameter(s,gl.COMPILE_STATUS)){console.warn('[intro3d]',gl.getShaderInfoLog(s));return null;}
-    return s;
-  }
-  var sv=mk(gl.VERTEX_SHADER,VS),sf=mk(gl.FRAGMENT_SHADER,FS);
-  if(!sv||!sf)return;
-
-  var pg=gl.createProgram();
-  gl.attachShader(pg,sv);gl.attachShader(pg,sf);gl.linkProgram(pg);
-  if(!gl.getProgramParameter(pg,gl.LINK_STATUS)){console.warn('[intro3d]',gl.getProgramInfoLog(pg));return;}
-
-  /* shaders OK — take over loader */
-  window._hasIntro3D=true;
-  var ld=document.getElementById('page-loader');
-  var f1=document.getElementById('loader-fallback');
-  var f2=document.getElementById('loader-gooey');
-  if(f1)f1.style.display='none';
-  if(f2)f2.style.display='none';
-  c.style.display='block';
-  ld.style.background='#13121a';
-
-  gl.useProgram(pg);
-  var buf=gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER,buf);
-  gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);
-  var al=gl.getAttribLocation(pg,'a');
-  gl.enableVertexAttribArray(al);gl.vertexAttribPointer(al,2,gl.FLOAT,false,0,0);
-
-  var uTL=gl.getUniformLocation(pg,'uT'),uRL=gl.getUniformLocation(pg,'uR');
-  var dpr=Math.min(window.devicePixelRatio||1,2);
-
-  function resize(){
-    var w=window.innerWidth,h=window.innerHeight;
-    c.width=Math.round(w*dpr);c.height=Math.round(h*dpr);
-    c.style.width=w+'px';c.style.height=h+'px';
-    gl.viewport(0,0,c.width,c.height);gl.uniform2f(uRL,c.width,c.height);
-  }
-  resize();
-  window.addEventListener('resize',resize,{passive:true});
-
-  var t0=null,raf,done=false;
-  function hide(){
-    if(done)return;done=true;
-    cancelAnimationFrame(raf);
-    ld.classList.add('loaded');
-    window.removeEventListener('resize',resize);
-  }
-  var guard=setTimeout(hide,17000);
-  function frame(ts){
-    if(!t0)t0=ts;
-    var t=(ts-t0)*0.001;
-    gl.uniform1f(uTL,t);
-    gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
-    if(t<15.5){raf=requestAnimationFrame(frame);}
-    else{clearTimeout(guard);setTimeout(hide,400);}
-  }
-  raf=requestAnimationFrame(frame);
-})();
-</script>
 </body>
 </html>
