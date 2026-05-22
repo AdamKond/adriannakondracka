@@ -587,6 +587,49 @@
       display: none;
     }
 
+    /* ── Obracające się jajko z dzieckiem ── */
+    .intro-egg-wrap {
+      position: absolute; z-index: 2;
+      width: min(260px, 50vw); aspect-ratio: 1;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -56%);
+      display: none;
+    }
+    .intro-egg-reveal {
+      width: 100%; height: 100%;
+      animation: eggFadeIn 1.8s cubic-bezier(.16,1,.3,1) 0.6s both;
+    }
+    .intro-egg-inner {
+      width: 100%; height: 100%;
+      border-radius: 50%; overflow: hidden;
+      box-shadow: 0 0 55px rgba(138,121,171,0.6), 0 0 110px rgba(230,165,184,0.35);
+      animation: eggSpin 20s linear infinite;
+    }
+    .intro-egg-inner img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block; pointer-events: none; user-select: none;
+    }
+    @keyframes eggFadeIn {
+      from { opacity: 0; transform: scale(0.80); }
+      to   { opacity: 1; transform: scale(1.00); }
+    }
+    @keyframes eggSpin {
+      from { transform: perspective(700px) rotateY(0deg); }
+      to   { transform: perspective(700px) rotateY(360deg); }
+    }
+
+    /* Napis Kondracka na ciemnym tle intro */
+    #page-loader.has-3d .loader-logo {
+      position: absolute; bottom: clamp(30px, 8%, 68px);
+      z-index: 3; left: 50%; transform: translateX(-50%);
+      white-space: nowrap; animation: loaderPulse 3s ease-in-out infinite;
+    }
+    #page-loader.has-3d .loader-name-first {
+      color: #fff;
+      text-shadow: 0 2px 28px rgba(138,121,171,0.95), 0 0 60px rgba(230,165,184,0.6);
+    }
+    #page-loader.has-3d .loader-name-last { color: rgba(255,255,255,0.72); }
+
     .loader-logo {
       display: flex; flex-direction: column; align-items: center;
       line-height: 1; animation: loaderPulse 2s ease-in-out infinite;
@@ -2336,6 +2379,13 @@
 <!-- ── Page Loader ── -->
 <div id="page-loader" role="status" aria-label="Ładowanie strony">
   <canvas id="intro-canvas" aria-hidden="true"></canvas>
+  <div class="intro-egg-wrap" id="intro-egg" aria-hidden="true">
+    <div class="intro-egg-reveal">
+      <div class="intro-egg-inner">
+        <img src="baby-intro.png" alt="" draggable="false">
+      </div>
+    </div>
+  </div>
   <div class="loader-logo" id="loader-fallback">
     <span class="loader-name-first">Kondracka</span>
     <span class="loader-name-last">Adrianna</span>
@@ -3500,62 +3550,50 @@ float vn(vec2 p){
   float d=fract(sin(dot(i+vec2(1.0,1.0),vec2(127.1,311.7)))*43758.5453);
   return mix(mix(a,b,f.x),mix(cc,d,f.x),f.y);
 }
-float iSp(vec3 ro,vec3 rd,float r){
-  float b=dot(ro,rd),c=dot(ro,ro)-r*r,h=b*b-c;
-  return h<0.0?-1.0:-b-sqrt(h);
-}
 float smst(float a,float b,float t){float x=clamp((t-a)/(b-a),0.0,1.0);return x*x*(3.0-2.0*x);}
 vec3 rings(vec2 uv,float t){
   float d=length(uv),g=0.0;
-  for(int i=0;i<6;i++){
-    float r=mod(t*0.42+float(i)*0.23,1.5);
-    g+=exp(-abs(d-r)*13.0)*pow(1.0-r/1.5,2.0);
+  for(int i=0;i<5;i++){
+    float r=mod(t*0.55+float(i)*0.25,1.4);
+    g+=exp(-abs(d-r)*14.0)*pow(1.0-r/1.4,2.0);
   }
-  vec3 wc=mix(cP,cK,sin(d*7.0-t*2.0)*0.5+0.5);
-  float cp=exp(-d*d*9.0)*(0.7+0.3*sin(t*4.5));
+  vec3 wc=mix(cP,cK,sin(d*7.0-t*2.5)*0.5+0.5);
+  float cp=exp(-d*d*9.0)*(0.6+0.4*sin(t*5.0));
   float bg=exp(-d*d*1.2);
-  return cD+cP*0.15*bg+cK*0.04*bg*bg+vn(uv*5.0+t*0.12)*0.025+wc*g*0.9+cK*cp*0.4;
+  return cD+cP*0.15*bg+cK*0.04*bg*bg+vn(uv*5.0+t*0.15)*0.025+wc*g*0.9+cK*cp*0.4;
 }
-vec3 sph(vec2 uv,float t){
-  vec3 ro=vec3(0.0,0.0,2.2),rd=normalize(vec3(uv,-1.4));
-  float r=0.42+sin(t*0.75)*0.018+cos(t*1.3)*0.008;
-  float hit=iSp(ro,rd,r);
-  vec3 sc=vec3(0.0);
-  if(hit>0.0){
-    vec3 p=ro+rd*hit,N=normalize(p),V=normalize(-rd);
-    vec3 L=normalize(vec3(0.7,0.5,1.0)),L2=normalize(vec3(-0.5,0.3,0.8));
-    float d1=max(0.0,dot(N,L)),d2=max(0.0,dot(N,L2))*0.3;
-    float sp=pow(max(0.0,dot(normalize(L+V),N)),48.0)*0.65;
-    float rim=pow(1.0-max(0.0,dot(N,V)),3.5);
-    float nx=vn(N.xy*9.0+t*0.1)*0.035;
-    vec3 base=mix(mix(cP*0.55,cD+cP*0.2,0.45),mix(cW*0.9,cK*1.05,0.35),clamp(d1+nx,0.0,1.0));
-    sc=base*(d1+d2+0.18)+cW*sp+cK*rim*0.5;
-  }
+vec3 ambient(vec2 uv,float t){
+  float d=length(uv);
+  float cg=exp(-d*d*0.75),cg2=exp(-d*d*2.2);
+  float n1=vn(uv*1.4+t*0.035),n2=vn(uv*2.8-t*0.025+vec2(1.7,2.3));
+  float neb=mix(n1,n2,0.5)*0.07;
+  vec3 bg=cD+cP*0.32*cg+cK*0.13*cg2+cW*0.05*cg2*cg2+cP*0.05*neb+cK*0.03*neb;
   vec3 pc=vec3(0.0);
-  for(int i=0;i<20;i++){
+  for(int i=0;i<28;i++){
     float fi=float(i);
-    vec2 sd=h2(fi*11.3+3.7);
-    float ang=sd.x*6.28318+t*(0.18+sd.y*0.22);
-    vec2 pp=vec2(cos(ang)*(0.52+sd.y*0.62),sin(ang)*(0.52+sd.y*0.62)*0.4+(sd.x*2.0-1.0)*0.42);
-    float ps=0.007+sd.x*0.005;
-    pc+=mix(cP*0.9,cK,sd.y)*exp(-dot(uv-pp,uv-pp)/(ps*ps*5.0))*(0.55+0.45*sin(fi*2.7+t*2.8));
+    vec2 sd=h2(fi*7.3+1.1);
+    float ang=sd.x*6.28318+t*(0.07+sd.y*0.11);
+    float rad=0.15+sd.y*1.05,yo=(sd.x*2.0-1.0)*0.55;
+    float drft=vn(vec2(fi*0.1,t*0.04))*0.18;
+    vec2 pp=vec2(cos(ang)*rad,sin(ang)*rad*0.5+yo+drft);
+    float ps=0.006+sd.x*0.008;
+    float pulse=0.45+0.55*sin(fi*3.1+t*1.6);
+    pc+=mix(cP,cK,sd.y)*exp(-dot(uv-pp,uv-pp)/(ps*ps*4.0))*pulse*0.75;
   }
-  float dl=length(uv),bgr=exp(-dl*dl*0.65);
-  vec3 back=cD+cP*0.22*bgr+cK*0.06*bgr*bgr+vn(uv*2.0+t*0.06)*0.03;
-  return mix(back,sc,step(0.001,hit))+pc;
+  return bg+pc;
 }
 void main(){
   vec2 uv=(gl_FragCoord.xy-0.5*uR)/min(uR.x,uR.y);
   float t=uT;
   vec3 col;
-  if(t<5.0){
+  if(t<2.0){
     col=rings(uv,t);
-  }else if(t<7.0){
-    float p=smst(5.0,7.0,t),fp=(p-0.5)*8.0;
-    col=mix(rings(uv/(1.0+p*4.0),5.0+p*0.5),sph(uv,t-5.0),p)+cW*exp(-fp*fp)*0.55;
+  }else if(t<3.5){
+    float p=smst(2.0,3.5,t),fp=(p-0.5)*8.0;
+    col=mix(rings(uv/(1.0+p*3.5),2.0+p*0.4),ambient(uv,t-2.0),p)+cW*exp(-fp*fp)*0.45;
   }else{
-    col=sph(uv,t-5.0);
-    if(t>13.5)col=mix(col,cW,smst(13.5,15.0,t));
+    col=ambient(uv,t-2.0);
+    if(t>11.5)col=mix(col,cW,smst(11.5,13.0,t));
   }
   col=col/(col+0.75)*1.35;
   col=pow(max(col,vec3(0.0)),vec3(0.4545));
@@ -3578,11 +3616,12 @@ void main(){
   /* shaders OK — take over loader */
   window._hasIntro3D=true;
   var ld=document.getElementById('page-loader');
-  var f1=document.getElementById('loader-fallback');
   var f2=document.getElementById('loader-gooey');
-  if(f1)f1.style.display='none';
+  var egg=document.getElementById('intro-egg');
   if(f2)f2.style.display='none';
+  if(egg)egg.style.display='block';
   c.style.display='block';
+  ld.classList.add('has-3d');
   ld.style.background='#13121a';
 
   gl.useProgram(pg);
@@ -3611,13 +3650,13 @@ void main(){
     ld.classList.add('loaded');
     window.removeEventListener('resize',resize);
   }
-  var guard=setTimeout(hide,17000);
+  var guard=setTimeout(hide,15000);
   function frame(ts){
     if(!t0)t0=ts;
     var t=(ts-t0)*0.001;
     gl.uniform1f(uTL,t);
     gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
-    if(t<15.5){raf=requestAnimationFrame(frame);}
+    if(t<13.5){raf=requestAnimationFrame(frame);}
     else{clearTimeout(guard);setTimeout(hide,400);}
   }
   raf=requestAnimationFrame(frame);
