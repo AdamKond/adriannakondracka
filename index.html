@@ -2380,68 +2380,63 @@
       z-index: 1;
       flex-shrink: 0;
     }
+    .porady-section { height: 300vh; }
     .porady-track {
       display: flex;
       align-items: flex-end;
-      padding: 8px 0 28px;
+      gap: 36px;
+      padding: 12px 0 32px;
       will-change: transform;
       width: max-content;
     }
     .porady-card {
       flex-shrink: 0;
-      width: clamp(195px, 19.5vw, 250px);
-      min-height: clamp(245px, 26vw, 315px);
-      border-radius: 18px;
-      padding: clamp(1rem, 1.7vw, 1.55rem);
+      width: clamp(210px, 21vw, 268px);
+      min-height: clamp(268px, 28vw, 340px);
+      border-radius: 20px;
+      padding: clamp(1.1rem, 1.8vw, 1.65rem);
       border: 1px solid rgba(138,121,171,0.10);
-      margin-right: -28px;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      gap: 0.9rem;
+      /* entrance animation — start from below */
+      opacity: 0;
+      transition: transform 1s cubic-bezier(.16,1,.3,1), opacity 0.8s ease;
     }
-    .porady-card:nth-child(1){background:#fff;   box-shadow:0 4px 32px rgba(138,121,171,0.11);transform:rotate(-8deg) translateY(-20px);z-index:1}
-    .porady-card:nth-child(2){background:#f7f5fc;box-shadow:0 4px 28px rgba(138,121,171,0.09);transform:rotate(-4deg) translateY(-9px); z-index:2}
-    .porady-card:nth-child(3){background:#fff;   box-shadow:0 4px 32px rgba(138,121,171,0.12);transform:rotate(-1deg) translateY(-2px); z-index:3}
-    .porady-card:nth-child(4){background:#fdf5f8;box-shadow:0 4px 28px rgba(230,165,184,0.12);transform:rotate(3deg)  translateY(9px);  z-index:2}
-    .porady-card:nth-child(5){background:#f7f5fc;box-shadow:0 4px 28px rgba(138,121,171,0.09);transform:rotate(6.5deg)translateY(20px); z-index:1}
-    .porady-card:nth-child(6){background:#fffaf9;box-shadow:0 4px 24px rgba(230,165,184,0.10);transform:rotate(10deg) translateY(34px); z-index:0}
-    .pc-icon  { font-size:1.55rem; line-height:1; margin-bottom:0.55rem; }
+    /* initial positions (low — will rise on reveal) */
+    .porady-card:nth-child(1){background:#fff;   box-shadow:0 4px 36px rgba(138,121,171,0.11);transform:rotate(-8deg)  translateY(120px);z-index:1;transition-delay:0.00s}
+    .porady-card:nth-child(2){background:#f7f5fc;box-shadow:0 4px 30px rgba(138,121,171,0.09);transform:rotate(-4deg)  translateY(120px);z-index:2;transition-delay:0.10s}
+    .porady-card:nth-child(3){background:#fff;   box-shadow:0 4px 36px rgba(138,121,171,0.12);transform:rotate(-1deg)  translateY(120px);z-index:3;transition-delay:0.20s}
+    .porady-card:nth-child(4){background:#fdf5f8;box-shadow:0 4px 30px rgba(230,165,184,0.12);transform:rotate(3deg)   translateY(120px);z-index:2;transition-delay:0.30s}
+    .porady-card:nth-child(5){background:#f7f5fc;box-shadow:0 4px 30px rgba(138,121,171,0.09);transform:rotate(6.5deg) translateY(120px);z-index:1;transition-delay:0.40s}
+    .porady-card:nth-child(6){background:#fffaf9;box-shadow:0 4px 26px rgba(230,165,184,0.10);transform:rotate(10deg)  translateY(120px);z-index:0;transition-delay:0.50s}
+    /* final revealed positions */
+    .porady-sec.revealed .porady-card:nth-child(1){transform:rotate(-8deg)  translateY(-22px);opacity:1}
+    .porady-sec.revealed .porady-card:nth-child(2){transform:rotate(-4deg)  translateY(-10px);opacity:1}
+    .porady-sec.revealed .porady-card:nth-child(3){transform:rotate(-1deg)  translateY(-3px); opacity:1}
+    .porady-sec.revealed .porady-card:nth-child(4){transform:rotate(3deg)   translateY(10px); opacity:1}
+    .porady-sec.revealed .porady-card:nth-child(5){transform:rotate(6.5deg) translateY(22px); opacity:1}
+    .porady-sec.revealed .porady-card:nth-child(6){transform:rotate(10deg)  translateY(36px); opacity:1}
+    .pc-icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      background: rgba(138,121,171,0.08);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .pc-icon svg { display: block; }
     .pc-title {
       font-family: var(--font-tight);
-      font-size: clamp(0.88rem, 1.25vw, 1.05rem);
+      font-size: clamp(0.9rem, 1.28vw, 1.08rem);
       font-weight: 800;
       color: var(--dark);
       line-height: 1.3;
-      margin-bottom: 0.5rem;
     }
     .pc-text {
-      font-size: clamp(0.70rem, 0.88vw, 0.80rem);
+      font-size: clamp(0.71rem, 0.90vw, 0.82rem);
       color: var(--text);
-      line-height: 1.70;
+      line-height: 1.72;
       flex: 1;
-    }
-    .pc-foot {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 0.75rem;
-      padding-top: 0.65rem;
-      border-top: 1px solid rgba(138,121,171,0.09);
-    }
-    .pc-dot {
-      width: 26px; height: 26px;
-      border-radius: 50%;
-      background: linear-gradient(135deg,var(--blue),#e6a5b8);
-      flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .pc-label {
-      font-size: 8px;
-      letter-spacing: 0.13em;
-      font-weight: 700;
-      text-transform: uppercase;
-      color: var(--muted2);
-      line-height: 1.45;
     }
     .porady-hint {
       position: absolute;
@@ -2470,9 +2465,9 @@
     @media (max-width:768px){
       .porady-section { height: auto; }
       .porady-sticky  { position:relative; height:auto; padding:3rem 1.5rem 4rem; overflow:visible; }
-      .porady-track   { flex-direction:column; align-items:center; gap:1.2rem; transform:none!important; padding-bottom:0; width:100%; }
-      .porady-card    { width:100%; max-width:320px; margin-right:0!important; min-height:auto; }
-      .porady-card:nth-child(n) { transform:none!important; }
+      .porady-track   { flex-direction:column; align-items:center; gap:1.4rem; transform:none!important; padding-bottom:0; width:100%; }
+      .porady-card    { width:100%; max-width:340px; min-height:auto; opacity:1!important; }
+      .porady-card:nth-child(n) { transform:none!important; transition:none!important; }
       .porady-bg-word { display:none; }
       .porady-hint    { display:none; }
     }
@@ -2669,75 +2664,77 @@
       <div class="porady-track" id="porady-track">
 
         <article class="porady-card">
-          <div>
-            <div class="pc-icon">💊</div>
-            <p class="pc-title">Kwas foliowy<br>to priorytet</p>
-            <p class="pc-text">Przyjmuj 0,4–0,8&nbsp;mg kwasu foliowego dziennie — najlepiej 3 miesiące przed ciążą i przez cały I trymestr. Zmniejsza ryzyko wad cewy nerwowej o 70%.</p>
+          <div class="pc-icon">
+            <!-- Pigułka / kwas foliowy -->
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8a79ab" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="9" width="20" height="6" rx="3"/>
+              <line x1="12" y1="9" x2="12" y2="15"/>
+            </svg>
           </div>
-          <div class="pc-foot">
-            <div class="pc-dot"><svg width="11" height="11" viewBox="0 0 24 24" fill="white"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
-            <span class="pc-label">dr hab. Adrianna Kondracka<br>Perinatolog · Lublin</span>
-          </div>
+          <p class="pc-title">Kwas foliowy<br>to priorytet</p>
+          <p class="pc-text">Przyjmuj 0,4–0,8&nbsp;mg kwasu foliowego dziennie — najlepiej 3 miesiące przed ciążą i przez cały I trymestr. Zmniejsza ryzyko wad cewy nerwowej o 70%.</p>
         </article>
 
         <article class="porady-card">
-          <div>
-            <div class="pc-icon">🔬</div>
-            <p class="pc-title">Regularne<br>badania USG</p>
-            <p class="pc-text">W ciąży fizjologicznej zalecane są minimum 3 badania USG. Pierwsze w 11–14&nbsp;tygodniu (genetyczne), drugie w 18–22&nbsp;tygodniu (anatomiczne). Nie pomijaj żadnego.</p>
+          <div class="pc-icon">
+            <!-- Linia EKG / badania -->
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8a79ab" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="2,12 5,12 7,5 10,19 13,9 16,15 18,12 22,12"/>
+            </svg>
           </div>
-          <div class="pc-foot">
-            <div class="pc-dot"><svg width="11" height="11" viewBox="0 0 24 24" fill="white"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
-            <span class="pc-label">dr hab. Adrianna Kondracka<br>Perinatolog · Lublin</span>
-          </div>
+          <p class="pc-title">Regularne<br>badania USG</p>
+          <p class="pc-text">W ciąży fizjologicznej zalecane są minimum 3 badania USG. Pierwsze w 11–14&nbsp;tygodniu (genetyczne), drugie w 18–22&nbsp;tygodniu (anatomiczne). Nie pomijaj żadnego.</p>
         </article>
 
         <article class="porady-card">
-          <div>
-            <div class="pc-icon">🚶‍♀️</div>
-            <p class="pc-title">Ruch w ciąży<br>jest dobry</p>
-            <p class="pc-text">30 minut umiarkowanej aktywności dziennie jest bezpieczne i korzystne. Spacer, pływanie lub joga prenatalna łagodzą bóle pleców, poprawiają nastrój i przygotowują do porodu.</p>
+          <div class="pc-icon">
+            <!-- Sylwetka w ruchu -->
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8a79ab" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="13" cy="4" r="1.5"/>
+              <path d="M13 6 L11 13 L8 19"/>
+              <path d="M11 13 L14 19"/>
+              <path d="M13 6 L17 10 L14 13"/>
+            </svg>
           </div>
-          <div class="pc-foot">
-            <div class="pc-dot"><svg width="11" height="11" viewBox="0 0 24 24" fill="white"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
-            <span class="pc-label">dr hab. Adrianna Kondracka<br>Perinatolog · Lublin</span>
-          </div>
+          <p class="pc-title">Ruch w ciąży<br>jest dobry</p>
+          <p class="pc-text">30 minut umiarkowanej aktywności dziennie jest bezpieczne i korzystne. Spacer, pływanie lub joga prenatalna łagodzą bóle pleców, poprawiają nastrój i przygotowują do porodu.</p>
         </article>
 
         <article class="porady-card">
-          <div>
-            <div class="pc-icon">🥗</div>
-            <p class="pc-title">Dieta<br>w ciąży</p>
-            <p class="pc-text">Unikaj surowego mięsa, ryb, serów pleśniowych i niepasteryzowanych produktów. Jedz warzywa, owoce, pełnoziarniste produkty i białko. Nie musisz „jeść za dwoje".</p>
+          <div class="pc-icon">
+            <!-- Liść / dieta -->
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8a79ab" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22 C12 22 4 17 4 9 C4 9 9 4 18 6 C18 6 20 15 12 22Z"/>
+              <line x1="12" y1="22" x2="8" y2="13"/>
+            </svg>
           </div>
-          <div class="pc-foot">
-            <div class="pc-dot"><svg width="11" height="11" viewBox="0 0 24 24" fill="white"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
-            <span class="pc-label">dr hab. Adrianna Kondracka<br>Perinatolog · Lublin</span>
-          </div>
+          <p class="pc-title">Dieta<br>w ciąży</p>
+          <p class="pc-text">Unikaj surowego mięsa, ryb, serów pleśniowych i niepasteryzowanych produktów. Jedz warzywa, owoce, pełnoziarniste produkty i białko. Nie musisz „jeść za dwoje".</p>
         </article>
 
         <article class="porady-card">
-          <div>
-            <div class="pc-icon">🚫</div>
-            <p class="pc-title">Zero alkoholu<br>i dymu</p>
-            <p class="pc-text">Alkohol i nikotyna są bezpieczne wyłącznie w dawce zero. Każda ilość alkoholu może wpłynąć na rozwój dziecka. Unikaj też biernego palenia i miejsc silnie zadymionych.</p>
+          <div class="pc-icon">
+            <!-- Zakaz / przekreślony okrąg -->
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8a79ab" stroke-width="1.7" stroke-linecap="round">
+              <circle cx="12" cy="12" r="9"/>
+              <line x1="5" y1="5" x2="19" y2="19"/>
+            </svg>
           </div>
-          <div class="pc-foot">
-            <div class="pc-dot"><svg width="11" height="11" viewBox="0 0 24 24" fill="white"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
-            <span class="pc-label">dr hab. Adrianna Kondracka<br>Perinatolog · Lublin</span>
-          </div>
+          <p class="pc-title">Zero alkoholu<br>i dymu</p>
+          <p class="pc-text">Alkohol i nikotyna są bezpieczne wyłącznie w dawce zero. Każda ilość alkoholu może wpłynąć na rozwój dziecka. Unikaj też biernego palenia i miejsc silnie zadymionych.</p>
         </article>
 
         <article class="porady-card">
-          <div>
-            <div class="pc-icon">⚠️</div>
-            <p class="pc-title">Kiedy natychmiast<br>do lekarza?</p>
-            <p class="pc-text">Jedź na izbę przyjęć gdy pojawi się: krwawienie z dróg rodnych, silny ból brzucha, brak ruchów dziecka przez kilka godzin, nagły obrzęk twarzy lub gwałtowny ból głowy.</p>
+          <div class="pc-icon">
+            <!-- Trójkąt ostrzegawczy -->
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#e6a5b8" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3 L22 20 L2 20 Z"/>
+              <line x1="12" y1="10" x2="12" y2="15"/>
+              <circle cx="12" cy="18" r="0.8" fill="#e6a5b8"/>
+            </svg>
           </div>
-          <div class="pc-foot">
-            <div class="pc-dot"><svg width="11" height="11" viewBox="0 0 24 24" fill="white"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
-            <span class="pc-label">dr hab. Adrianna Kondracka<br>Perinatolog · Lublin</span>
-          </div>
+          <p class="pc-title">Kiedy natychmiast<br>do lekarza?</p>
+          <p class="pc-text">Jedź na izbę przyjęć gdy pojawi się: krwawienie z dróg rodnych, silny ból brzucha, brak ruchów dziecka przez kilka godzin, nagły obrzęk twarzy lub gwałtowny ból głowy.</p>
         </article>
 
       </div>
@@ -3667,30 +3664,33 @@
     const hint  = document.getElementById('porady-hint');
     if (!sec || !track) return;
 
-    let isMobile = () => window.innerWidth <= 768;
+    const isMob = () => window.innerWidth <= 768;
 
+    /* 1. Entrance animation — cards rise from below when section enters view */
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        sec.classList.add('revealed');
+        observer.disconnect();
+      }
+    }, { threshold: 0.12 });
+    observer.observe(sec);
+
+    /* 2. Scroll — horizontal pan (desktop only) */
     function update() {
-      if (isMobile()) { track.style.transform = ''; return; }
-      const rect    = sec.getBoundingClientRect();
-      const maxS    = sec.offsetHeight - window.innerHeight;
+      if (isMob()) { track.style.transform = ''; return; }
+      const rect  = sec.getBoundingClientRect();
+      const maxS  = sec.offsetHeight - window.innerHeight;
       if (maxS <= 0) return;
-      const prog    = Math.max(0, Math.min(1, -rect.top / maxS));
-
-      const tw      = track.scrollWidth;
-      const vw      = window.innerWidth;
-      // start: cards centered; end: shifted so all cards have been visible
-      const startX  = Math.max(20, (vw - tw) / 2);
-      const travel  = Math.max(0, tw - vw + 80);
-      const x       = startX - prog * (startX + travel);
-      track.style.transform = `translateX(${x.toFixed(1)}px)`;
-
-      // show scroll hint only at top of section
-      if (hint) hint.classList.toggle('visible', prog < 0.05);
+      const prog  = Math.max(0, Math.min(1, -rect.top / maxS));
+      const tw    = track.scrollWidth;
+      const vw    = window.innerWidth;
+      const startX = Math.max(30, (vw - tw) / 2);
+      const travel = Math.max(0, tw - vw + 90);
+      track.style.transform = `translateX(${(startX - prog * (startX + travel)).toFixed(1)}px)`;
+      if (hint) hint.classList.toggle('visible', prog < 0.04);
     }
 
-    // Show hint initially
-    if (hint && !isMobile()) hint.classList.add('visible');
-
+    if (hint && !isMob()) hint.classList.add('visible');
     update();
     window.addEventListener('scroll', update, { passive: true });
     window.addEventListener('resize', update, { passive: true });
