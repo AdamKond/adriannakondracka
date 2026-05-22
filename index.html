@@ -66,107 +66,6 @@
 
     html { scroll-behavior: smooth; scroll-padding-top: 74px; }
 
-    /* ══════════════════════════════════
-       BABY INTRO — parallax scroll
-    ══════════════════════════════════ */
-    #baby-intro {
-      height: 100vh;
-      position: relative;
-      overflow: hidden;
-      /* Jasne tło — delikatny gradient różowo-fioletowy */
-      background: radial-gradient(circle at 50% 44%,
-        #fdf0f7 0%,
-        #f5effa 30%,
-        #ede8f7 60%,
-        #e8e2f4 100%);
-    }
-    .baby-center {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-    /* Subtelna poświata za dzieckiem */
-    .baby-glow-circle {
-      position: absolute;
-      top: 46%; left: 50%;
-      transform: translate(-50%, -50%);
-      width: min(640px, 86vw);
-      height: min(640px, 86vw);
-      border-radius: 50%;
-      background: radial-gradient(circle,
-        rgba(230,165,184,0.35) 0%,
-        rgba(200,180,220,0.15) 45%,
-        transparent 68%);
-      animation: babyGlow 5s ease-in-out infinite;
-      pointer-events: none;
-      z-index: 0;
-    }
-    @keyframes babyGlow {
-      0%,100% { transform:translate(-50%,-50%) scale(1);   opacity:.8; }
-      50%      { transform:translate(-50%,-50%) scale(1.09); opacity:1; }
-    }
-    /* Wrapper przesuwany przez JS (parallax) */
-    .baby-parallax {
-      position: relative;
-      z-index: 2;
-      will-change: transform;
-    }
-    /* mix-blend-mode: multiply usuwa białe tło z PNG */
-    .baby-img {
-      height: min(64vh, 620px);
-      width: auto;
-      display: block;
-      mix-blend-mode: multiply;
-      filter: drop-shadow(0 20px 50px rgba(200,160,200,0.28));
-    }
-    .baby-brand {
-      position: absolute;
-      bottom: clamp(70px, 11vh, 120px);
-      left: 50%;
-      transform: translateX(-50%);
-      text-align: center;
-      z-index: 3;
-      white-space: nowrap;
-    }
-    .baby-brand-name {
-      font-family: var(--font-display);
-      font-size: clamp(1.6rem, 3.5vw, 2.8rem);
-      letter-spacing: 0.16em;
-      color: #5c4d82;
-      line-height: 1;
-      margin-bottom: 0.4rem;
-    }
-    .baby-brand-sub {
-      font-size: clamp(0.54rem, 0.76vw, 0.70rem);
-      letter-spacing: 0.44em;
-      font-weight: 600;
-      color: var(--muted);
-      text-transform: uppercase;
-    }
-    .baby-hint {
-      position: absolute;
-      bottom: clamp(20px, 3vh, 34px);
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 5px;
-      color: var(--muted2);
-      font-size: 9px;
-      letter-spacing: 0.32em;
-      text-transform: uppercase;
-      z-index: 3;
-      pointer-events: none;
-      animation: hintBounce 2.6s ease-in-out infinite;
-    }
-    @media (max-width:768px){
-      .baby-img { height: min(52vh, 400px); }
-      .baby-brand-name { font-size: clamp(1.3rem, 5.5vw, 1.9rem); }
-    }
 
     /* ══════════════════════════════════
        USG VIDEO — "Observatory" card
@@ -2828,32 +2727,6 @@
 </nav>
 
 <!-- ══════════════════════════════════
-     BABY INTRO — scroll-driven
-══════════════════════════════════ -->
-<div id="baby-intro" aria-hidden="true">
-  <div class="baby-center">
-    <div class="baby-glow-circle"></div>
-
-    <div class="baby-parallax" id="baby-parallax">
-      <img src="brand_assets/baby.png" class="baby-img" alt="" draggable="false">
-    </div>
-
-    <div class="baby-brand">
-      <p class="baby-brand-name">Adrianna Kondracka</p>
-      <p class="baby-brand-sub">Ginekolog &middot; Perinatolog &middot; Genetyk Kliniczny</p>
-    </div>
-
-    <div class="baby-hint">
-      <svg width="14" height="18" viewBox="0 0 14 22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-        <line x1="7" y1="0" x2="7" y2="18"/>
-        <polyline points="1,12 7,18 13,12"/>
-      </svg>
-      <span>Scrolluj</span>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════
      01 HERO — split layout
 ══════════════════════════════════ -->
 <section id="home">
@@ -4001,24 +3874,6 @@
     apptStrip?.classList.remove('shown');
     setTimeout(() => { if (apptStrip) apptStrip.style.display = 'none'; }, 600);
   });
-
-  /* ── Baby intro parallax ── */
-  (function(){
-    const sec  = document.getElementById('baby-intro');
-    const baby = document.getElementById('baby-parallax');
-    if (!sec || !baby) return;
-
-    function update(){
-      const sy = window.scrollY;
-      const h  = sec.offsetHeight;
-      if (sy > h) return;
-      /* Dziecko porusza się w dół 22% szybkości scrolla — wolny parallax */
-      baby.style.transform = `translateY(${(sy * 0.22).toFixed(1)}px)`;
-    }
-
-    update();
-    window.addEventListener('scroll', update, { passive: true });
-  })();
 
   /* ── USG video card reveal ── */
   (function(){
