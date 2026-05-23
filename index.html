@@ -2917,6 +2917,157 @@
       .porady-bg-word { display:none; }
       .porady-hint    { display:none; }
     }
+
+  /* ══════════════════════════════════
+     BOOKING POPUP
+  ══════════════════════════════════ */
+  .bpop-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(20,18,32,0.72);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    padding: 20px;
+  }
+  .bpop-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+  .bpop-card {
+    position: relative;
+    background: #ffffff;
+    border-radius: 24px;
+    padding: clamp(2rem, 5vw, 3.2rem) clamp(1.8rem, 5vw, 3.4rem);
+    max-width: 460px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 32px 80px rgba(138,121,171,0.22), 0 8px 24px rgba(0,0,0,0.14);
+    transform: scale(0.92) translateY(24px);
+    transition: transform 0.35s cubic-bezier(.16,1,.3,1);
+    overflow: hidden;
+  }
+  .bpop-overlay.open .bpop-card {
+    transform: scale(1) translateY(0);
+  }
+  /* gradient accent na górze karty */
+  .bpop-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #8a79ab, #e6a5b8, #8a79ab);
+    background-size: 200% 100%;
+    animation: bpopShimmer 3s linear infinite;
+  }
+  @keyframes bpopShimmer {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 200% 0%; }
+  }
+  .bpop-close {
+    position: absolute;
+    top: 16px; right: 16px;
+    width: 36px; height: 36px;
+    border: none;
+    background: rgba(138,121,171,0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #8a79ab;
+    transition: background 0.2s, transform 0.2s;
+    flex-shrink: 0;
+  }
+  .bpop-close:hover { background: rgba(138,121,171,0.2); transform: scale(1.1); }
+  .bpop-icon-wrap {
+    width: 64px; height: 64px;
+    background: linear-gradient(135deg, #f0edf9 0%, #fce8f0 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.1rem;
+    color: #8a79ab;
+  }
+  .bpop-clinic {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    letter-spacing: 0.22em;
+    color: #8a79ab;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .bpop-title {
+    font-family: var(--font-serif);
+    font-size: clamp(1.4rem, 4vw, 1.9rem);
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 0.6rem;
+    line-height: 1.25;
+  }
+  .bpop-sub {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.6;
+    max-width: 340px;
+    margin: 0 auto 1.6rem;
+  }
+  .bpop-phone {
+    display: inline-block;
+    font-family: var(--font-tight);
+    font-size: clamp(1.7rem, 6vw, 2.4rem);
+    font-weight: 800;
+    color: #3d3c4f;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    position: relative;
+    margin-bottom: 1.6rem;
+  }
+  .bpop-phone::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0; right: 0;
+    height: 2.5px;
+    background: linear-gradient(90deg, #8a79ab, #e6a5b8);
+    border-radius: 2px;
+  }
+  .bpop-phone:hover { color: #5c4d82; }
+  .bpop-call-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #8a79ab 0%, #7060a0 100%);
+    color: #ffffff;
+    text-decoration: none;
+    font-family: var(--font-tight);
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    padding: 1rem 2rem;
+    border-radius: 999px;
+    margin: 0 auto 1.2rem;
+    max-width: 280px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 6px 24px rgba(138,121,171,0.35);
+  }
+  .bpop-call-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 32px rgba(138,121,171,0.45);
+  }
+  .bpop-hours {
+    font-size: 0.78rem;
+    color: var(--muted2);
+    letter-spacing: 0.01em;
+  }
   </style>
 </head>
 <body>
@@ -4517,6 +4668,71 @@ window.addEventListener('load', function() {
     });
   }
 });
+</script>
+
+<!-- ══════════════════════════════════
+     POPUP — Rejestracja telefoniczna
+══════════════════════════════════ -->
+<div id="booking-popup" class="bpop-overlay" role="dialog" aria-modal="true" aria-labelledby="bpop-title-text">
+  <div class="bpop-card">
+    <button class="bpop-close" id="bpop-close" aria-label="Zamknij">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" width="18" height="18">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+    <div class="bpop-icon-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="30" height="30">
+        <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11.19a19.79 19.79 0 01-3.07-8.63A2 2 0 012.12 2.5h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 10.4a16 16 0 006.29 6.29l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+      </svg>
+    </div>
+    <div class="bpop-clinic">iMedica · Rejestracja</div>
+    <h2 class="bpop-title" id="bpop-title-text">Zadzwoń, by umówić wizytę</h2>
+    <p class="bpop-sub">Nasz zespół rejestracji znajdzie dla Ciebie najlepszy dostępny termin konsultacji.</p>
+    <a href="tel:733700815" class="bpop-phone">733 700 815</a>
+    <a href="tel:733700815" class="bpop-call-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="19" height="19">
+        <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11.19a19.79 19.79 0 01-3.07-8.63A2 2 0 012.12 2.5h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 10.4a16 16 0 006.29 6.29l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+      </svg>
+      Zadzwoń teraz
+    </a>
+    <p class="bpop-hours">Rejestracja czynna: pon.–pt. 8:00–18:00</p>
+  </div>
+</div>
+
+<script>
+(function(){
+  const popup  = document.getElementById('booking-popup');
+  const close  = document.getElementById('bpop-close');
+
+  function openPopup(e) {
+    if (e) { e.preventDefault(); }
+    popup.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closePopup() {
+    popup.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  close.addEventListener('click', closePopup);
+
+  /* klik w tło zamyka */
+  popup.addEventListener('click', function(e) {
+    if (e.target === popup) closePopup();
+  });
+
+  /* ESC zamyka */
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && popup.classList.contains('open')) closePopup();
+  });
+
+  /* wszystkie przyciski rezerwacji */
+  document.querySelectorAll(
+    '#float-cta, .hero-cta-br a, .zl-cta-card, #appt-strip .appt-btn, [data-booking]'
+  ).forEach(function(el) {
+    el.addEventListener('click', openPopup);
+  });
+})();
 </script>
 </body>
 </html>
