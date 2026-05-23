@@ -337,7 +337,7 @@
     }
 
     body {
-      background: var(--body-bg);
+      background: linear-gradient(170deg, #f9f7fd 0%, #f5f2fb 18%, #faf9fd 45%, #ffffff 72%);
       color: var(--text);
       font-family: var(--font-body);
       font-size: 16px;
@@ -470,6 +470,24 @@
     .nav-links a:hover .num {
       opacity: 1;
       max-width: 2em;
+    }
+
+    /* Kontakt — leciutkie podkreślenie gradientem */
+    .nav-links a[href="#contact"] {
+      position: relative;
+      color: #6b5d97;
+    }
+    .nav-links a[href="#contact"]::after {
+      content: '';
+      position: absolute;
+      bottom: 5px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 26px;
+      height: 1.5px;
+      background: linear-gradient(90deg, #8a79ab, #e6a5b8);
+      border-radius: 2px;
+      opacity: 0.7;
     }
 
     .nav-toggle {
@@ -2599,8 +2617,9 @@
       .porady-card { width: clamp(220px, 28vw, 300px); }
       .porady-head { margin-bottom: 1.5rem; }
 
-      /* Video section */
-      .vid-section { height: 220vh; }
+      /* Video section — brak scroll-lock na tablecie */
+      .vid-section { height: 100svh; }
+      .vid-frame { opacity: 1 !important; transform: none !important; will-change: auto !important; }
 
       /* USG Observatory */
       .usg-section { padding: 4rem 2rem; }
@@ -2641,10 +2660,11 @@
       .porady-section.revealed .porady-card:nth-child(n) { transform: none !important; opacity: 1 !important; }
       .porady-bg-word, .porady-hint { display: none !important; }
 
-      /* Video section */
-      .vid-section { height: 115vh; }
+      /* Video section — brak scroll-lock na mobile */
+      .vid-section { height: 100svh; }
       .vid-sticky  { height: 100svh; }
       .vid-progress { display: none; }
+      .vid-frame { opacity: 1 !important; transform: none !important; will-change: auto !important; }
 
       /* USG Observatory */
       .usg-section { padding: 3.5rem 1.2rem 4rem; }
@@ -4189,10 +4209,19 @@
     const fill  = document.getElementById('vid-fill');
     if (!sec || !frame) return;
 
+    const isMobTab = () => window.innerWidth <= 1024;
+
     /* smooth ease */
     function eio(t){ return t<0.5 ? 2*t*t : -1+(4-2*t)*t; }
 
     function updateVid() {
+      /* Mobile i tablet: brak animacji, wideo zawsze widoczne */
+      if (isMobTab()) {
+        frame.style.transform = 'scale(1)';
+        frame.style.opacity   = '1';
+        return;
+      }
+
       const rect = sec.getBoundingClientRect();
       const maxS = sec.offsetHeight - window.innerHeight;
       if (maxS <= 0) return;
@@ -4203,12 +4232,12 @@
       if (prog < 0.25) {
         /* Wejście: delikatny fade + lekki zoom out */
         const p = eio(prog / 0.25);
-        sc = 1.04 - p * 0.04;   /* 1.04 → 1.0 */
+        sc = 1.04 - p * 0.04;
         op = p;
       } else if (prog > 0.75) {
         /* Wyjście: delikatne zanikanie */
         const p = eio((prog - 0.75) / 0.25);
-        sc = 1.0 + p * 0.02;   /* 1.0 → 1.02 */
+        sc = 1.0 + p * 0.02;
         op = 1 - p;
       } else {
         sc = 1; op = 1;
@@ -4222,6 +4251,7 @@
 
     updateVid();
     window.addEventListener('scroll', updateVid, { passive: true });
+    window.addEventListener('resize', updateVid, { passive: true });
   })();
 
   /* ── Porady scroll fan cards ── */
