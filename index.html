@@ -970,7 +970,7 @@
       padding: 2rem 2rem 2rem 1.75rem;
       box-shadow: var(--card-shadow);
       transition: box-shadow 0.35s var(--ease), transform 0.35s var(--ease);
-      display: flex; flex-direction: column; gap: 0.5rem;
+      display: flex; flex-direction: column; gap: 0;
     }
     .exp-bento-card:hover {
       box-shadow: var(--card-shadow-hover);
@@ -982,7 +982,7 @@
       font-size: 2.6rem;
       color: rgba(69,92,233,0.12);
       line-height: 1;
-      margin-bottom: 0.25rem;
+      margin-bottom: 0.9rem;
       letter-spacing: 0.02em;
     }
 
@@ -991,7 +991,8 @@
       font-size: clamp(1rem, 1.4vw, 1.25rem);
       font-weight: 700;
       color: var(--text);
-      line-height: 1.2;
+      line-height: 1.25;
+      margin-bottom: 0.55rem;
     }
 
     .exp-bento-place {
@@ -1000,13 +1001,13 @@
       letter-spacing: 0.09em;
       text-transform: uppercase;
       color: var(--blue);
+      margin-bottom: 0.9rem;
     }
 
     .exp-bento-desc {
       font-size: 13px;
       color: var(--muted);
-      line-height: 1.75;
-      margin-top: 0.25rem;
+      line-height: 1.8;
     }
 
     .exp-bento-photo {
@@ -2928,145 +2929,234 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(20,18,32,0.72);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
+    background: rgba(8,6,18,0.82);
+    backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.4s ease;
     padding: 20px;
   }
-  .bpop-overlay.open {
-    opacity: 1;
-    pointer-events: all;
-  }
+  .bpop-overlay.open { opacity: 1; pointer-events: all; }
+
   .bpop-card {
     position: relative;
-    background: #ffffff;
-    border-radius: 24px;
-    padding: clamp(2rem, 5vw, 3.2rem) clamp(1.8rem, 5vw, 3.4rem);
+    background: linear-gradient(150deg, #16132a 0%, #201a38 55%, #19152e 100%);
+    border: 1px solid rgba(138,121,171,0.22);
+    border-radius: 28px;
+    padding: clamp(2.2rem,5vw,3rem) clamp(2rem,5vw,3.2rem) clamp(1.8rem,4vw,2.6rem);
     max-width: 460px;
     width: 100%;
     text-align: center;
-    box-shadow: 0 32px 80px rgba(138,121,171,0.22), 0 8px 24px rgba(0,0,0,0.14);
-    transform: scale(0.92) translateY(24px);
-    transition: transform 0.35s cubic-bezier(.16,1,.3,1);
+    box-shadow:
+      0 0 0 1px rgba(138,121,171,0.12),
+      0 50px 120px rgba(0,0,0,0.6),
+      inset 0 1px 0 rgba(255,255,255,0.06);
     overflow: hidden;
+    opacity: 0;
+    transform: scale(0.82) translateY(52px);
+    transition:
+      opacity   0.45s ease,
+      transform 0.55s cubic-bezier(0.34, 1.48, 0.64, 1);
   }
   .bpop-overlay.open .bpop-card {
+    opacity: 1;
     transform: scale(1) translateY(0);
   }
-  /* gradient accent na górze karty */
+
+  /* thin top glow line */
   .bpop-card::before {
     content: '';
     position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, #8a79ab, #e6a5b8, #8a79ab);
-    background-size: 200% 100%;
-    animation: bpopShimmer 3s linear infinite;
+    top: 0; left: 15%; right: 15%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(196,181,232,0.7), rgba(230,165,184,0.7), transparent);
   }
-  @keyframes bpopShimmer {
-    0% { background-position: 0% 0%; }
-    100% { background-position: 200% 0%; }
+
+  /* floating orbs */
+  .bpop-orb {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    will-change: transform;
   }
+  .bpop-orb--1 {
+    width: 220px; height: 220px;
+    background: radial-gradient(circle, rgba(138,121,171,0.16) 0%, transparent 68%);
+    top: -70px; right: -70px;
+    animation: bpopFloat 7s ease-in-out infinite;
+  }
+  .bpop-orb--2 {
+    width: 160px; height: 160px;
+    background: radial-gradient(circle, rgba(230,165,184,0.13) 0%, transparent 68%);
+    bottom: -50px; left: -50px;
+    animation: bpopFloat 9s ease-in-out infinite reverse 1.5s;
+  }
+  @keyframes bpopFloat {
+    0%,100% { transform: translate(0,0); }
+    50%      { transform: translate(14px,-18px); }
+  }
+
+  /* X close */
   .bpop-close {
     position: absolute;
-    top: 16px; right: 16px;
+    top: 18px; right: 18px;
     width: 36px; height: 36px;
-    border: none;
+    border: 1px solid rgba(138,121,171,0.28);
     background: rgba(138,121,171,0.1);
     border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex; align-items: center; justify-content: center;
     cursor: pointer;
-    color: #8a79ab;
-    transition: background 0.2s, transform 0.2s;
+    color: rgba(255,255,255,0.55);
+    transition: background 0.2s, color 0.2s, transform 0.3s ease;
     flex-shrink: 0;
   }
-  .bpop-close:hover { background: rgba(138,121,171,0.2); transform: scale(1.1); }
-  .bpop-icon-wrap {
-    width: 64px; height: 64px;
-    background: linear-gradient(135deg, #f0edf9 0%, #fce8f0 100%);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 1.1rem;
-    color: #8a79ab;
+  .bpop-close:hover {
+    background: rgba(138,121,171,0.28);
+    color: #fff;
+    transform: rotate(90deg) scale(1.1);
   }
+
+  /* phone icon with pulsing rings */
+  .bpop-icon-wrap {
+    position: relative;
+    width: 72px; height: 72px;
+    margin: 0 auto 1.5rem;
+  }
+  .bpop-ring {
+    position: absolute;
+    inset: -12px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(138,121,171,0.35);
+    animation: bpopRingPulse 2.4s ease-out infinite;
+  }
+  .bpop-ring-2 {
+    inset: -26px;
+    border-color: rgba(138,121,171,0.18);
+    animation-delay: 0.7s;
+  }
+  @keyframes bpopRingPulse {
+    0%   { transform: scale(0.88); opacity: 1; }
+    100% { transform: scale(1.28); opacity: 0; }
+  }
+  .bpop-icon-inner {
+    position: relative;
+    width: 100%; height: 100%;
+    background: linear-gradient(135deg, #9e8fc0 0%, #6b5d97 100%);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff;
+    box-shadow: 0 8px 32px rgba(138,121,171,0.55), 0 0 0 1px rgba(255,255,255,0.08) inset;
+  }
+
+  /* staggered items */
+  .bpop-item {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.42s ease, transform 0.42s cubic-bezier(.16,1,.3,1);
+  }
+  .bpop-overlay.open .bpop-item-1 { opacity:1; transform:none; transition-delay:0.18s; }
+  .bpop-overlay.open .bpop-item-2 { opacity:1; transform:none; transition-delay:0.26s; }
+  .bpop-overlay.open .bpop-item-3 { opacity:1; transform:none; transition-delay:0.34s; }
+  .bpop-overlay.open .bpop-item-4 { opacity:1; transform:none; transition-delay:0.42s; }
+  .bpop-overlay.open .bpop-item-5 { opacity:1; transform:none; transition-delay:0.50s; }
+  .bpop-overlay.open .bpop-item-6 { opacity:1; transform:none; transition-delay:0.58s; }
+
   .bpop-clinic {
     font-family: var(--font-display);
-    font-size: 0.75rem;
-    letter-spacing: 0.22em;
-    color: #8a79ab;
+    font-size: 0.7rem;
+    letter-spacing: 0.26em;
+    color: rgba(196,181,232,0.8);
     text-transform: uppercase;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.55rem;
   }
   .bpop-title {
     font-family: var(--font-serif);
-    font-size: clamp(1.4rem, 4vw, 1.9rem);
+    font-size: clamp(1.35rem, 4vw, 1.8rem);
     font-weight: 700;
-    color: var(--dark);
+    color: #ffffff;
     margin-bottom: 0.6rem;
     line-height: 1.25;
   }
   .bpop-sub {
-    font-size: 0.88rem;
-    color: var(--muted);
-    line-height: 1.6;
-    max-width: 340px;
-    margin: 0 auto 1.6rem;
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.65;
+    max-width: 310px;
+    margin: 0 auto 1.9rem;
   }
+
+  /* gradient animated phone number */
   .bpop-phone {
     display: inline-block;
     font-family: var(--font-tight);
-    font-size: clamp(1.7rem, 6vw, 2.4rem);
-    font-weight: 800;
-    color: #3d3c4f;
-    letter-spacing: 0.06em;
+    font-size: clamp(1.85rem, 7vw, 2.65rem);
+    font-weight: 900;
+    letter-spacing: 0.09em;
     text-decoration: none;
     position: relative;
-    margin-bottom: 1.6rem;
+    margin-bottom: 1.8rem;
+    background: linear-gradient(120deg, #c4b5e8 0%, #e6a5b8 50%, #c4b5e8 100%);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: bpopNumShimmer 3.5s ease infinite;
+  }
+  @keyframes bpopNumShimmer {
+    0%,100% { background-position: 0% 50%; }
+    50%      { background-position: 100% 50%; }
   }
   .bpop-phone::after {
     content: '';
     position: absolute;
-    bottom: -4px;
-    left: 0; right: 0;
-    height: 2.5px;
-    background: linear-gradient(90deg, #8a79ab, #e6a5b8);
+    bottom: -5px; left: 5%; right: 5%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(196,181,232,0.7), rgba(230,165,184,0.7), transparent);
     border-radius: 2px;
   }
-  .bpop-phone:hover { color: #5c4d82; }
+
+  /* call button with sheen */
   .bpop-call-btn {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: center; justify-content: center;
     gap: 10px;
-    background: linear-gradient(135deg, #8a79ab 0%, #7060a0 100%);
+    background: linear-gradient(135deg, #8a79ab 0%, #6b5d97 100%);
     color: #ffffff;
     text-decoration: none;
     font-family: var(--font-tight);
     font-size: 1rem;
     font-weight: 700;
-    letter-spacing: 0.04em;
-    padding: 1rem 2rem;
+    letter-spacing: 0.05em;
+    padding: 1.05rem 2.4rem;
     border-radius: 999px;
-    margin: 0 auto 1.2rem;
-    max-width: 280px;
-    transition: transform 0.2s, box-shadow 0.2s;
-    box-shadow: 0 6px 24px rgba(138,121,171,0.35);
+    margin: 0 auto 1.3rem;
+    max-width: 290px;
+    position: relative; overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 8px 30px rgba(138,121,171,0.5);
+  }
+  .bpop-call-btn::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -110%; bottom: 0;
+    width: 55%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.22), transparent);
+    animation: bpopSheen 3.2s ease 1s infinite;
+  }
+  @keyframes bpopSheen {
+    0%      { left: -110%; }
+    45%,100%{ left: 140%; }
   }
   .bpop-call-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 32px rgba(138,121,171,0.45);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 14px 44px rgba(138,121,171,0.6);
   }
+
   .bpop-hours {
-    font-size: 0.78rem;
-    color: var(--muted2);
-    letter-spacing: 0.01em;
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.28);
+    letter-spacing: 0.02em;
   }
   </style>
 </head>
@@ -4675,27 +4765,38 @@ window.addEventListener('load', function() {
 ══════════════════════════════════ -->
 <div id="booking-popup" class="bpop-overlay" role="dialog" aria-modal="true" aria-labelledby="bpop-title-text">
   <div class="bpop-card">
+    <!-- dekoracja tła -->
+    <div class="bpop-orb bpop-orb--1"></div>
+    <div class="bpop-orb bpop-orb--2"></div>
+
     <button class="bpop-close" id="bpop-close" aria-label="Zamknij">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" width="18" height="18">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" width="17" height="17">
         <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
       </svg>
     </button>
-    <div class="bpop-icon-wrap">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="30" height="30">
-        <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11.19a19.79 19.79 0 01-3.07-8.63A2 2 0 012.12 2.5h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 10.4a16 16 0 006.29 6.29l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
-      </svg>
+
+    <!-- ikona z pulsującymi pierścieniami -->
+    <div class="bpop-icon-wrap bpop-item bpop-item-1">
+      <div class="bpop-ring"></div>
+      <div class="bpop-ring bpop-ring-2"></div>
+      <div class="bpop-icon-inner">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="30" height="30">
+          <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11.19a19.79 19.79 0 01-3.07-8.63A2 2 0 012.12 2.5h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 10.4a16 16 0 006.29 6.29l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+        </svg>
+      </div>
     </div>
-    <div class="bpop-clinic">iMedica · Rejestracja</div>
-    <h2 class="bpop-title" id="bpop-title-text">Zadzwoń, by umówić wizytę</h2>
-    <p class="bpop-sub">Nasz zespół rejestracji znajdzie dla Ciebie najlepszy dostępny termin konsultacji.</p>
-    <a href="tel:733700815" class="bpop-phone">733 700 815</a>
-    <a href="tel:733700815" class="bpop-call-btn">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="19" height="19">
+
+    <div class="bpop-clinic bpop-item bpop-item-2">iMedica · Rejestracja</div>
+    <h2 class="bpop-title bpop-item bpop-item-3" id="bpop-title-text">Zadzwoń, by umówić wizytę</h2>
+    <p class="bpop-sub bpop-item bpop-item-4">Nasz zespół rejestracji chętnie znajdzie dla Ciebie najlepszy dostępny termin.</p>
+    <a href="tel:733700815" class="bpop-phone bpop-item bpop-item-5">733 700 815</a>
+    <a href="tel:733700815" class="bpop-call-btn bpop-item bpop-item-6">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
         <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11.19a19.79 19.79 0 01-3.07-8.63A2 2 0 012.12 2.5h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 10.4a16 16 0 006.29 6.29l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
       </svg>
       Zadzwoń teraz
     </a>
-    <p class="bpop-hours">Rejestracja czynna: pon.–pt. 8:00–18:00</p>
+    <p class="bpop-hours bpop-item bpop-item-6">Rejestracja czynna: pon.–pt. 8:00–18:00</p>
   </div>
 </div>
 
